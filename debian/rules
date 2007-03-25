@@ -10,6 +10,8 @@ DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
 UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p')
 
+USE_64 := $(shell echo "int main(void) { int assert[(sizeof(long) == 8) ? 1 : -1]; return 0; }" | gcc -o /dev/null -x c - 2> /dev/null && echo USE_64=1)
+
 CFLAGS := -Wall -pipe
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -36,7 +38,8 @@ build-stamp: patch-stamp
 		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
 		NS_USE_GCC=1 \
-		OPTIMIZER="$(CFLAGS)"
+		OPTIMIZER="$(CFLAGS)" \
+		$(USE_64)
 
 	touch build-stamp
 
@@ -52,7 +55,8 @@ clean-patched:
 		clobber_coreconf \
 		SOURCE_MD_DIR=$(DISTDIR) \
 		DIST=$(DISTDIR) \
-		BUILD_OPT=1
+		BUILD_OPT=1 \
+		$(USE_64)
 
 	rm -rf $(DISTDIR)
 

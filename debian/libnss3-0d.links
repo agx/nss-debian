@@ -1,1 +1,2 @@
-usr/lib/nss/*.so usr/lib/xulrunner
+usr/lib/nss/libfreebl3.so usr/lib/xulrunner/libfreebl3.so
+usr/lib/nss/libnssckbi.so usr/lib/xulrunner/libnssckbi.so
