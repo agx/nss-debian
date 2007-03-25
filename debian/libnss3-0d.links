@@ -1,1 +1,1 @@
-usr/lib/nss usr/lib/xulrunner
+usr/lib/nss/*.so usr/lib/xulrunner
