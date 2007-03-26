@@ -1,3 +1,10 @@
+nss (3.11.5-2) experimental; urgency=low
+
+  * debian/rules: Cleaner way to set the NSPR location.
+  * debian/nss.pc.in: Remove libsoftokn3 from ld libraries.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 26 Mar 2007 19:30:45 +0200
+
 nss (3.11.5-1) experimental; urgency=low
 
   * Initial release. (Closes: #416151)

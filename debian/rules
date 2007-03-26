@@ -33,7 +33,8 @@ build-stamp: patch-stamp
 		build_dbm \
 		all \
 		MOZILLA_CLIENT=1 \
-		MOZILLA_INCLUDES=-I/usr/include/nspr \
+		NSPR_INCLUDE_DIR=/usr/include/nspr \
+		NSPR_LIB_DIR=/usr/lib \
 		SOURCE_MD_DIR=$(DISTDIR) \
 		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
