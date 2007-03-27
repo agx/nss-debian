@@ -39,7 +39,7 @@ Description: Network Security Service tools
 
 Package: libnss3-dev
 Section: libdevel
-Architecture: all
+Architecture: any
 Depends: ${misc:Depends}, libnss3-0d (>= ${source:Upstream-Version}), libnss3-0d (<< ${source:Version}.1~), libnspr4-dev
 Conflicts: libnss3
 Description: Development files for the Network Security Service libraries

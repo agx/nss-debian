@@ -1,9 +1,18 @@
 nss (3.11.5-2) experimental; urgency=low
 
-  * debian/rules: Cleaner way to set the NSPR location.
-  * debian/nss.pc.in: Remove libsoftokn3 from ld libraries.
+  * debian/rules:
+    + Cleaner way to set the NSPR location.
+    + Install libcrmf.a files in libnss3-dev.
+    + binary-indep now does nothing.
+  * debian/control: Make libnss3-dev an Arch: any package.
+  * debian/nss.pc.in:
+    + Remove libsoftokn3 from ld libraries.
+    + Improvement in directories setting.
+  * debian/libnss3-dev.dirs: Create /usr/bin.
+  * debian/nss-config.in, debian/rules: Install a nss-config script into
+    libnss3-dev.
 
- -- Mike Hommey <glandium@debian.org>  Mon, 26 Mar 2007 19:30:45 +0200
+ -- Mike Hommey <glandium@debian.org>  Tue, 27 Mar 2007 20:41:11 +0200
 
 nss (3.11.5-1) experimental; urgency=low
 
