@@ -1,3 +1,9 @@
+nss (3.11.5-3) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 09 Apr 2007 20:37:25 +0200
+
 nss (3.11.5-2) experimental; urgency=low
 
   * debian/rules:
