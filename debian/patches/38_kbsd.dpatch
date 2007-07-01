@@ -3,6 +3,7 @@
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: GNU/kFreeBSD support. bz#356011
+## DP: Added Hurd support.
 
 @DPATCH@
 
@@ -184,13 +185,14 @@
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 --- nss/mozilla/security/nss/lib/freebl/unix_rand.c
 +++ nss/mozilla/security/nss/lib/freebl/unix_rand.c
-@@ -184,7 +184,8 @@
+@@ -184,7 +184,9 @@
  #endif
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
 -    || defined(NETBSD) || defined(NTO) || defined(DARWIN) || defined(OPENBSD)
 +    || defined(NETBSD) || defined(NTO) || defined(DARWIN) || defined(OPENBSD) \
-+    || defined(__FreeBSD_kernel__) || defined(__NetBSD_kernel__)
++    || defined(__FreeBSD_kernel__) || defined(__NetBSD_kernel__) \
++    || defined(__GNU__)
  #include <sys/times.h>
  
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
@@ -216,3 +218,14 @@
  
  #include <sys/types.h>
  #include "prtypes.h"
+--- nss/mozilla/dbm/src/ndbm.c
++++ nss/mozilla/dbm/src/ndbm.c
+@@ -67,7 +67,7 @@
+ dbm_open(const char *file, int flags, int mode)
+ {
+ 	HASHINFO info;
+-	char path[MAXPATHLEN];
++	char path[strlen(file) + strlen(DBM_SUFFIX) + 1];
+ 
+ 	info.bsize = 4096;
+ 	info.ffactor = 40;
