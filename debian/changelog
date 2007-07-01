@@ -3,11 +3,12 @@ nss (3.11.7-1) unstable; urgency=low
   * New upstream release, picked from NSS_3_11_7_RTM cvs tag.
   * debian/patches/38_kbsd.dpatch: Also add support for the Hurd.
     Closes: #419529.
-  * debian/rules: Don't fail on clean with unpatched ruleset.
-    Closes: #421542.
+  * debian/rules:
+    + Don't fail on clean with unpatched ruleset. Closes: #421542.
+    + Bumped shlibs because of new symbols.
   * debian/patches/81_sonames.dpatch: Adapted to upstream changes.
 
- -- Mike Hommey <glandium@debian.org>  Sun, 01 Jul 2007 11:15:24 +0200
+ -- Mike Hommey <glandium@debian.org>  Sun, 01 Jul 2007 11:29:06 +0200
 
 nss (3.11.5-3) unstable; urgency=low
 
