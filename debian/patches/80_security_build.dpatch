@@ -4,7 +4,6 @@
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Don't automatically create the .chk files, since we will strip
 ## DP: the library in debian/rules.
-## DP: Also add a dirty hack to load libfreebl from /usr/lib/nss.
 
 @DPATCH@
 
@@ -16,15 +15,4 @@
  
 -libs install :: $(CHECKLOC)
 +libs install ::
- 
---- nss/mozilla/security/nss/lib/freebl/loader.c
-+++ nss/mozilla/security/nss/lib/freebl/loader.c
-@@ -45,7 +45,7 @@
- #include "prinit.h"
- 
- static const char* default_name =
--    SHLIB_PREFIX"freebl"SHLIB_VERSION"."SHLIB_SUFFIX;
-+    "nss/"SHLIB_PREFIX"freebl"SHLIB_VERSION"."SHLIB_SUFFIX;
- 
- /* getLibName() returns the name of the library to load. */
  

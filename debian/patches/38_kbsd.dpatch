@@ -119,8 +119,8 @@
  OS_PTHREAD = -lpthread 
  endif
  
--OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -ansi -Wall -pipe -DLINUX -Dlinux -D_POSIX_SOURCE -D_BSD_SOURCE -DHAVE_STRERROR
-+OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -ansi -Wall -pipe -D_POSIX_SOURCE -D_BSD_SOURCE -DHAVE_STRERROR
+-OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -ansi -Wall -Werror-implicit-function-declaration -pipe -DLINUX -Dlinux -D_POSIX_SOURCE -D_BSD_SOURCE -DHAVE_STRERROR
++OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -ansi -Wall -Werror-implicit-function-declaration -pipe -D_POSIX_SOURCE -D_BSD_SOURCE -DHAVE_STRERROR
 +ifeq ($(KERNEL),linux)
 +OS_CFLAGS		+= -DLINUX -Dlinux
 +endif
@@ -133,7 +133,7 @@
 -ARCH			= linux
 -
  DSO_CFLAGS		= -fPIC
- DSO_LDOPTS		= -shared $(ARCHFLAG)
+ DSO_LDOPTS		= -shared $(ARCHFLAG) -Wl,-z,defs
  DSO_LDFLAGS		=
  LDFLAGS			+= $(ARCHFLAG)
  
@@ -218,14 +218,3 @@
  
  #include <sys/types.h>
  #include "prtypes.h"
---- nss/mozilla/dbm/src/ndbm.c
-+++ nss/mozilla/dbm/src/ndbm.c
-@@ -67,7 +67,7 @@
- dbm_open(const char *file, int flags, int mode)
- {
- 	HASHINFO info;
--	char path[MAXPATHLEN];
-+	char path[strlen(file) + strlen(DBM_SUFFIX) + 1];
- 
- 	info.bsize = 4096;
- 	info.ffactor = 40;

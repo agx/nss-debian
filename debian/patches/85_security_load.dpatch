@@ -1,0 +1,43 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 85_security_load.dpatch by Mike Hommey <glandium@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Load modules from $ORIGIN/nss.
+
+@DPATCH@
+
+--- nss/mozilla/security/nss/lib/freebl/genload.c
++++ nss/mozilla/security/nss/lib/freebl/genload.c
+@@ -115,7 +115,7 @@
+     c = strrchr(referencePath, PR_GetDirectorySeparator());
+     if (c) {
+         size_t referencePathSize = 1 + c - referencePath;
+-        fullName = (char*) PORT_Alloc(strlen(name) + referencePathSize + 1);
++        fullName = (char*) PORT_Alloc(strlen(name) + referencePathSize + 5);
+         if (fullName) {
+             memcpy(fullName, referencePath, referencePathSize);
+             strcpy(fullName + referencePathSize, name); 
+@@ -126,6 +126,11 @@
+             libSpec.type = PR_LibSpec_Pathname;
+             libSpec.value.pathname = fullName;
+             dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
++	    if (! dlh) {
++	    	strcpy(fullName + referencePathSize, "nss/");
++		strcpy(fullName + referencePathSize + 4, name);
++		dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
++	    }
+             PORT_Free(fullName);
+         }
+     }
+--- nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
++++ nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
+@@ -331,6 +331,9 @@
+ #endif
+ 
+ 	if (library == NULL) {
++		library = loader_LoadLibrary(mod->dllName);
++	}
++	if (library == NULL) {
+ 	    return SECFailure;
+ 	}
+ 

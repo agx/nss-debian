@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_3.11.7_symbol_fix.dpatch by Mike Hommey <glandium@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix a symbol version. Stolen from bz#325672.
+
+@DPATCH@
+
+--- nss/mozilla/security/nss/lib/ssl/ssl.def
++++ nss/mozilla/security/nss/lib/ssl/ssl.def
+@@ -133,7 +133,7 @@
+ ;+    local:
+ ;+*;
+ ;+};
+-;+NSS_3.11.7 {      # NSS 3.11.7 release
++;+NSS_3.11.8 {      # NSS 3.11.8 release
+ ;+    global:
+ SSL_CanBypass;
+ ;+    local:

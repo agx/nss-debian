@@ -229,14 +229,6 @@
  $(SHARED_LIBRARY): $(OBJS) $(RES) $(MAPFILE) $(SUB_SHLOBJS)
  	@$(MAKE_OBJDIR)
  	rm -f $@
-@@ -355,6 +356,7 @@
- else
- ifdef XP_OS2_VACPP
- 	$(MKSHLIB) $(DLLFLAGS) $(LDFLAGS) $(OBJS) $(SUB_SHLOBJS) $(LD_LIBS) $(EXTRA_LIBS) $(EXTRA_SHARED_LIBS) $(OS_LIBS)
-+	$(call MKSHLINKS,.)
- else
- 	$(MKSHLIB) -o $@ $(OBJS) $(SUB_SHLOBJS) $(LD_LIBS) $(EXTRA_LIBS) $(EXTRA_SHARED_LIBS) $(OS_LIBS)
- endif
 --- nss/mozilla/security/coreconf/ruleset.mk
 +++ nss/mozilla/security/coreconf/ruleset.mk
 @@ -123,6 +123,25 @@
@@ -266,105 +258,41 @@
  	MAPFILE_SOURCE = $(LIBRARY_NAME).def
      endif
 @@ -177,7 +196,7 @@
- 		$(JMC_STUBS) $(JMC_HEADERS) $(JMC_EXPORT_FILES) \
- 		so_locations _gen _jmc _jri _jni _stubs \
- 		$(wildcard $(JAVA_DESTPATH)/$(PACKAGE)/*.class) \
--		$(BUILT_SRCS)
-+		$(BUILT_SRCS) $(SHARED_LIBRARY_LINKS)
+ endif
  
- ifdef JDIRS
-     ALL_TRASH += $(addprefix $(JAVA_DESTPATH)/,$(JDIRS))
+ ALL_TRASH =	$(TARGETS) $(OBJS) $(OBJDIR) LOGS TAGS $(GARBAGE) \
+-		so_locations $(BUILT_SRCS) $(NOSUCHFILE)
++		so_locations $(BUILT_SRCS) $(NOSUCHFILE) $(SHARED_LIBRARY_LINKS)
+ 
+ ifdef NS_USE_JDK
+     ALL_TRASH += $(JDK_HEADER_CFILES) $(JDK_STUB_CFILES) \
 --- nss/mozilla/security/nss/lib/nss/manifest.mn
 +++ nss/mozilla/security/nss/lib/nss/manifest.mn
-@@ -57,3 +57,4 @@
+@@ -57,6 +57,7 @@
  
  LIBRARY_NAME = nss
  LIBRARY_VERSION = 3
-+SO_VERSION = 0d
++SO_VERSION = 1d
+ 
+ # This part of the code, including all sub-dirs, can be optimized for size
+ export ALLOW_OPT_CODE_SIZE = 1
 --- nss/mozilla/security/nss/lib/smime/manifest.mn
 +++ nss/mozilla/security/nss/lib/smime/manifest.mn
-@@ -79,3 +79,4 @@
+@@ -79,6 +79,7 @@
  
  LIBRARY_NAME = smime
  LIBRARY_VERSION = 3
-+SO_VERSION = 0d
---- nss/mozilla/security/nss/lib/softoken/manifest.mn
-+++ nss/mozilla/security/nss/lib/softoken/manifest.mn
-@@ -43,6 +43,7 @@
- LIBRARY_NAME = softokn
- LIBRARY_VERSION = 3
- MAPFILE = $(OBJDIR)/softokn.def
-+SO_VERSION = 0d
++SO_VERSION = 1d
  
- DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\" -DSOFTOKEN_LIB_NAME=\"$(notdir $(SHARED_LIBRARY))\"
- 
+ # This part of the code, including all sub-dirs, can be optimized for size
+ export ALLOW_OPT_CODE_SIZE = 1
 --- nss/mozilla/security/nss/lib/ssl/manifest.mn
 +++ nss/mozilla/security/nss/lib/ssl/manifest.mn
-@@ -86,4 +86,4 @@
+@@ -86,6 +86,7 @@
  
  LIBRARY_NAME = ssl
  LIBRARY_VERSION = 3
--
-+SO_VERSION = 0d
---- nss/mozilla/security/nss/lib/freebl/shvfy.c
-+++ nss/mozilla/security/nss/lib/freebl/shvfy.c
-@@ -50,16 +50,21 @@
- mkCheckFileName(const char *libName)
- {
-     int ln_len = PORT_Strlen(libName);
-+    int len = ln_len;
-     char *output = PORT_Alloc(ln_len+sizeof(SGN_SUFFIX));
--    int index = ln_len + 1 - sizeof("."SHLIB_SUFFIX);
-+    char *ext = PORT_Strstr(libName, "."SHLIB_SUFFIX);
++SO_VERSION = 1d
  
--    if ((index > 0) &&
--        (PORT_Strncmp(&libName[index],
--                        "."SHLIB_SUFFIX,sizeof("."SHLIB_SUFFIX)) == 0)) {
--        ln_len = index;
-+    if (ext != NULL)
-+        len = ext - libName;
-+
-+    PORT_Memcpy(output,libName,len);
-+
-+    if ((ext != NULL) && (libName[len + sizeof(SHLIB_SUFFIX)] != 0)) {
-+        PORT_Memcpy(&output[len],&libName[len + sizeof(SHLIB_SUFFIX)], ln_len - sizeof(SHLIB_SUFFIX) - len);
-+        len = ln_len - sizeof(SHLIB_SUFFIX);
-     }
--    PORT_Memcpy(output,libName,ln_len);
--    PORT_Memcpy(&output[ln_len],SGN_SUFFIX,sizeof(SGN_SUFFIX));
-+
-+    PORT_Memcpy(&output[len],SGN_SUFFIX,sizeof(SGN_SUFFIX));
-     return output;
- }
- 
---- nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-+++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-@@ -77,16 +77,21 @@
- mkoutput(const char *input)
- {
-     int in_len = PORT_Strlen(input);
-+    int len = in_len;
-     char *output = PORT_Alloc(in_len+sizeof(SGN_SUFFIX));
--    int index = in_len + 1 - sizeof("."SHLIB_SUFFIX);
-+    char *ext = PORT_Strstr(input, "."SHLIB_SUFFIX);
- 
--    if ((index > 0) && 
--	(PORT_Strncmp(&input[index],
--			"."SHLIB_SUFFIX,sizeof("."SHLIB_SUFFIX)) == 0)) {
--	in_len = index;
-+    if (ext != NULL)
-+        len = ext - input;
-+
-+    PORT_Memcpy(output,input,len);
-+
-+    if ((ext != NULL) && (input[len + sizeof(SHLIB_SUFFIX)] != 0)) {
-+        PORT_Memcpy(&output[len],&input[len + sizeof(SHLIB_SUFFIX)], in_len - sizeof(SHLIB_SUFFIX) - len);
-+        len = in_len - sizeof(SHLIB_SUFFIX);
-     }
--    PORT_Memcpy(output,input,in_len);
--    PORT_Memcpy(&output[in_len],SGN_SUFFIX,sizeof(SGN_SUFFIX));
-+
-+    PORT_Memcpy(&output[len],SGN_SUFFIX,sizeof(SGN_SUFFIX));
-     return output;
- }
- 
+ # This part of the code, including all sub-dirs, can be optimized for size
+ export ALLOW_OPT_CODE_SIZE = 1

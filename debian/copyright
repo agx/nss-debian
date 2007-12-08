@@ -97,6 +97,18 @@ following terms:
   OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
   SUCH DAMAGE.
 
+=== sqlite
+
+The mozilla/security/nss/lib/sqlite/sqlite3.[ch] files contain a copy of
+sqlite with the following licensing terms:
+
+  The author disclaims copyright to this source code.  In place of
+  a legal notice, here is a blessing:
+
+     May you do good and not evil.
+     May you find forgiveness for yourself and forgive others.
+     May you share freely, never taking more than you give.
+
 === MPL
 
                           MOZILLA PUBLIC LICENSE

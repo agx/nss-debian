@@ -1,3 +1,44 @@
+nss (3.12.0~1.9b1-1) UNRELEASED; urgency=low
+
+  * New upstream snapshot, picked from FIREFOX_3_0b1_RELEASE cvs tag.
+  * debian/copyright: Add licensing information about the recently added
+    sqlite copy in the source tree.
+  * debian/control:
+    + Build depend on libsqlite3-dev.
+    + Rename all -0d packages to -1d.
+  * debian/patches/38_kbsd.dpatch, debian/patches/81_sonames.dpatch:
+    Adapted to upstream changes.
+  * debian/patches/81_sonames.dpatch:
+    + Remove SO version from libsoftokn3, now it is not linked against
+      anymore, but dlloaded.
+    + Remove the hacks to have shlibsign and the signature verification code
+      handle the SO version in the file name.
+    + Bump SO version to 1d.
+  * debian/rules:
+    + Add NSS_USE_SYSTEM_SQLITE=1 to the make options.
+    + Install libsoftokn3 and the new libnssdbm3 in /usr/lib/nss.
+    + Run shlibsign on libsoftokn3 in /usr/lib/nss, without a SO version.
+    + For some reason, build-stamp was missing in install-stamp dependencies.
+    + Bumped shlibs because of new symbols, and pass -c4 to dpkg-gensymbols,
+      so that it fails in all cases where the symbols file is not up to date.
+    + Adapt upstream version pattern matching so that the ~1.9b1 part is
+      removed.
+    + Install .1d libraries in -1d packages.
+  * debian/libnss3-0d.links: Removed. This removes links in /usr/lib/xulrunner.
+    The workaround they were implementing is going to be done another way.
+  * debian/libnss3-dev.links: 
+    + Don't put a symlink for libsoftokn3.
+    + .so files now link to .1d libraries.
+  * debian/patches/80_security_build.dpatch: Remove the hack to load libfreebl
+    from /usr/lib/nss.
+  * debian/patches/85_security_load.dpatch: Load modules from $ORIGIN/nss.
+  * debian/patches/10_3.11.7_symbol_fix.dpatch: Fix a symbol version. Stolen
+    from bz#325672.
+  * debian/patches/00list: Updated accordingly.
+  * debian/libnss3-0d.dirs: Renamed to libnss3-1d.dirs.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 25 Nov 2007 10:25:14 +0100
+
 nss (3.11.7-1) unstable; urgency=low
 
   * New upstream release, picked from NSS_3_11_7_RTM cvs tag.
