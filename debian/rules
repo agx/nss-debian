@@ -94,6 +94,8 @@ install-stamp: build-stamp
 		$(foreach bin,certutil modutil pk12util shlibsign signtool ssltap, \
 		$(DISTDIR)/bin/$(bin))
 
+	gcc -x c -shared -Wl,-soname,libsoftokn3.so.0d -o debian/libnss3-0d/usr/lib/libsoftokn3.so.0d - < /dev/null
+
 	touch install-stamp
 
 binary-indep:

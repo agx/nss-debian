@@ -5,7 +5,9 @@ nss (3.12.0~1.9b1-1) UNRELEASED; urgency=low
     sqlite copy in the source tree.
   * debian/control:
     + Build depend on libsqlite3-dev.
-    + Rename all -0d packages to -1d.
+    + Rename all -0d packages to -1d, but keep a transitional -0d package,
+      since all libraries are compatible (except for the removed one).
+    + Make libnss3-1d conflict with older libnss3-0d.
   * debian/patches/38_kbsd.dpatch, debian/patches/81_sonames.dpatch:
     Adapted to upstream changes.
   * debian/patches/81_sonames.dpatch:
@@ -24,9 +26,13 @@ nss (3.12.0~1.9b1-1) UNRELEASED; urgency=low
     + Adapt upstream version pattern matching so that the ~1.9b1 part is
       removed.
     + Install .1d libraries in -1d packages.
-  * debian/libnss3-0d.links: Removed. This removes links in /usr/lib/xulrunner.
-    The workaround they were implementing is going to be done another way.
-  * debian/libnss3-dev.links: 
+    + Create a dummy libsoftokn3.so.0d library, installed in the libnss3-0d
+      package.
+  * debian/libnss3-0d.links:
+    + Remove links in /usr/lib/xulrunner. The workaround they were
+      implementing is going to be done another way.
+    + Add .0d links to .1d libraries.
+  * debian/libnss3-dev.links:
     + Don't put a symlink for libsoftokn3.
     + .so files now link to .1d libraries.
   * debian/patches/80_security_build.dpatch: Remove the hack to load libfreebl

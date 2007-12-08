@@ -10,7 +10,20 @@ Package: libnss3-1d
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libnss3-0d (<< 3.12.0~1.9b1)
 Description: Network Security Service libraries
+ This is a set of libraries designed to support cross-platform development
+ of security-enabled client and server applications. It can support SSLv2
+ and  v4, TLS, PKCS #5, #7, #11, #12, S/MIME, X.509 v3 certificates and
+ other security standards.
+ .
+ Homepage: http://www.mozilla.org/projects/security/pki/nss/
+
+Package: libnss3-0d
+Section: libs
+Architecture: any
+Depends: libnss3-1d, ${shlibs:Depends}, ${misc:Depends}
+Description: Transition package for Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
  and  v4, TLS, PKCS #5, #7, #11, #12, S/MIME, X.509 v3 certificates and
