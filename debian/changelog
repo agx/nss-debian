@@ -1,4 +1,4 @@
-nss (3.12.0~1.9b1-1) UNRELEASED; urgency=low
+nss (3.12.0~1.9b1-1) unstable; urgency=low
 
   * New upstream snapshot, picked from FIREFOX_3_0b1_RELEASE cvs tag.
   * debian/copyright: Add licensing information about the recently added
@@ -43,7 +43,7 @@ nss (3.12.0~1.9b1-1) UNRELEASED; urgency=low
   * debian/patches/00list: Updated accordingly.
   * debian/libnss3-0d.dirs: Renamed to libnss3-1d.dirs.
 
- -- Mike Hommey <glandium@debian.org>  Sun, 25 Nov 2007 10:25:14 +0100
+ -- Mike Hommey <glandium@debian.org>  Sat, 08 Dec 2007 10:53:02 +0100
 
 nss (3.11.7-1) unstable; urgency=low
 
