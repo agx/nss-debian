@@ -31,11 +31,16 @@
      }
 --- nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
 +++ nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
-@@ -331,6 +331,9 @@
+@@ -331,6 +331,14 @@
  #endif
  
  	if (library == NULL) {
-+		library = loader_LoadLibrary(mod->dllName);
++	    full_name = rindex(mod->dllName, PR_GetDirectorySeparator());
++	    if (full_name)
++	        full_name++;
++	    else
++	        full_name = mod->dllName;
++	    library = loader_LoadLibrary(full_name);
 +	}
 +	if (library == NULL) {
  	    return SECFailure;

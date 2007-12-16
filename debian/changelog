@@ -1,3 +1,17 @@
+nss (3.12.0~1.9b1-2) UNRELEASED; urgency=low
+
+  * debian/control: libnss3-1-dbg needs to conflict with older libnss3-0d-dbg,
+    as it overwrites so of its files. Closes: #455875.
+  * debian/patches/90_realpath.dpatch: Use realpath() in
+    loader_GetOriginalPathname, so that symlinks are properly followed when
+    determining where the current library lives.
+  * debian/patches/00list: Updated accordingly.
+  * debian/patches/85_security_load.dpatch: When the module given by the
+    caller contains a directory name, remove it so that the module can be
+    properly loaded. Closes: #456296.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 13 Dec 2007 07:59:05 +0100
+
 nss (3.12.0~1.9b1-1) unstable; urgency=low
 
   * New upstream snapshot, picked from FIREFOX_3_0b1_RELEASE cvs tag.
