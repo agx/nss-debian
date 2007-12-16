@@ -1,4 +1,4 @@
-nss (3.12.0~1.9b1-2) UNRELEASED; urgency=low
+nss (3.12.0~1.9b1-2) unstable; urgency=low
 
   * debian/control: libnss3-1-dbg needs to conflict with older libnss3-0d-dbg,
     as it overwrites so of its files. Closes: #455875.
@@ -10,7 +10,7 @@ nss (3.12.0~1.9b1-2) UNRELEASED; urgency=low
     caller contains a directory name, remove it so that the module can be
     properly loaded. Closes: #456296.
 
- -- Mike Hommey <glandium@debian.org>  Thu, 13 Dec 2007 07:59:05 +0100
+ -- Mike Hommey <glandium@debian.org>  Sun, 16 Dec 2007 11:06:03 +0100
 
 nss (3.12.0~1.9b1-1) unstable; urgency=low
 
