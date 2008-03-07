@@ -1,3 +1,31 @@
+nss (3.12.0~beta2-1) unstable; urgency=low
+
+  * New upstream snapshot, picked from NSS_3_12_BETA2 cvs tag.
+  * debian/patches/10_3.11.7_symbol_fix.dpatch: Removed, as applied upstream.
+  * debian/patches/38_kbsd.dpatch: Adapted to upstream changes.
+  * debian/patches/81_sonames.dpatch: Add SO_VERSION to libnssutil3.
+  * debian/libnss3-dev.links: Add link for libnssutil3.
+  * debian/libnss3-1d.symbols: Update symbols file with new symbols. Note that
+    SEC_StringToOID disappeared (well, was moved to nssutil), compared to
+    version 3.12.0~1.9b1, but it was a new symbol, and isn't used anywhere.
+  * debian/nss.pc.in, debian/nss-config.in: Add libnssutil3 support.
+  * debian/rules:
+    + Bumped shlibs.
+    + Don't generate libsoftokn3.so.0d.
+  * debian/control:
+    + Remove transitional libnss3-0d package.
+    + Bumped Standards-Version to 3.7.3.0. No changes needed.
+    + Build depend on libnspr4-dev >= 4.7.0 (we *do* need the RTM version, and
+      not the preceding betas)
+  * debian/libnss3-0d.*: Removed.
+  * debian/patches/85_security_load.dpatch: Load files from $ORIGIN/nss before
+    those of $ORIGIN. Closes: #469079.
+  * debian/patches/38_hurd.dpatch: Fix FTBFS on Hurd because of MAXPATHLEN.
+    Closes: #419529.
+  * debian/patches/00list: Updated accordingly.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 07 Mar 2008 21:27:54 +0100
+
 nss (3.12.0~1.9b1-2) unstable; urgency=low
 
   * debian/control: libnss3-1-dbg needs to conflict with older libnss3-0d-dbg,

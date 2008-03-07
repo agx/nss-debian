@@ -94,8 +94,6 @@ install-stamp: build-stamp
 		$(foreach bin,certutil modutil pk12util shlibsign signtool ssltap, \
 		$(DISTDIR)/bin/$(bin))
 
-	gcc -x c -shared -Wl,-soname,libsoftokn3.so.0d -o debian/libnss3-0d/usr/lib/libsoftokn3.so.0d - < /dev/null
-
 	touch install-stamp
 
 binary-indep:
@@ -112,7 +110,7 @@ binary-arch: install-stamp
 		debian/libnss3-tools/usr/bin/shlibsign -v -i debian/libnss3-1d/usr/lib/nss/$(lib);)
 	dh_compress -a
 	dh_fixperms -a
-	dh_makeshlibs -a -V 'libnss3-1d (>= 3.12.0~1.9b1)' -- -c4
+	dh_makeshlibs -a -V 'libnss3-1d (>= 3.12.0~beta2)' -- -c4
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a

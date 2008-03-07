@@ -17,13 +17,15 @@
          if (fullName) {
              memcpy(fullName, referencePath, referencePathSize);
              strcpy(fullName + referencePathSize, name); 
-@@ -126,6 +126,11 @@
+@@ -125,7 +125,13 @@
+ #endif
              libSpec.type = PR_LibSpec_Pathname;
              libSpec.value.pathname = fullName;
++	    strcpy(fullName + referencePathSize, "nss/");
++	    strcpy(fullName + referencePathSize + 4, name);
              dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
 +	    if (! dlh) {
-+	    	strcpy(fullName + referencePathSize, "nss/");
-+		strcpy(fullName + referencePathSize + 4, name);
++	        strcpy(fullName + referencePathSize, name);
 +		dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
 +	    }
              PORT_Free(fullName);
