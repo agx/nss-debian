@@ -1,4 +1,4 @@
-nss (3.12.0~beta3-3) UNRELEASED; urgency=low
+nss (3.12.0~beta3-1) UNRELEASED; urgency=low
 
   * New upstream snapshot, picked from NSS_3_12_BETA3 cvs tag.
   * debian/control: Turn Homepage indications in descriptions into a
