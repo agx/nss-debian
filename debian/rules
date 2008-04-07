@@ -91,7 +91,7 @@ install-stamp: build-stamp
 	chmod 755 debian/libnss3-dev/usr/bin/nss-config
 
 	install -m 755 -t debian/libnss3-tools/usr/bin \
-		$(foreach bin,certutil modutil pk12util shlibsign signtool ssltap, \
+		$(foreach bin,certutil modutil pk12util shlibsign signtool ssltap pwdecrypt, \
 		$(DISTDIR)/bin/$(bin))
 
 	touch install-stamp
