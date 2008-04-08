@@ -123,6 +123,9 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_GetCertUid@NSS_3.2 3.12.0~1.9b1
  CERT_GetCertificateNames@NSS_3.10 3.12.0~1.9b1
  CERT_GetCertificateRequestExtensions@NSS_3.10 3.12.0~1.9b1
+ CERT_GetClassicOCSPDisabledPolicy@NSS_3.12 3.12.0~beta3
+ CERT_GetClassicOCSPEnabledHardFailurePolicy@NSS_3.12 3.12.0~beta3
+ CERT_GetClassicOCSPEnabledSoftFailurePolicy@NSS_3.12 3.12.0~beta3
  CERT_GetCommonName@NSS_3.2 3.12.0~1.9b1
  CERT_GetCountryName@NSS_3.2 3.12.0~1.9b1
  CERT_GetDBContentVersion@NSS_3.2 3.12.0~1.9b1
@@ -139,11 +142,13 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_GetOidString@NSS_3.9 3.12.0~1.9b1
  CERT_GetOrgName@NSS_3.2 3.12.0~1.9b1
  CERT_GetOrgUnitName@NSS_3.2 3.12.0~1.9b1
+ CERT_GetPKIXVerifyNistRevocationPolicy@NSS_3.12 3.12.0~beta3
  CERT_GetPrevGeneralName@NSS_3.10 3.12.0~1.9b1
  CERT_GetPrevNameConstraint@NSS_3.10 3.12.0~1.9b1
  CERT_GetSSLCACerts@NSS_3.2 3.12.0~1.9b1
  CERT_GetSlopTime@NSS_3.2 3.12.0~1.9b1
  CERT_GetStateName@NSS_3.2 3.12.0~1.9b1
+ CERT_GetUsePKIXForValidation@NSS_3.12 3.12.0~beta3
  CERT_GetValidDNSPatternsFromCert@NSS_3.12 3.12.0~beta2
  CERT_Hexify@NSS_3.2 3.12.0~1.9b1
  CERT_ImportCAChain@NSS_3.2 3.12.0~1.9b1
@@ -161,6 +166,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_NameTemplate@NSS_3.4 3.12.0~1.9b1
  CERT_NameToAscii@NSS_3.2 3.12.0~1.9b1
  CERT_NewCertList@NSS_3.2 3.12.0~1.9b1
+ CERT_NewTempCertificate@NSS_3.12 3.12.0~beta3
  CERT_NicknameStringsFromCertList@NSS_3.4 3.12.0~1.9b1
  CERT_OCSPCacheSettings@NSS_3.11.7 3.12.0~1.9b1
  CERT_OpenCertDBFilename@NSS_3.2 3.12.0~1.9b1
@@ -174,6 +180,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_SetOCSPTimeout@NSS_3.12 3.12.0~beta2
  CERT_SetOfSignedCrlTemplate@NSS_3.2 3.12.0~1.9b1
  CERT_SetSlopTime@NSS_3.2 3.12.0~1.9b1
+ CERT_SetUsePKIXForValidation@NSS_3.12 3.12.0~beta3
  CERT_SignedCrlTemplate@NSS_3.10 3.12.0~1.9b1
  CERT_SignedDataTemplate@NSS_3.2 3.12.0~1.9b1
  CERT_StartCRLEntryExtensions@NSS_3.10 3.12.0~1.9b1
@@ -220,6 +227,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  HASH_GetHashObject@NSS_3.2 3.12.0~1.9b1
  HASH_GetHashObjectByOidTag@NSS_3.8 3.12.0~1.9b1
  HASH_GetHashTypeByOidTag@NSS_3.8 3.12.0~1.9b1
+ HASH_GetType@NSS_3.12 3.12.0~beta3
  HASH_HashBuf@NSS_3.10 3.12.0~1.9b1
  HASH_ResultLen@NSS_3.4 3.12.0~1.9b1
  HASH_ResultLenByOidTag@NSS_3.10 3.12.0~1.9b1
@@ -298,6 +306,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  NSS_Get_sgn_DigestInfoTemplate@NSS_3.2 3.12.0~1.9b1
  NSS_Init@NSS_3.2 3.12.0~1.9b1
  NSS_InitReadWrite@NSS_3.2 3.12.0~1.9b1
+ NSS_InitWithMerge@NSS_3.12 3.12.0~beta3
  NSS_Initialize@NSS_3.2 3.12.0~1.9b1
  NSS_IsInitialized@NSS_3.9.2 3.12.0~1.9b1
  NSS_NoDB_Init@NSS_3.2 3.12.0~1.9b1
@@ -327,6 +336,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  PK11_CreateContextBySymKey@NSS_3.2 3.12.0~1.9b1
  PK11_CreateDigestContext@NSS_3.2 3.12.0~1.9b1
  PK11_CreateGenericObject@NSS_3.12 3.12.0~beta2
+ PK11_CreateMergeLog@NSS_3.12 3.12.0~beta3
  PK11_CreatePBEAlgorithmID@NSS_3.2 3.12.0~1.9b1
  PK11_CreatePBEParams@NSS_3.3.1 3.12.0~1.9b1
  PK11_CreatePBEV2AlgorithmID@NSS_3.12 3.12.0~beta2
@@ -341,6 +351,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  PK11_DestroyContext@NSS_3.2 3.12.0~1.9b1
  PK11_DestroyGenericObject@NSS_3.9.2 3.12.0~1.9b1
  PK11_DestroyGenericObjects@NSS_3.9.2 3.12.0~1.9b1
+ PK11_DestroyMergeLog@NSS_3.12 3.12.0~beta3
  PK11_DestroyObject@NSS_3.2 3.12.0~1.9b1
  PK11_DestroyPBEParams@NSS_3.3.1 3.12.0~1.9b1
  PK11_DestroyTokenObject@NSS_3.2 3.12.0~1.9b1
@@ -462,6 +473,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  PK11_IsLoggedIn@NSS_3.3 3.12.0~1.9b1
  PK11_IsPresent@NSS_3.2 3.12.0~1.9b1
  PK11_IsReadOnly@NSS_3.2 3.12.0~1.9b1
+ PK11_IsRemovable@NSS_3.12 3.12.0~beta3
  PK11_KeyForCertExists@NSS_3.3 3.12.0~1.9b1
  PK11_KeyForDERCertExists@NSS_3.3 3.12.0~1.9b1
  PK11_KeyGen@NSS_3.2 3.12.0~1.9b1
@@ -480,6 +492,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  PK11_MapPBEMechanismToCryptoMechanism@NSS_3.2 3.12.0~1.9b1
  PK11_MapSignKeyType@NSS_3.11 3.12.0~1.9b1
  PK11_MechanismToAlgtag@NSS_3.4 3.12.0~1.9b1
+ PK11_MergeTokens@NSS_3.12 3.12.0~beta3
  PK11_MoveSymKey@NSS_3.9 3.12.0~1.9b1
  PK11_NeedLogin@NSS_3.2 3.12.0~1.9b1
  PK11_NeedPWInit@NSS_3.3 3.12.0~1.9b1
