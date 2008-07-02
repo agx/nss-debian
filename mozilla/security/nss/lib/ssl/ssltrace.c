@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: ssltrace.c,v 1.3.28.1 2007/01/31 06:03:38 nelson%bolyard.com Exp $ */
+/* $Id: ssltrace.c,v 1.4 2007/01/31 04:20:26 nelson%bolyard.com Exp $ */
 #include <stdarg.h>
 #include "cert.h"
 #include "ssl.h"

@@ -35,7 +35,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: prng_fips1861.c,v 1.22.2.4 2006/10/13 17:02:58 wtchang%redhat.com Exp $ */
+/* $Id: prng_fips1861.c,v 1.27 2006/10/13 16:54:04 wtchang%redhat.com Exp $ */
 
 #include "prerr.h"
 #include "secerr.h"

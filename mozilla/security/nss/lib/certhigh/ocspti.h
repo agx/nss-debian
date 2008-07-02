@@ -37,7 +37,7 @@
 /*
  * Private header defining OCSP types.
  *
- * $Id: ocspti.h,v 1.5.28.1 2007/01/25 00:36:29 alexei.volkov.bugs%sun.com Exp $
+ * $Id: ocspti.h,v 1.7 2007/01/09 23:39:08 alexei.volkov.bugs%sun.com Exp $
  */
 
 #ifndef _OCSPTI_H_

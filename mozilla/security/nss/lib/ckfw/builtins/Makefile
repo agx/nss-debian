@@ -34,7 +34,7 @@
 # the terms of any one of the MPL, the GPL or the LGPL.
 #
 # ***** END LICENSE BLOCK *****
-MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.16.2.3 $ $Date: 2007/05/09 01:38:15 $"
+MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.19 $ $Date: 2007/05/09 00:09:38 $"
 
 include manifest.mn
 include $(CORE_DEPTH)/coreconf/config.mk

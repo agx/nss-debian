@@ -35,7 +35,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $RCSfile: tdcache.c,v $ $Revision: 1.42.2.2 $ $Date: 2006/08/23 01:36:31 $";
+static const char CVS_ID[] = "@(#) $RCSfile: tdcache.c,v $ $Revision: 1.46 $ $Date: 2007/07/11 04:47:42 $";
 #endif /* DEBUG */
 
 #ifndef PKIM_H
@@ -898,6 +898,9 @@ collect_subject_certs (
     nssCertificateList_AddReferences(subjectList);
     if (rvCertListOpt) {
 	nssListIterator *iter = nssList_CreateIterator(subjectList);
+	if (!iter) {
+	    return (NSSCertificate **)NULL;
+	}
 	for (c  = (NSSCertificate *)nssListIterator_Start(iter);
 	     c != (NSSCertificate *)NULL;
 	     c  = (NSSCertificate *)nssListIterator_Next(iter)) {
@@ -951,7 +954,7 @@ nssTrustDomain_GetCertsForSubjectFromCache (
 NSS_IMPLEMENT NSSCertificate **
 nssTrustDomain_GetCertsForNicknameFromCache (
   NSSTrustDomain *td,
-  NSSUTF8 *nickname,
+  const NSSUTF8 *nickname,
   nssList *certListOpt
 )
 {

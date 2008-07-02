@@ -378,7 +378,7 @@ else
  	    MPCPU_SRCS =
 	endif
 	DEFINES += -DNSS_BEVAND_ARCFOUR -DMPI_AMD64 -DMP_ASSEMBLY_MULTIPLY
-	DEFINES += -DNSS_USE_COMBA
+	DEFINES += -DNSS_USE_COMBA -DMP_CHAR_STORE_SLOW -DMP_IS_LITTLE_ENDIAN
 	MPI_SRCS += mpi_amd64.c
     else
 	# Solaris x86
@@ -565,14 +565,6 @@ endif
 
 endif  # FREEBL_CHILD_BUILD
 
-
-# Bugzilla Bug 209827: disable optimization to work around what appears
-# to be a VACPP optimizer bug.
-ifdef XP_OS2_VACPP
-$(OBJDIR)/alg2268.obj: alg2268.c
-	@$(MAKE_OBJDIR)
-	$(CC) -Fo$@ -c $(filter-out /O+, $(CFLAGS)) $(call core_abspath,$<)
-endif
 
 # Bugzilla Bug 333917: the non-x86 code in desblapi.c seems to violate
 # ANSI C's strict aliasing rules.

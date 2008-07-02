@@ -39,7 +39,7 @@
  * Implementation of OCSP services, for both client and server.
  * (XXX, really, mostly just for client right now, but intended to do both.)
  *
- * $Id: ocsp.c,v 1.21.2.16 2007/05/25 03:37:37 alexei.volkov.bugs%sun.com Exp $
+ * $Id: ocsp.c,v 1.43 2007/10/04 13:04:42 kaie%kuix.de Exp $
  */
 
 #include "prerror.h"
@@ -874,7 +874,7 @@ SECStatus OCSP_InitGlobal(void)
     return rv;
 }
 
-SECStatus OCSP_ShutdownCache(void)
+SECStatus OCSP_ShutdownGlobal(void)
 {
     if (!OCSP_Global.monitor)
         return SECSuccess;
@@ -888,7 +888,19 @@ SECStatus OCSP_ShutdownCache(void)
     PORT_Assert(OCSP_Global.cache.numberOfEntries == 0);
     OCSP_Global.cache.MRUitem = NULL;
     OCSP_Global.cache.LRUitem = NULL;
+
+    OCSP_Global.defaultHttpClientFcn = NULL;
+    OCSP_Global.maxCacheEntries = DEFAULT_OCSP_CACHE_SIZE;
+    OCSP_Global.minimumSecondsToNextFetchAttempt = 
+      DEFAULT_MINIMUM_SECONDS_TO_NEXT_OCSP_FETCH_ATTEMPT;
+    OCSP_Global.maximumSecondsToNextFetchAttempt =
+      DEFAULT_MAXIMUM_SECONDS_TO_NEXT_OCSP_FETCH_ATTEMPT;
+    OCSP_Global.ocspFailureMode =
+      ocspMode_FailureIsVerificationFailure;
     PR_ExitMonitor(OCSP_Global.monitor);
+
+    PR_DestroyMonitor(OCSP_Global.monitor);
+    OCSP_Global.monitor = NULL;
     return SECSuccess;
 }
 
@@ -896,7 +908,7 @@ SECStatus OCSP_ShutdownCache(void)
  * A return value of NULL means: 
  *   The application did not register it's own HTTP client.
  */
-static const SEC_HttpClientFcn *GetRegisteredHttpClient()
+const SEC_HttpClientFcn *SEC_GetRegisteredHttpClient()
 {
     const SEC_HttpClientFcn *retval;
 
@@ -1541,7 +1553,7 @@ loser:
  * results in a NULL being returned (and an appropriate error set).
  */
 SECItem *
-cert_GetSPKIDigest(PRArenaPool *arena, const CERTCertificate *cert,
+CERT_GetSPKIDigest(PRArenaPool *arena, const CERTCertificate *cert,
                            SECOidTag digestAlg, SECItem *fill)
 {
     SECItem spk;
@@ -1629,18 +1641,18 @@ ocsp_CreateCertID(PRArenaPool *arena, CERTCertificate *cert, int64 time)
         goto loser;
     }
 
-    if (cert_GetSPKIDigest(arena, issuerCert, SEC_OID_SHA1,
+    if (CERT_GetSPKIDigest(arena, issuerCert, SEC_OID_SHA1,
 				   &(certID->issuerKeyHash)) == NULL) {
 	goto loser;
     }
     certID->issuerSHA1KeyHash.data = certID->issuerKeyHash.data;
     certID->issuerSHA1KeyHash.len = certID->issuerKeyHash.len;
     /* cache the other two hash algorithms as well */
-    if (cert_GetSPKIDigest(arena, issuerCert, SEC_OID_MD5,
+    if (CERT_GetSPKIDigest(arena, issuerCert, SEC_OID_MD5,
 				   &(certID->issuerMD5KeyHash)) == NULL) {
 	goto loser;
     }
-    if (cert_GetSPKIDigest(arena, issuerCert, SEC_OID_MD2,
+    if (CERT_GetSPKIDigest(arena, issuerCert, SEC_OID_MD2,
 				   &(certID->issuerMD2KeyHash)) == NULL) {
 	goto loser;
     }
@@ -2239,7 +2251,7 @@ ocsp_CertStatusTypeByTag(int derTag)
  * have allocated; it expects its caller to do that.
  */
 static SECStatus
-ocsp_FinishDecodingSingleResponses(PRArenaPool *arena,
+ocsp_FinishDecodingSingleResponses(PRArenaPool *reqArena,
 				   CERTOCSPSingleResponse **responses)
 {
     ocspCertStatus *certStatus;
@@ -2249,10 +2261,16 @@ ocsp_FinishDecodingSingleResponses(PRArenaPool *arena,
     int i;
     SECStatus rv = SECFailure;
 
+    if (!reqArena) {
+        PORT_SetError(SEC_ERROR_INVALID_ARGS);
+        return SECFailure;
+    }
+
     if (responses == NULL)			/* nothing to do */
 	return SECSuccess;
 
     for (i = 0; responses[i] != NULL; i++) {
+        SECItem* newStatus;
 	/*
 	 * The following assert points out internal errors (problems in
 	 * the template definitions or in the ASN.1 decoder itself, etc.).
@@ -2263,12 +2281,16 @@ ocsp_FinishDecodingSingleResponses(PRArenaPool *arena,
 	certStatusType = ocsp_CertStatusTypeByTag(derTag);
 	certStatusTemplate = ocsp_CertStatusTemplateByType(certStatusType);
 
-	certStatus = PORT_ArenaZAlloc(arena, sizeof(ocspCertStatus));
+	certStatus = PORT_ArenaZAlloc(reqArena, sizeof(ocspCertStatus));
 	if (certStatus == NULL) {
 	    goto loser;
 	}
-	rv = SEC_ASN1DecodeItem(arena, certStatus, certStatusTemplate,
-				&responses[i]->derCertStatus);
+        newStatus = SECITEM_ArenaDupItem(reqArena, &responses[i]->derCertStatus);
+        if (!newStatus) {
+            goto loser;
+        }
+	rv = SEC_QuickDERDecodeItem(reqArena, certStatus, certStatusTemplate,
+				newStatus);
 	if (rv != SECSuccess) {
 	    if (PORT_GetError() == SEC_ERROR_BAD_DER)
 		PORT_SetError(SEC_ERROR_OCSP_MALFORMED_RESPONSE);
@@ -2406,8 +2428,10 @@ static SECStatus
 ocsp_DecodeResponseBytes(PRArenaPool *arena, ocspResponseBytes *rbytes)
 {
     PORT_Assert(rbytes != NULL);		/* internal error, really */
-    if (rbytes == NULL)
+    if (rbytes == NULL) {
 	PORT_SetError(SEC_ERROR_INVALID_ARGS);	/* XXX set better error? */
+	return SECFailure;
+    }
 
     rbytes->responseTypeTag = SECOID_FindOIDTag(&rbytes->responseType);
     switch (rbytes->responseTypeTag) {
@@ -2538,8 +2562,8 @@ loser:
  *   CERTOCSPResponse *response
  *     structure of a valid ocsp response
  * RETURN:
- *   decoded OCSP response data and a pointer(tbsResponseDataDER) to its
- *   undecoded data DER.
+ *   Returns a pointer to ocspResponseData structure: decoded OCSP response
+ *   data, and a pointer(tbsResponseDataDER) to its undecoded data DER.
  */
 static ocspResponseData *
 ocsp_GetResponseData(CERTOCSPResponse *response, SECItem **tbsResponseDataDER)
@@ -2642,7 +2666,7 @@ CERT_DestroyOCSPResponse(CERTOCSPResponse *response)
  * of hostname and path, which are copies of the values found in the url.
  */
 static SECStatus
-ocsp_ParseURL(char *url, char **pHostname, PRUint16 *pPort, char **pPath)
+ocsp_ParseURL(const char *url, char **pHostname, PRUint16 *pPort, char **pPath)
 {
     unsigned short port = 80;		/* default, in case not in url */
     char *hostname = NULL;
@@ -3163,6 +3187,12 @@ ocsp_GetEncodedResponse(PRArenaPool *arena, PRFileDesc *sock)
     return result;
 }
 
+SECStatus
+CERT_ParseURL(const char *url, char **pHostname, PRUint16 *pPort, char **pPath)
+{
+    return ocsp_ParseURL(url, pHostname, pPort, pPath);
+}
+
 /*
  * Limit the size of http responses we are willing to accept.
  */
@@ -3354,7 +3384,7 @@ ocsp_GetEncodedOCSPResponseFromRequest(PRArenaPool *arena,
     if (encodedRequest == NULL)
 	goto loser;
 
-    registeredHttpClient = GetRegisteredHttpClient();
+    registeredHttpClient = SEC_GetRegisteredHttpClient();
 
     if (registeredHttpClient
             &&
@@ -3497,19 +3527,19 @@ ocsp_matchcert(SECItem *certIndex,CERTCertificate *testCert)
     item.data = buf;
     item.len = SHA1_LENGTH;
 
-    if (cert_GetSPKIDigest(NULL,testCert,SEC_OID_SHA1, &item) == NULL) {
+    if (CERT_GetSPKIDigest(NULL,testCert,SEC_OID_SHA1, &item) == NULL) {
 	return PR_FALSE;
     }
     if  (SECITEM_ItemsAreEqual(certIndex,&item)) {
 	return PR_TRUE;
     }
-    if (cert_GetSPKIDigest(NULL,testCert,SEC_OID_MD5, &item) == NULL) {
+    if (CERT_GetSPKIDigest(NULL,testCert,SEC_OID_MD5, &item) == NULL) {
 	return PR_FALSE;
     }
     if  (SECITEM_ItemsAreEqual(certIndex,&item)) {
 	return PR_TRUE;
     }
-    if (cert_GetSPKIDigest(NULL,testCert,SEC_OID_MD2, &item) == NULL) {
+    if (CERT_GetSPKIDigest(NULL,testCert,SEC_OID_MD2, &item) == NULL) {
 	return PR_FALSE;
     }
     if  (SECITEM_ItemsAreEqual(certIndex,&item)) {
@@ -4036,7 +4066,7 @@ ocsp_AuthorizedResponderForCertID(CERTCertDBHandle *handle,
 
     hashAlg = SECOID_FindOIDTag(&certID->hashAlgorithm.algorithm);
 
-    keyHash = cert_GetSPKIDigest(NULL, signerCert, hashAlg, NULL);
+    keyHash = CERT_GetSPKIDigest(NULL, signerCert, hashAlg, NULL);
     if (keyHash != NULL) {
 
         keyHashEQ =
@@ -4083,7 +4113,7 @@ ocsp_AuthorizedResponderForCertID(CERTCertDBHandle *handle,
         return PR_FALSE;
     }
 
-    keyHash = cert_GetSPKIDigest(NULL, issuerCert, hashAlg, NULL);
+    keyHash = CERT_GetSPKIDigest(NULL, issuerCert, hashAlg, NULL);
     nameHash = cert_GetSubjectNameDigest(NULL, issuerCert, hashAlg, NULL);
 
     CERT_DestroyCertificate(issuerCert);
@@ -5182,7 +5212,7 @@ CERT_EnableOCSPDefaultResponder(CERTCertDBHandle *handle)
 
    /*
     * Supplied cert should at least have  a signing capability in order for us
-    * to use it as a trusted responder cert. Ability to sign is guarantied  if
+    * to use it as a trusted responder cert. Ability to sign is guaranteed  if
     * cert is validated to have any set of the usages below.
     */
     rv = CERT_VerifyCertificateNow(handle, cert, PR_TRUE,

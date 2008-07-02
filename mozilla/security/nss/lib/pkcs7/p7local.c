@@ -40,7 +40,7 @@
  * encoding/creation side *and* the decoding/decryption side.  Anything
  * else should be static routines in the appropriate file.
  *
- * $Id: p7local.c,v 1.8.2.1 2007/05/09 19:05:06 rrelyea%redhat.com Exp $
+ * $Id: p7local.c,v 1.9 2007/05/09 19:02:18 rrelyea%redhat.com Exp $
  */
 
 #include "p7local.h"

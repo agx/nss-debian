@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: sha512.c,v 1.8.2.1 2006/10/13 17:02:58 wtchang%redhat.com Exp $ */
+/* $Id: sha512.c,v 1.9 2006/10/13 16:54:04 wtchang%redhat.com Exp $ */
 #include "prcpucfg.h"
 #if defined(_X86_) || defined(SHA_NO_LONG_LONG)
 #define NOUNROLL512 1

@@ -37,7 +37,7 @@
 /*
  * Encryption/decryption routines for CMS implementation, none of which are exported.
  *
- * $Id: cmscipher.c,v 1.8.2.1 2006/06/12 21:05:16 alexei.volkov.bugs%sun.com Exp $
+ * $Id: cmscipher.c,v 1.9 2006/06/12 21:05:12 alexei.volkov.bugs%sun.com Exp $
  */
 
 #include "cmslocal.h"

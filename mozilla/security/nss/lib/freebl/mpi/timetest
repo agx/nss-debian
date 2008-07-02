@@ -44,7 +44,7 @@
 # ***** END LICENSE BLOCK *****
 
 # 
-# $Id: timetest,v 1.6.30.3 2007/05/09 01:38:14 neil.williams%sun.com Exp $
+# $Id: timetest,v 1.9 2007/05/09 00:09:37 neil.williams%sun.com Exp $
 #
 
 # Avoid using built-in shell echoes

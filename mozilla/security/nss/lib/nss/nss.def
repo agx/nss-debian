@@ -899,3 +899,33 @@ DER_TimeToGeneralizedTimeArena;
 ;+    local:
 ;+       *;
 ;+};
+;+NSS_3.12 { 	# NSS 3.12 release
+;+    global:
+CERT_CheckNameSpace;
+CERT_EncodeCertPoliciesExtension;
+CERT_EncodeInfoAccessExtension;
+CERT_EncodeInhibitAnyExtension;
+CERT_EncodeNoticeReference;
+CERT_EncodePolicyConstraintsExtension;
+CERT_EncodePolicyMappingExtension;
+CERT_EncodeUserNotice;
+CERT_FindCRLEntryReasonExten;
+CERT_FindCRLNumberExten;
+CERT_FindNameConstraintsExten;
+CERT_PKIXVerifyCert;
+PK11_GenerateKeyPairWithOpFlags;
+PK11_GetAllSlotsForCert;
+SECKEY_ECParamsToBasePointOrderLen;
+SECKEY_ECParamsToKeySize;
+SECMOD_DeleteModuleEx;
+SEC_GetRegisteredHttpClient;
+SEC_StringToOID;
+VFY_CreateContextDirect;
+VFY_CreateContextWithAlgorithmID;
+VFY_VerifyDataDirect;
+VFY_VerifyDataWithAlgorithmID;
+VFY_VerifyDigestDirect;
+VFY_VerifyDigestWithAlgorithmID;
+;+    local:
+;+       *;
+;+};

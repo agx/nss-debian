@@ -36,7 +36,7 @@
 /*
  * certi.h - private data structures for the certificate library
  *
- * $Id: certi.h,v 1.16 2005/04/17 03:17:06 julien.pierre.bugs%sun.com Exp $
+ * $Id: certi.h,v 1.21 2007/08/29 17:53:19 alexei.volkov.bugs%sun.com Exp $
  */
 #ifndef _CERTI_H_
 #define _CERTI_H_
@@ -121,7 +121,9 @@ struct CachedCrlStr {
     PreAllocator* prebuffer; /* big pre-allocated buffer mentioned above */
     PRBool sigChecked; /* this CRL signature has already been checked */
     PRBool sigValid; /* signature verification status .
-                     Only meaningful if checked is PR_TRUE . */
+                        Only meaningful if checked is PR_TRUE . */
+    PRBool unbuildable; /* Avoid using assosiated CRL is it fails
+                         * a decoding step */
 };
 
 /*  CRL distribution point cache object
@@ -243,5 +245,55 @@ cert_FindDERCertBySubjectKeyID(SECItem *subjKeyID);
 /* return maximum length of AVA value based on its type OID tag. */
 extern int cert_AVAOidTagToMaxLen(SECOidTag tag);
 
+/* Make an AVA, allocated from pool, from OID and DER encoded value */
+extern CERTAVA * CERT_CreateAVAFromRaw(PRArenaPool *pool, 
+                               const SECItem * OID, const SECItem * value);
+
+/*
+ * get a DPCache object for the given issuer subject and dp
+ * Automatically creates the cache object if it doesn't exist yet.
+ */
+SECStatus AcquireDPCache(CERTCertificate* issuer, SECItem* subject,
+                         SECItem* dp, int64 t, void* wincx,
+                         CRLDPCache** dpcache, PRBool* writeLocked);
+
+/* release a DPCache object that was previously acquired */
+void ReleaseDPCache(CRLDPCache* dpcache, PRBool writeLocked);
+
+/* this function assumes the caller holds a lock on the DPCache */
+SECStatus DPCache_GetAllCRLs(CRLDPCache* dpc, PRArenaPool* arena,
+                             CERTSignedCrl*** crls, PRUint16* status);
+
+/* this function assumes the caller holds a lock on the DPCache */
+SECStatus DPCache_GetCRLEntry(CRLDPCache* cache, PRBool readlocked,
+                              CERTSignedCrl* crl, SECItem* sn,
+                              CERTCrlEntry** returned);
+
+/*
+ * map Stan errors into NSS errors
+ * This function examines the stan error stack and automatically sets
+ * PORT_SetError(); to the appropriate SEC_ERROR value.
+ */
+void CERT_MapStanError();
+
+/* Programatical interface to switch to and from libpkix cert
+ * validation engine. */
+SECStatus cert_SetPKIXValidation(PRBool enable);
+
+/* The function return PR_TRUE if cert validation should go
+ * through libpkix cert validation engine. */
+PRBool cert_UsePKIXValidation();
+
+/* Interface function for libpkix cert validation engine:
+ * cert_verify wrapper. */
+SECStatus
+cert_VerifyCertChainPkix(CERTCertificate *cert,
+                         PRBool checkSig,
+                         SECCertUsage     requiredUsage,
+                         PRUint64         time,
+                         void            *wincx,
+                         CERTVerifyLog   *log,
+                         PRBool          *sigError,
+                         PRBool          *revoked);
 #endif /* _CERTI_H_ */
 

@@ -34,12 +34,16 @@
 # the terms of any one of the MPL, the GPL or the LGPL.
 #
 # ***** END LICENSE BLOCK *****
-MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.7.28.3 $ $Date: 2007/05/09 01:38:16 $"
+MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.14 $ $Date: 2007/06/19 08:03:45 $"
 
 include manifest.mn
 include $(CORE_DEPTH)/coreconf/config.mk
 include config.mk
 include $(CORE_DEPTH)/coreconf/rules.mk
+
+ifdef MOZILLA_CLIENT
+NSS_BUILD_CAPI = 1
+endif
 
 # This'll need some help from a build person.
 
@@ -56,3 +60,13 @@ include $(CORE_DEPTH)/coreconf/rules.mk
 
 export:: private_export
 
+# can't do this in manifest.mn because OS_TARGET isn't defined there.
+ifeq (,$(filter-out WIN%,$(OS_TARGET)))
+ifdef NSS_BUILD_CAPI
+DIRS += capi
+endif
+endif
+
+#ifeq ($(OS_ARCH), Darwin)
+#DIRS += nssmkey
+#endif
