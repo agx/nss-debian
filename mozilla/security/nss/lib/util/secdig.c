@@ -33,7 +33,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: secdig.c,v 1.5.28.2 2006/08/31 03:57:56 nelson%bolyard.com Exp $ */
+/* $Id: secdig.c,v 1.7 2006/08/31 03:54:48 nelson%bolyard.com Exp $ */
 #include "secdig.h"
 
 #include "secoid.h"

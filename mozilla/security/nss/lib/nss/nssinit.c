@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: nssinit.c,v 1.69.2.7 2007/04/25 01:05:07 kaie%kuix.de Exp $ */
+/* $Id: nssinit.c,v 1.84 2007/10/04 19:07:23 alexei.volkov.bugs%sun.com Exp $ */
 
 #include <ctype.h>
 #include "seccomon.h"
@@ -53,6 +53,9 @@
 #include "pk11func.h"
 #include "secerr.h"
 #include "nssbase.h"
+#include "pkixt.h"
+#include "pkix.h"
+#include "pkix_tools.h"
 
 #include "pki3hack.h"
 #include "certi.h"
@@ -385,7 +388,7 @@ nss_FindExternalRoot(const char *dbpath, const char* secmodprefix)
  * keyPrefix - prefix added to the beginning of the key database example: "
  * 			"https-server1-"
  * secmodName - name of the security module database (usually "secmod.db").
- * readOnly - Boolean: true if the databases are to be openned read only.
+ * readOnly - Boolean: true if the databases are to be opened read only.
  * nocertdb - Don't open the cert DB and key DB's, just initialize the 
  *			Volatile certdb.
  * nomoddb - Don't open the security module DB, just initialize the 
@@ -395,6 +398,7 @@ nss_FindExternalRoot(const char *dbpath, const char* secmodprefix)
  */
 
 static PRBool nss_IsInitted = PR_FALSE;
+static void* plContext = NULL;
 
 extern SECStatus secoid_Init(void);
 static SECStatus nss_InitShutdownList(void);
@@ -418,6 +422,8 @@ nss_Init(const char *configdir, const char *certPrefix, const char *keyPrefix,
     char *lcertPrefix = NULL;
     char *lkeyPrefix = NULL;
     char *lsecmodName = NULL;
+    PKIX_UInt32 actualMinorVersion = 0;
+    PKIX_Error *pkixError = NULL;;
 
     if (nss_IsInitted) {
 	return SECSuccess;
@@ -510,6 +516,22 @@ loser:
 	cert_CreateSubjectKeyIDHashTable();
 	nss_IsInitted = PR_TRUE;
     }
+
+    if (SECSuccess == rv) {
+	pkixError = PKIX_Initialize
+	    (PKIX_FALSE, PKIX_FALSE, PKIX_MAJOR_VERSION, PKIX_MINOR_VERSION,
+	    PKIX_MINOR_VERSION, &actualMinorVersion, &plContext);
+
+	if (pkixError != NULL) {
+	    rv = SECFailure;
+	} else {
+            char *ev = getenv("NSS_ENABLE_PKIX_VERIFY");
+            if (ev && ev[0]) {
+                cert_SetPKIXValidation(PR_TRUE);
+            }
+        }
+    }
+
     return rv;
 }
 
@@ -788,7 +810,8 @@ NSS_Shutdown(void)
 	shutdownRV = SECFailure;
     }
     ShutdownCRLCache();
-    OCSP_ShutdownCache();
+    OCSP_ShutdownGlobal();
+    PKIX_Shutdown(plContext);
     SECOID_Shutdown();
     status = STAN_Shutdown();
     cert_DestroySubjectKeyIDHashTable();
@@ -869,5 +892,3 @@ NSS_VersionCheck(const char *importedVersion)
     }
     return PR_TRUE;
 }
-
-

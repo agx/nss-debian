@@ -41,7 +41,7 @@
  * 
  * NOTE - These are not public interfaces
  *
- * $Id: secport.c,v 1.18.28.1 2006/08/16 00:08:19 wtchang%redhat.com Exp $
+ * $Id: secport.c,v 1.20 2006/08/15 23:56:01 wtchang%redhat.com Exp $
  */
 
 #include "seccomon.h"

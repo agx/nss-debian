@@ -37,7 +37,7 @@
 /*
  * PQG parameter generation/verification.  Based on FIPS 186-1.
  *
- * $Id: pqg.c,v 1.9.2.4 2006/05/12 16:51:28 wtchang%redhat.com Exp $
+ * $Id: pqg.c,v 1.14 2006/05/12 16:49:07 wtchang%redhat.com Exp $
  */
 
 #include "prerr.h"

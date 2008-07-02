@@ -37,7 +37,7 @@
 /*
  * Public header for exported OCSP types.
  *
- * $Id: ocspt.h,v 1.4.28.3 2007/04/25 01:05:06 kaie%kuix.de Exp $
+ * $Id: ocspt.h,v 1.9 2007/03/23 06:57:57 kaie%kuix.de Exp $
  */
 
 #ifndef _OCSPT_H_

@@ -35,7 +35,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $RCSfile: certificate.c,v $ $Revision: 1.56.2.3 $ $Date: 2006/08/23 01:36:31 $";
+static const char CVS_ID[] = "@(#) $RCSfile: certificate.c,v $ $Revision: 1.62 $ $Date: 2007/01/05 00:25:05 $";
 #endif /* DEBUG */
 
 #ifndef NSSPKI_H
@@ -493,10 +493,10 @@ nssCertificate_BuildChain (
     PRStatus  st;
     PRStatus  ret = PR_SUCCESS;
 
-    if (!td)
-	td = NSSCertificate_GetTrustDomain(c);
-    if (!td || !c || !cc) 
+    if (!c || !cc ||
+        (!td && (td = NSSCertificate_GetTrustDomain(c)) == NULL)) {
 	goto loser;
+    }
 #ifdef NSS_3_4_CODE
     /* bump the usage up to CA level */
     issuerUsage.nss3lookingForCA = PR_TRUE;
@@ -940,6 +940,9 @@ nssCertificateList_DoCallback (
     NSSCertificate *cert;
     PRStatus nssrv;
     certs = nssList_CreateIterator(certList);
+    if (!certs) {
+        return PR_FAILURE;
+    }
     for (cert  = (NSSCertificate *)nssListIterator_Start(certs);
          cert != (NSSCertificate *)NULL;
          cert  = (NSSCertificate *)nssListIterator_Next(certs))
@@ -1154,7 +1157,7 @@ nssCRL_GetEncoding (
   NSSCRL *crl
 )
 {
-    if (crl->encoding.data != NULL && crl->encoding.size > 0) {
+    if (crl && crl->encoding.data != NULL && crl->encoding.size > 0) {
 	return &crl->encoding;
     } else {
 	return (NSSDER *)NULL;

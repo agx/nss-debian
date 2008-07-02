@@ -35,7 +35,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $RCSfile: cryptocontext.c,v $ $Revision: 1.14.28.2 $ $Date: 2006/08/22 17:12:04 $";
+static const char CVS_ID[] = "@(#) $RCSfile: cryptocontext.c,v $ $Revision: 1.17 $ $Date: 2007/07/11 04:47:42 $";
 #endif /* DEBUG */
 
 #ifndef DEV_H
@@ -245,7 +245,7 @@ nssCryptoContext_ImportSMIMEProfile (
 NSS_IMPLEMENT NSSCertificate *
 NSSCryptoContext_FindBestCertificateByNickname (
   NSSCryptoContext *cc,
-  NSSUTF8 *name,
+  const NSSUTF8 *name,
   NSSTime *timeOpt, /* NULL for "now" */
   NSSUsage *usage,
   NSSPolicies *policiesOpt /* NULL for none */

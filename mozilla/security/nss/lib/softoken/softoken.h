@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: softoken.h,v 1.7.30.5 2006/10/02 22:58:51 wtchang%redhat.com Exp $ */
+/* $Id: softoken.h,v 1.16 2007/08/09 22:36:18 rrelyea%redhat.com Exp $ */
 
 #ifndef _SOFTOKEN_H_
 #define _SOFTOKEN_H_
@@ -147,22 +147,29 @@ SECStatus RSA_DecryptRaw(NSSLOWKEYPrivateKey *key, unsigned char *output,
  */
 extern SECStatus EC_FillParams(PRArenaPool *arena,
                                const SECItem *encodedParams, ECParams *params);
+extern SECStatus EC_DecodeParams(const SECItem *encodedParams, 
+				ECParams **ecparams);
+extern SECStatus EC_CopyParams(PRArenaPool *arena, ECParams *dstParams,
+              			const ECParams *srcParams);
 #endif
 
 
 /*
-** Prepare a buffer for DES encryption, growing to the appropriate boundary,
-** filling with the appropriate padding.
-** We add from 1 to DES_KEY_LENGTH bytes -- we *always* grow.
+** Prepare a buffer for padded CBC encryption, growing to the appropriate 
+** boundary, filling with the appropriate padding.
+**
+** blockSize must be a power of 2.
+**
+** We add from 1 to blockSize bytes -- we *always* grow.
 ** The extra bytes contain the value of the length of the padding:
 ** if we have 2 bytes of padding, then the padding is "0x02, 0x02".
 **
 ** NOTE: If arena is non-NULL, we re-allocate from there, otherwise
 ** we assume (and use) PR memory (re)allocation.
-** Maybe this belongs in util?
 */
-extern unsigned char * DES_PadBuffer(PRArenaPool *arena, unsigned char *inbuf, 
-                                     unsigned int inlen, unsigned int *outlen);
+extern unsigned char * CBC_PadBuffer(PRArenaPool *arena, unsigned char *inbuf, 
+                                     unsigned int inlen, unsigned int *outlen,
+				     int blockSize);
 
 
 /****************************************/

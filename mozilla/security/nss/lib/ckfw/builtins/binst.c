@@ -35,7 +35,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $RCSfile: binst.c,v $ $Revision: 1.3.28.1 $ $Date: 2006/06/13 17:58:03 $";
+static const char CVS_ID[] = "@(#) $RCSfile: binst.c,v $ $Revision: 1.4 $ $Date: 2006/06/13 17:48:03 $";
 #endif /* DEBUG */
 
 #include "builtins.h"

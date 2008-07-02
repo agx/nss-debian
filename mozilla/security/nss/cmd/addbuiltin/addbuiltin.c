@@ -37,7 +37,7 @@
 /*
  * Tool for converting builtin CA certs.
  *
- * $Id: addbuiltin.c,v 1.13.24.1 2007/02/14 00:01:24 alexei.volkov.bugs%sun.com Exp $
+ * $Id: addbuiltin.c,v 1.14 2007/02/14 00:35:52 alexei.volkov.bugs%sun.com Exp $
  */
 
 #include "nssrenam.h"
@@ -213,7 +213,7 @@ void printheader() {
 "#\n"
 "# ***** END LICENSE BLOCK *****\n"
      "#\n"
-     "CVS_ID \"@(#) $RCSfile: addbuiltin.c,v $ $Revision: 1.13.24.1 $ $Date: 2007/02/14 00:01:24 $\"\n"
+     "CVS_ID \"@(#) $RCSfile: addbuiltin.c,v $ $Revision: 1.14 $ $Date: 2007/02/14 00:35:52 $\"\n"
      "\n"
      "#\n"
      "# certdata.txt\n"
