@@ -36,12 +36,13 @@
 /*
  * ocspi.h - NSS internal interfaces to OCSP code
  *
- * $Id: ocspi.h,v 1.2.2.2 2006/02/03 18:16:45 kaie%kuix.de Exp $
+ * $Id: ocspi.h,v 1.2.2.3 2007/04/25 01:05:06 kaie%kuix.de Exp $
  */
 
 #ifndef _OCSPI_H_
 #define _OCSPI_H_
 
-SECStatus InitOCSPGlobal(void);
+SECStatus OCSP_InitGlobal(void);
+SECStatus OCSP_ShutdownCache(void);
 
 #endif /* _OCSPI_H_ */

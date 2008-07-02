@@ -219,9 +219,18 @@ if [ -z "${INIT_SOURCED}" -o "${INIT_SOURCED}" != "TRUE" ]; then
         mkdir -p ${TESTDIR}
     fi
 
-#HOST and DOMSUF are needed for the server cert 
+#HOST and DOMSUF are needed for the server cert
+
+    DOMAINNAME=`which domainname`
+    if [ -z "${DOMSUF}" -a $? -eq 0 -a -n "${DOMAINNAME}" ]; then
+        DOMSUF=`domainname`
+    fi
+
     case $HOST in
         *\.*)
+            if [ -z "${DOMSUF}" ]; then
+                DOMSUF=`echo $HOST | sed -e "s/^[^.]*\.//"`
+            fi
             HOST=`echo $HOST | sed -e "s/\..*//"`
             ;;
         ?*)
@@ -230,6 +239,9 @@ if [ -z "${INIT_SOURCED}" -o "${INIT_SOURCED}" != "TRUE" ]; then
             HOST=`uname -n`
             case $HOST in
                 *\.*)
+                    if [ -z "${DOMSUF}" ]; then
+                        DOMSUF=`echo $HOST | sed -e "s/^[^.]*\.//"`
+                    fi
                     HOST=`echo $HOST | sed -e "s/\..*//"`
                     ;;
                 ?*)
@@ -243,12 +255,10 @@ if [ -z "${INIT_SOURCED}" -o "${INIT_SOURCED}" != "TRUE" ]; then
     esac
 
     if [ -z "${DOMSUF}" ]; then
-        DOMSUF=`domainname`
-        if  [ -z "${DOMSUF}" ]; then
-            echo "$SCRIPTNAME: Fatal DOMSUF env. variable is not defined."
-            exit 1 #does not need to be Exit, very early in script
-        fi
+        echo "$SCRIPTNAME: Fatal DOMSUF env. variable is not defined."
+        exit 1 #does not need to be Exit, very early in script
     fi
+
 #HOSTADDR was a workaround for the dist. stress test, and is probably 
 #not needed anymore (purpose: be able to use IP address for the server 
 #cert instead of PC name which was not in the DNS because of dyn IP address
@@ -464,9 +474,9 @@ if [ -z "${INIT_SOURCED}" -o "${INIT_SOURCED}" != "TRUE" ]; then
     R_FIPSBADPWFILE=../tests.fipsbadpw.$$
     R_FIPSP12PWFILE=../tests.fipsp12pw.$$
 
-    echo "fips140" > ${FIPSPWFILE}
+    echo "fIps140" > ${FIPSPWFILE}
     echo "fips104" > ${FIPSBADPWFILE}
-    echo "pkcs12fips140" > ${FIPSP12PWFILE}
+    echo "pKcs12fips140" > ${FIPSP12PWFILE}
 
     # a new log file, short - fast to search, mostly for tools to
     # see if their portion of the cert has succeeded, also for me -

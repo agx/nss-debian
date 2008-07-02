@@ -34,7 +34,7 @@
 # the terms of any one of the MPL, the GPL or the LGPL.
 #
 # ***** END LICENSE BLOCK *****
-MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.7 $ $Date: 2005/01/20 02:25:45 $"
+MAKEFILE_CVS_ID = "@(#) $RCSfile: Makefile,v $ $Revision: 1.7.28.3 $ $Date: 2007/05/09 01:38:16 $"
 
 include manifest.mn
 include $(CORE_DEPTH)/coreconf/config.mk
@@ -52,7 +52,7 @@ include $(CORE_DEPTH)/coreconf/rules.mk
 # nssckft.h: ck.api ckapi.perl
 # nssckg.h: ck.api ckapi.perl
 # nssck.api: ck.api ckapi.perl
-# 	perl ckapi.perl ck.api
+# 	$(PERL) ckapi.perl ck.api
 
 export:: private_export
 
