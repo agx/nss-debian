@@ -35,7 +35,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $RCSfile: pkistore.c,v $ $Revision: 1.29 $ $Date: 2007/07/11 04:47:42 $";
+static const char CVS_ID[] = "@(#) $RCSfile: pkistore.c,v $ $Revision: 1.32 $ $Date: 2008/02/03 01:59:49 $";
 #endif /* DEBUG */
 
 #ifndef PKIM_H
@@ -58,9 +58,9 @@ static const char CVS_ID[] = "@(#) $RCSfile: pkistore.c,v $ $Revision: 1.29 $ $D
 #include "pkistore.h"
 #endif /* PKISTORE_H */
 
-#ifdef NSS_3_4_CODE
 #include "cert.h"
-#endif
+
+#include "prbit.h"
 
 /* 
  * Certificate Store
@@ -587,7 +587,6 @@ nssCertificateStore_FindCertificateByIssuerAndSerialNumber (
     return rvCert;
 }
 
-#ifdef NSS_3_4_CODE
 static PRStatus
 issuer_and_serial_from_encoding (
   NSSBER *encoding, 
@@ -614,7 +613,6 @@ issuer_and_serial_from_encoding (
     serial->size = derSerial.len;
     return PR_SUCCESS;
 }
-#endif
 
 NSS_IMPLEMENT NSSCertificate *
 nssCertificateStore_FindCertificateByEncodedCertificate (
@@ -625,19 +623,15 @@ nssCertificateStore_FindCertificateByEncodedCertificate (
     PRStatus nssrv = PR_FAILURE;
     NSSDER issuer, serial;
     NSSCertificate *rvCert = NULL;
-#ifdef NSS_3_4_CODE
     nssrv = issuer_and_serial_from_encoding(encoding, &issuer, &serial);
-#endif
     if (nssrv != PR_SUCCESS) {
 	return NULL;
     }
     rvCert = nssCertificateStore_FindCertificateByIssuerAndSerialNumber(store, 
                                                                      &issuer, 
                                                                      &serial);
-#ifdef NSS_3_4_CODE
     PORT_Free(issuer.data);
     PORT_Free(serial.data);
-#endif
     return rvCert;
 }
 
@@ -727,9 +721,9 @@ nss_certificate_hash (
     NSSCertificate *c = (NSSCertificate *)key;
     h = 0;
     for (i=0; i<c->issuer.size; i++)
-	h = (h >> 28) ^ (h << 4) ^ ((unsigned char *)c->issuer.data)[i];
+	h = PR_ROTATE_LEFT32(h, 4) ^ ((unsigned char *)c->issuer.data)[i];
     for (i=0; i<c->serial.size; i++)
-	h = (h >> 28) ^ (h << 4) ^ ((unsigned char *)c->serial.data)[i];
+	h = PR_ROTATE_LEFT32(h, 4) ^ ((unsigned char *)c->serial.data)[i];
     return h;
 }
 

@@ -90,12 +90,17 @@ cert_init()
 
   ROOTCERTSFILE=`ls -1 ${LIBDIR}/*nssckbi* | head -1`
   if [ ! "${ROOTCERTSFILE}" ] ; then
-      html_failed "<TR><TD>Looking for root certs module." 
+      html_failed "Looking for root certs module." 
       cert_log "ERROR: Root certs module not found."
       Exit 5 "Fatal - Root certs module not found."
   else
-      html_passed "<TR><TD>Looking for root certs module."
+      html_passed "Looking for root certs module."
   fi
+
+  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+	ROOTCERTSFILE=`cygpath -m ${ROOTCERTSFILE}`
+  fi
+
 
   ################## Generate noise for our CA cert. ######################
   # NOTE: these keys are only suitable for testing, as this whole thing 
@@ -139,20 +144,20 @@ certu()
         #the subject of the cert contains blanks, and the shell 
         #will strip the quotes off the string, if called otherwise...
         echo "certutil -s \"${CU_SUBJECT}\" $*"
-        ${PROFTOOL} certutil -s "${CU_SUBJECT}" $*
+        ${PROFTOOL} ${BINDIR}/certutil -s "${CU_SUBJECT}" $*
         RET=$?
         CU_SUBJECT=""
     else
         echo "certutil $*"
-        ${PROFTOOL} certutil $*
+        ${PROFTOOL} ${BINDIR}/certutil $*
         RET=$?
     fi
     if [ "$RET" -ne 0 ]; then
         CERTFAILED=$RET
-        html_failed "<TR><TD>${CU_ACTION} ($RET) " 
+        html_failed "${CU_ACTION} ($RET) " 
         cert_log "ERROR: ${CU_ACTION} failed $RET"
     else
-        html_passed "<TR><TD>${CU_ACTION}"
+        html_passed "${CU_ACTION}"
     fi
 
     return $RET
@@ -168,14 +173,14 @@ crlu()
     
     CRLUTIL="crlutil -q"
     echo "$CRLUTIL $*"
-    ${PROFTOOL} $CRLUTIL $*
+    ${PROFTOOL} ${BINDIR}/$CRLUTIL $*
     RET=$?
     if [ "$RET" -ne 0 ]; then
         CRLFAILED=$RET
-        html_failed "<TR><TD>${CU_ACTION} ($RET) " 
+        html_failed "${CU_ACTION} ($RET) " 
         cert_log "ERROR: ${CU_ACTION} failed $RET"
     else
-        html_passed "<TR><TD>${CU_ACTION}"
+        html_passed "${CU_ACTION}"
     fi
 
     return $RET
@@ -188,14 +193,14 @@ modu()
     MODUTIL="modutil"
     echo "$MODUTIL $*"
     # echo is used to press Enter expected by modutil
-    echo | $MODUTIL $*
+    echo | ${BINDIR}/$MODUTIL $*
     RET=$?
     if [ "$RET" -ne 0 ]; then
         MODFAILED=$RET
-        html_failed "<TR><TD>${CU_ACTION} ($RET) " 
+        html_failed "${CU_ACTION} ($RET) " 
         cert_log "ERROR: ${CU_ACTION} failed $RET"
     else
-        html_passed "<TR><TD>${CU_ACTION}"
+        html_passed "${CU_ACTION}"
     fi
 
     return $RET
@@ -220,6 +225,9 @@ cert_init_cert()
     CERTDIR="."
 
     PROFILEDIR=`cd ${CERTDIR}; pwd`
+    if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+        PROFILEDIR=`cygpath -m ${PROFILEDIR}`
+    fi
     if [ -n "${MULTIACCESS_DBM}" ]; then
 	PROFILEDIR="multiaccess:${DOMAIN}"
     fi
@@ -241,7 +249,7 @@ hw_acc()
 
         echo "modutil -add rainbow -libfile /usr/lib/libcryptoki22.so "
         echo "         -dbdir ${PROFILEDIR} 2>&1 "
-        echo | modutil -add rainbow -libfile /usr/lib/libcryptoki22.so \
+        echo | ${BINDIR}/modutil -add rainbow -libfile /usr/lib/libcryptoki22.so \
             -dbdir ${PROFILEDIR} 2>&1 
         if [ "$?" -ne 0 ]; then
             echo "modutil -add rainbow failed in `pwd`"
@@ -252,7 +260,7 @@ hw_acc()
         echo "modutil -add ncipher "
         echo "         -libfile /opt/nfast/toolkits/pkcs11/libcknfast.so "
         echo "         -dbdir ${PROFILEDIR} 2>&1 "
-        echo | modutil -add ncipher \
+        echo | ${BINDIR}/modutil -add ncipher \
             -libfile /opt/nfast/toolkits/pkcs11/libcknfast.so \
             -dbdir ${PROFILEDIR} 2>&1 
         if [ "$?" -ne 0 ]; then
@@ -261,9 +269,9 @@ hw_acc()
             HW_ACC_ERR="$HW_ACC_ERR,modutil -add ncipher"
         fi
         if [ "$HW_ACC_RET" -ne 0 ]; then
-            html_failed "<TR><TD>Adding HW accelerators to certDB for ${CERTNAME} ($HW_ACC_RET) " 
+            html_failed "Adding HW accelerators to certDB for ${CERTNAME} ($HW_ACC_RET) " 
         else
-            html_passed "<TR><TD>Adding HW accelerators to certDB for ${CERTNAME}"
+            html_passed "Adding HW accelerators to certDB for ${CERTNAME}"
         fi
 
     fi
@@ -490,6 +498,9 @@ cert_CA()
   pwd
 
   LPROFILE=`pwd`
+  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+     LPROFILE=`cygpath -m ${LPROFILE}`
+  fi
   if [ -n "${MULTIACCESS_DBM}" ]; then
 	LPROFILE="multiaccess:${DOMAIN}"
   fi
@@ -923,7 +934,7 @@ cert_ssl()
   certu -M -n "TestCA" -t "TC,TC,TC" -d ${PROFILEDIR} -f "${R_PWFILE}"
   if [ -n "$NSS_ENABLE_ECC" ] ; then
       CU_ACTION="Modify trust attributes of EC Root CA -t TC,TC,TC"
-      certu -M -n "TestCA-ec" -t "TC,TC,TC" -d ${PROFILEDIR}
+      certu -M -n "TestCA-ec" -t "TC,TC,TC" -d ${PROFILEDIR} -f "${R_PWFILE}"
   fi
 #  cert_init_cert ${SERVERDIR} "${HOSTADDR}" 1 ${D_SERVER}
 #  echo "************* Copying CA files to ${SERVERDIR}"
@@ -952,6 +963,9 @@ cert_stresscerts()
   cd "${CERTDIR}"
 
   PROFILEDIR=`cd ${CERTDIR}; pwd`
+  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+     PROFILEDIR=`cygpath -m ${PROFILEDIR}`
+  fi  
   if [ -n "${MULTIACCESS_DBM}" ]; then
      PROFILEDIR="multiaccess:${D_CLIENT}"
   fi
@@ -994,15 +1008,15 @@ cert_fips()
   echo "$SCRIPTNAME: Enable FIPS mode on database -----------------------"
   CU_ACTION="Enable FIPS mode on database for ${CERTNAME}"
   echo "modutil -dbdir ${PROFILEDIR} -fips true "
-  modutil -dbdir ${PROFILEDIR} -fips true 2>&1 <<MODSCRIPT
+  ${BINDIR}/modutil -dbdir ${PROFILEDIR} -fips true 2>&1 <<MODSCRIPT
 y
 MODSCRIPT
   RET=$?
   if [ "$RET" -ne 0 ]; then
-    html_failed "<TR><TD>${CU_ACTION} ($RET) " 
+    html_failed "${CU_ACTION} ($RET) " 
     cert_log "ERROR: ${CU_ACTION} failed $RET"
   else
-    html_passed "<TR><TD>${CU_ACTION}"
+    html_passed "${CU_ACTION}"
   fi
 
   CU_ACTION="Generate Certificate for ${CERTNAME}"
@@ -1100,7 +1114,7 @@ checkRes()
             expStat=1
             fl=`echo $fl | tr -d '!'`
         fi
-        certutil -d ${CERT_EXTENSIONS_DIR} -L -n $CERTNAME | grep "$fl" >/dev/null 2>&1
+        ${BINDIR}/certutil -d ${CERT_EXTENSIONS_DIR} -L -n $CERTNAME | grep "$fl" >/dev/null 2>&1
         [ $? -ne $expStat ] && return 1
     done
     return 0
@@ -1129,11 +1143,11 @@ cert_extensions()
             count=`expr $count + 1`
             echo "#################################################"
             CU_ACTION="Testing $testName"
-            certutil -d ${CERT_EXTENSIONS_DIR} -D -n $CERTNAME
+            ${BINDIR}/certutil -d ${CERT_EXTENSIONS_DIR} -D -n $CERTNAME
             echo certutil -d ${CERT_EXTENSIONS_DIR} -S -n $CERTNAME \
 	        -t "u,u,u" -o /tmp/cert -s "${CU_SUBJECT}" -x -f ${R_PWFILE} \
 		-z "${R_NOISE_FILE}" -$opt < $TARG_FILE
-            certutil -d ${CERT_EXTENSIONS_DIR} -S -n $CERTNAME -t "u,u,u" \
+            ${BINDIR}/certutil -d ${CERT_EXTENSIONS_DIR} -S -n $CERTNAME -t "u,u,u" \
 	        -o /tmp/cert -s "${CU_SUBJECT}" -x -f ${R_PWFILE} \
 		-z "${R_NOISE_FILE}" -$opt < $TARG_FILE
             ret=$?  
@@ -1143,10 +1157,10 @@ cert_extensions()
             RET=$?
             if [ "$RET" -ne 0 ]; then
                 CERTFAILED=$RET
-                html_failed "<TR><TD>${CU_ACTION} ($RET) " 
+                html_failed "${CU_ACTION} ($RET) " 
                 cert_log "ERROR: ${CU_ACTION} failed $RET"
             else
-                html_passed "<TR><TD>${CU_ACTION}"
+                html_passed "${CU_ACTION}"
             fi
             rm -f $TARG_FILE
         else
@@ -1170,6 +1184,9 @@ cert_crl_ssl()
   cd $CADIR
   
   PROFILEDIR=`cd ${CLIENTDIR}; pwd`
+  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+     PROFILEDIR=`cygpath -m ${PROFILEDIR}`
+  fi
   CRL_GRPS_END=`expr ${CRL_GRP_1_BEGIN} + ${TOTAL_CRL_RANGE} - 1`
   echo "$SCRIPTNAME: Creating Client CA Issued Certificates Range $CRL_GRP_1_BEGIN - $CRL_GRPS_END ==="
   CU_ACTION="Creating client test certs"

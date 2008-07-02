@@ -48,15 +48,11 @@
 #include "secerr.h"
 #include "nssilock.h"
 #include "prmon.h"
-#include "nsslocks.h"
 #include "base64.h"
 #include "sechash.h"
 #include "plhash.h"
 #include "pk11func.h" /* sigh */
 
-#ifndef NSS_3_4_CODE
-#define NSS_3_4_CODE
-#endif /* NSS_3_4_CODE */
 #include "nsspki.h"
 #include "pki.h"
 #include "pkim.h"

@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: lginit.c,v 1.10 2007/08/09 22:36:19 rrelyea%redhat.com Exp $ */
+/* $Id: lginit.c,v 1.12 2008/02/16 04:38:07 julien.pierre.boogz%sun.com Exp $ */
 
 #include "lowkeyi.h"
 #include "pcert.h"
@@ -187,9 +187,7 @@ DB * rdbopen(const char *appName, const char *prefix,
     }
 
     /* couldn't find the entry point, unload the library and fail */
-#ifdef DEBUG
     disableUnload = PR_GetEnv("NSS_DISABLE_UNLOAD");
-#endif
     if (!disableUnload) {
         PR_UnloadLibrary(lib);
     }
@@ -575,8 +573,6 @@ loser:
 
 }
 
-extern SECStatus secoid_Init(void); /* util *REALLY* needs 
-				     * to be a shared library */
 /*
  * OK there are now lots of options here, lets go through them all:
  *
@@ -600,9 +596,13 @@ legacy_Open(const char *configdir, const char *certPrefix,
 	    int flags, SDB **certDB, SDB **keyDB)
 {
     CK_RV crv = CKR_OK;
+    SECStatus rv;
     PRBool readOnly = (flags == SDB_RDONLY)? PR_TRUE: PR_FALSE;
 
-    secoid_Init();
+    rv = SECOID_Init();
+    if (SECSuccess != rv) {
+        return CKR_DEVICE_ERROR;
+    }
     nsslowcert_InitLocks();
 
     if (keyDB) *keyDB = NULL;

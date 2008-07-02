@@ -61,12 +61,14 @@ typedef struct {
 	CK_MECHANISM_TYPE keyGen;
 	CK_KEY_TYPE keyType;
 	CK_MECHANISM_TYPE type;
+	CK_MECHANISM_TYPE padType;
 	int blockSize;
 	int iv;
 } pk11MechanismData;
 	
 static pk11MechanismData pk11_default = 
-  { CKM_GENERIC_SECRET_KEY_GEN, CKK_GENERIC_SECRET, CKM_FAKE_RANDOM, 8, 8 };
+  { CKM_GENERIC_SECRET_KEY_GEN, CKK_GENERIC_SECRET, 
+	CKM_FAKE_RANDOM, CKM_FAKE_RANDOM, 8, 8 };
 static pk11MechanismData *pk11_MechanismTable = NULL;
 static int pk11_MechTableSize = 0;
 static int pk11_MechEntrySize = 0;
@@ -139,7 +141,9 @@ PK11_GetBestWrapMechanism(PK11SlotInfo *slot)
  */
 void
 PK11_AddMechanismEntry(CK_MECHANISM_TYPE type, CK_KEY_TYPE key,
-		 	CK_MECHANISM_TYPE keyGen, int ivLen, int blockSize)
+		 	CK_MECHANISM_TYPE keyGen, 
+			CK_MECHANISM_TYPE padType,
+			int ivLen, int blockSize)
 {
     int tableSize = pk11_MechTableSize;
     int size = pk11_MechEntrySize;
@@ -160,6 +164,7 @@ PK11_AddMechanismEntry(CK_MECHANISM_TYPE type, CK_KEY_TYPE key,
     newt[entry].type = type;
     newt[entry].keyType = key;
     newt[entry].keyGen = keyGen;
+    newt[entry].padType = padType;
     newt[entry].iv = ivLen;
     newt[entry].blockSize = blockSize;
 
@@ -603,6 +608,7 @@ PK11_GetKeyGenWithSize(CK_MECHANISM_TYPE type, int size)
     case CKM_PBE_SHA1_RC4_128:
     case CKM_PBE_SHA1_DES3_EDE_CBC:
     case CKM_PBE_SHA1_DES2_EDE_CBC:
+    case CKM_PKCS5_PBKD2:
     	return type;
     default:
 	return pk11_lookup(type)->keyGen;
@@ -795,7 +801,7 @@ PK11_GetIVLength(CK_MECHANISM_TYPE type)
  * like SSL and S-MIME to automatically add them.
  */
 SECItem *
-PK11_ParamFromIV(CK_MECHANISM_TYPE type,SECItem *iv)
+pk11_ParamFromIVWithLen(CK_MECHANISM_TYPE type, SECItem *iv, int keyLen)
 {
     CK_RC2_CBC_PARAMS *rc2_params = NULL;
     CK_RC2_PARAMS *rc2_ecb_params = NULL;
@@ -827,7 +833,7 @@ PK11_ParamFromIV(CK_MECHANISM_TYPE type,SECItem *iv)
 	rc2_ecb_params = (CK_RC2_PARAMS *)PORT_Alloc(sizeof(CK_RC2_PARAMS));
 	if (rc2_ecb_params == NULL) break;
 	/*  Maybe we should pass the key size in too to get this value? */
-	*rc2_ecb_params = 128;
+	*rc2_ecb_params = keyLen ? keyLen*8 : 128;
 	param->data = (unsigned char *) rc2_ecb_params;
 	param->len = sizeof(CK_RC2_PARAMS);
 	break;
@@ -836,7 +842,7 @@ PK11_ParamFromIV(CK_MECHANISM_TYPE type,SECItem *iv)
 	rc2_params = (CK_RC2_CBC_PARAMS *)PORT_Alloc(sizeof(CK_RC2_CBC_PARAMS));
 	if (rc2_params == NULL) break;
 	/* Maybe we should pass the key size in too to get this value? */
-	rc2_params->ulEffectiveBits = 128;
+	rc2_params->ulEffectiveBits = keyLen ? keyLen*8 : 128;
 	if (iv && iv->data)
 	    PORT_Memcpy(rc2_params->iv,iv->data,sizeof(rc2_params->iv));
 	param->data = (unsigned char *) rc2_params;
@@ -933,6 +939,16 @@ PK11_ParamFromIV(CK_MECHANISM_TYPE type,SECItem *iv)
      return param;
 }
 
+/* These next two utilities are here to help facilitate future
+ * Dynamic Encrypt/Decrypt symetric key mechanisms, and to allow functions
+ * like SSL and S-MIME to automatically add them.
+ */
+SECItem *
+PK11_ParamFromIV(CK_MECHANISM_TYPE type,SECItem *iv)
+{
+    return pk11_ParamFromIVWithLen(type, iv, 0);
+}
+
 unsigned char *
 PK11_IVFromParam(CK_MECHANISM_TYPE type,SECItem *param,int *len)
 {
@@ -976,6 +992,8 @@ PK11_IVFromParam(CK_MECHANISM_TYPE type,SECItem *param,int *len)
     case CKM_CAST_CBC:
     case CKM_CAST3_CBC:
     case CKM_CAST5_CBC:
+    case CKM_CAMELLIA_CBC_PAD:
+    case CKM_AES_CBC_PAD:
     case CKM_DES_CBC_PAD:
     case CKM_DES3_CBC_PAD:
     case CKM_IDEA_CBC_PAD:
@@ -1217,6 +1235,7 @@ PK11_ParamFromAlgid(SECAlgorithmID *algid)
     case CKM_PBE_SHA1_RC2_128_CBC:
     case CKM_PBE_SHA1_RC4_40:
     case CKM_PBE_SHA1_RC4_128:
+    case CKM_PKCS5_PBKD2:
 	rv = pbe_PK11AlgidToParam(algid,mech);
 	if (rv != SECSuccess) {
 	    goto loser;
@@ -1274,8 +1293,9 @@ PK11_ParamFromAlgid(SECAlgorithmID *algid)
     case CKM_JUNIPER_COUNTER:
     case CKM_JUNIPER_SHUFFLE:
 	/* simple cases are simply octet string encoded IVs */
-	rv = SEC_ASN1DecodeItem(arena, &iv, SEC_OctetStringTemplate, 
-					    &(algid->parameters));
+	rv = SEC_ASN1DecodeItem(arena, &iv,
+                                SEC_ASN1_GET(SEC_OctetStringTemplate),
+                                &(algid->parameters));
 	if (rv != SECSuccess || iv.data == NULL) {
 	    goto loser;
 	}
@@ -1333,7 +1353,8 @@ pk11_GenIV(CK_MECHANISM_TYPE type, SECItem *iv) {
  * key. Use Netscape's S/MIME Rules for the New param block.
  */
 SECItem *
-PK11_GenerateNewParam(CK_MECHANISM_TYPE type, PK11SymKey *key) { 
+pk11_GenerateNewParamWithKeyLen(CK_MECHANISM_TYPE type, int keyLen) 
+{ 
     CK_RC2_CBC_PARAMS *rc2_params;
     CK_RC2_PARAMS *rc2_ecb_params;
     SECItem *mech;
@@ -1368,7 +1389,7 @@ PK11_GenerateNewParam(CK_MECHANISM_TYPE type, PK11SymKey *key) {
 	}
 	/* NOTE PK11_GetKeyLength can return -1 if the key isn't and RC2, RC5,
 	 *   or RC4 key. Of course that wouldn't happen here doing RC2:).*/
-	*rc2_ecb_params = PK11_GetKeyLength(key)*8;
+	*rc2_ecb_params = keyLen ? keyLen*8 : 128;
 	mech->data = (unsigned char *) rc2_ecb_params;
 	mech->len = sizeof(CK_RC2_PARAMS);
 	break;
@@ -1386,7 +1407,7 @@ PK11_GenerateNewParam(CK_MECHANISM_TYPE type, PK11SymKey *key) {
 	}
 	/* NOTE PK11_GetKeyLength can return -1 if the key isn't and RC2, RC5,
 	 *   or RC4 key. Of course that wouldn't happen here doing RC2:).*/
-	rc2_params->ulEffectiveBits = PK11_GetKeyLength(key)*8;
+	rc2_params->ulEffectiveBits = keyLen ? keyLen*8 : 128;
 	if (iv.data)
 	    PORT_Memcpy(rc2_params->iv,iv.data,sizeof(rc2_params->iv));
 	mech->data = (unsigned char *) rc2_params;
@@ -1463,6 +1484,14 @@ PK11_GenerateNewParam(CK_MECHANISM_TYPE type, PK11SymKey *key) {
     }
     return mech;
 
+}
+
+SECItem *
+PK11_GenerateNewParam(CK_MECHANISM_TYPE type, PK11SymKey *key) 
+{ 
+    int keyLen = key ? PK11_GetKeyLength(key) :  0;
+
+    return pk11_GenerateNewParamWithKeyLen(type, keyLen);
 }
 
 #define RC5_V10 0x10
@@ -1597,7 +1626,7 @@ PK11_ParamToAlgid(SECOidTag algTag, SECItem *param,
     case CKM_JUNIPER_COUNTER:
     case CKM_JUNIPER_SHUFFLE:
 	newParams = SEC_ASN1EncodeItem(NULL,NULL,param,
-						SEC_OctetStringTemplate);
+                                       SEC_ASN1_GET(SEC_OctetStringTemplate) );
 	if (newParams == NULL)
 	    break;
 	rv = SECSuccess;
@@ -1692,6 +1721,14 @@ PK11_MapPBEMechanismToCryptoMechanism(CK_MECHANISM_PTR pPBEMechanism,
 
     if((pPBEMechanism == CK_NULL_PTR) || (pCryptoMechanism == CK_NULL_PTR)) {
 	return CKR_HOST_MEMORY;
+    }
+
+    /* pkcs5 v2 cannot be supported by this interface.
+     * use PK11_GetPBECryptoMechanism instead.
+     */
+    if ((pPBEMechanism->mechanism == CKM_INVALID_MECHANISM) || 
+	(pPBEMechanism->mechanism == CKM_PKCS5_PBKD2)) {
+	return CKR_MECHANISM_INVALID;
     }
 
     pPBEparams = (CK_PBE_PARAMS_PTR)pPBEMechanism->pParameter;

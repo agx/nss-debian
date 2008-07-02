@@ -135,7 +135,9 @@ is_selfserv_alive()
           Exit 9 "Fatal - selfserv pid file ${SERVERPID} does not exist"
       fi
   fi
-  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+  
+  if [ "${OS_ARCH}" = "WINNT" ] && \
+     [ "$OS_NAME" = "CYGWIN_NT" -o "$OS_NAME" = "MINGW32_NT" ]; then
       PID=${SHELL_SERVERPID}
   else
       PID=`cat ${SERVERPID}`
@@ -155,18 +157,17 @@ wait_for_selfserv()
   echo "trying to connect to selfserv at `date`"
   echo "tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \\"
   echo "        -d ${P_R_CLIENTDIR} < ${REQUEST_FILE}"
-  tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \
+  ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \
           -d ${P_R_CLIENTDIR} < ${REQUEST_FILE}
   if [ $? -ne 0 ]; then
       sleep 5
       echo "retrying to connect to selfserv at `date`"
       echo "tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \\"
       echo "        -d ${P_R_CLIENTDIR} < ${REQUEST_FILE}"
-      tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \
+      ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} ${CLIENT_OPTIONS} -q \
               -d ${P_R_CLIENTDIR} < ${REQUEST_FILE}
       if [ $? -ne 0 ]; then
-          html_failed "<TR><TD> Waiting for Server"
-          echo "${SCRIPTNAME}: Waiting for Server - FAILED"
+          html_failed "Waiting for Server"
       fi
   fi
   is_selfserv_alive
@@ -177,7 +178,8 @@ wait_for_selfserv()
 ########################################################################
 kill_selfserv()
 {
-  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+  if [ "${OS_ARCH}" = "WINNT" ] && \
+     [ "$OS_NAME" = "CYGWIN_NT" -o "$OS_NAME" = "MINGW32_NT" ]; then
       PID=${SHELL_SERVERPID}
   else
       PID=`cat ${SERVERPID}`
@@ -201,7 +203,7 @@ kill_selfserv()
   # the port.  Wait until the port is free. (Bug 129701)
   if [ "${OS_ARCH}" = "Linux" ]; then
       echo "selfserv -b -p ${PORT} 2>/dev/null;"
-      until selfserv -b -p ${PORT} 2>/dev/null; do
+      until ${BINDIR}/selfserv -b -p ${PORT} 2>/dev/null; do
           echo "RETRY: selfserv -b -p ${PORT} 2>/dev/null;"
           sleep 1
       done
@@ -210,7 +212,7 @@ kill_selfserv()
   echo "selfserv with PID ${PID} killed at `date`"
 
   rm ${SERVERPID}
-  html_detect_core "<TR><TD>kill_selfserv core detection step"
+  html_detect_core "kill_selfserv core detection step"
 }
 
 ########################### start_selfserv #############################
@@ -237,11 +239,11 @@ start_selfserv()
   echo "selfserv -D -p ${PORT} -d ${P_R_SERVERDIR} -n ${HOSTADDR} ${SERVER_OPTIONS} \\"
   echo "         ${ECC_OPTIONS} -w nss ${sparam} -i ${R_SERVERPID} $verbose &"
   if [ ${fileout} -eq 1 ]; then
-      ${PROFTOOL} selfserv -D -p ${PORT} -d ${P_R_SERVERDIR} -n ${HOSTADDR} ${SERVER_OPTIONS} \
+      ${PROFTOOL} ${BINDIR}/selfserv -D -p ${PORT} -d ${P_R_SERVERDIR} -n ${HOSTADDR} ${SERVER_OPTIONS} \
                ${ECC_OPTIONS} -w nss ${sparam} -i ${R_SERVERPID} $verbose \
                > ${SERVEROUTFILE} 2>&1 &
   else
-      ${PROFTOOL} selfserv -D -p ${PORT} -d ${P_R_SERVERDIR} -n ${HOSTADDR} ${SERVER_OPTIONS} \
+      ${PROFTOOL} ${BINDIR}/selfserv -D -p ${PORT} -d ${P_R_SERVERDIR} -n ${HOSTADDR} ${SERVER_OPTIONS} \
                ${ECC_OPTIONS} -w nss ${sparam} -i ${R_SERVERPID} $verbose &
   fi
   # The PID $! returned by the MKS or Cygwin shell is not the PID of
@@ -259,7 +261,8 @@ start_selfserv()
   SHELL_SERVERPID=$!
   wait_for_selfserv
 
-  if [ "${OS_ARCH}" = "WINNT" -a "$OS_NAME" = "CYGWIN_NT" ]; then
+  if [ "${OS_ARCH}" = "WINNT" ] && \
+     [ "$OS_NAME" = "CYGWIN_NT" -o "$OS_NAME" = "MINGW32_NT" ]; then
       PID=${SHELL_SERVERPID}
   else
       PID=`cat ${SERVERPID}`
@@ -339,7 +342,7 @@ ssl_cov()
           echo "        -f -d ${P_R_CLIENTDIR} < ${REQUEST_FILE}"
 
           rm ${TMP}/$HOST.tmp.$$ 2>/dev/null
-          ${PROFTOOL} tstclnt -p ${PORT} -h ${HOSTADDR} -c ${param} ${TLS_FLAG} ${CLIENT_OPTIONS} -f \
+          ${PROFTOOL} ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} -c ${param} ${TLS_FLAG} ${CLIENT_OPTIONS} -f \
                   -d ${P_R_CLIENTDIR} < ${REQUEST_FILE} \
                   >${TMP}/$HOST.tmp.$$  2>&1
           ret=$?
@@ -372,7 +375,7 @@ ssl_auth()
           echo "tstclnt -p ${PORT} -h ${HOSTADDR} -f -d ${P_R_CLIENTDIR} ${CLIENT_OPTIONS} \\"
 	  echo "        ${cparam}  < ${REQUEST_FILE}"
           rm ${TMP}/$HOST.tmp.$$ 2>/dev/null
-          ${PROFTOOL} tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} ${CLIENT_OPTIONS} \
+          ${PROFTOOL} ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} ${CLIENT_OPTIONS} \
                   -d ${P_R_CLIENTDIR} < ${REQUEST_FILE} \
                   >${TMP}/$HOST.tmp.$$  2>&1
           ret=$?
@@ -430,7 +433,7 @@ ssl_stress()
           echo "strsclnt -q -p ${PORT} -d ${P_R_CLIENTDIR} ${CLIENT_OPTIONS} -w nss $cparam \\"
           echo "         $verbose ${HOSTADDR}"
           echo "strsclnt started at `date`"
-          ${PROFTOOL} strsclnt -q -p ${PORT} -d ${P_R_CLIENTDIR} ${CLIENT_OPTIONS} -w nss $cparam \
+          ${PROFTOOL} ${BINDIR}/strsclnt -q -p ${PORT} -d ${P_R_CLIENTDIR} ${CLIENT_OPTIONS} -w nss $cparam \
                    $verbose ${HOSTADDR}
           ret=$?
           echo "strsclnt completed at `date`"
@@ -499,7 +502,7 @@ ssl_crl_ssl()
 	  echo "tstclnt -p ${PORT} -h ${HOSTADDR} -f -d ${R_CLIENTDIR} \\"
 	  echo "        ${cparam}  < ${REQUEST_FILE}"
 	  rm ${TMP}/$HOST.tmp.$$ 2>/dev/null
-	  ${PROFTOOL} tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} \
+	  ${PROFTOOL} ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} \
 	      -d ${R_CLIENTDIR} < ${REQUEST_FILE} \
 	      >${TMP}/$HOST.tmp.$$  2>&1
 	  ret=$?
@@ -596,7 +599,7 @@ load_group_crl() {
         echo "GET crl://${SERVERDIR}/root.crl_${grpBegin}-${grpEnd}${ecsuffix}"
         echo ""
         echo "RELOAD time $i"
-        ${PROFTOOL} tstclnt -p ${PORT} -h ${HOSTADDR} -f  \
+        ${PROFTOOL} ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} -f  \
             -d ${R_CLIENTDIR} -w nss -n TestUser${UNREVOKED_CERT_GRP_1}${ecsuffix} \
 	    >${OUTFILE_TMP}  2>&1 <<_EOF_REQUEST_
 GET crl://${SERVERDIR}/root.crl_${grpBegin}-${grpEnd}${ecsuffix}
@@ -617,7 +620,7 @@ _EOF_REQUEST_
              -p ../tests.pw.928
         ret=$?
         if [ "$ret" -eq 0 ]; then
-	    html_passed "<TR><TD> ${CU_ACTION}"
+	    html_passed "${CU_ACTION}"
             return 1
         fi
         start_selfserv        
@@ -683,7 +686,7 @@ ssl_crl_cache()
             echo "tstclnt -p ${PORT} -h ${HOSTADDR} -f -d ${R_CLIENTDIR} \\"
             echo "        ${cparam}  < ${REQUEST_FILE}"
             rm ${TMP}/$HOST.tmp.$$ 2>/dev/null
-            ${PROFTOOL} tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} \
+            ${PROFTOOL} ${BINDIR}/tstclnt -p ${PORT} -h ${HOSTADDR} -f ${cparam} \
 	        -d ${R_CLIENTDIR} < ${REQUEST_FILE} \
                 >${TMP}/$HOST.tmp.$$  2>&1
             ret=$?
@@ -800,13 +803,13 @@ ssl_set_fips()
     echo "${SCRIPTNAME}: ${TESTNAME}"
 
     echo "${MODUTIL} -dbdir ${DBDIR} -fips ${FIPSMODE} -force"
-    ${MODUTIL} -dbdir ${DBDIR} -fips ${FIPSMODE} -force 2>&1
+    ${BINDIR}/${MODUTIL} -dbdir ${DBDIR} -fips ${FIPSMODE} -force 2>&1
     RET=$?  
     html_msg "${RET}" "0" "${TESTNAME} (modutil -fips ${FIPSMODE})" \
              "produced a returncode of ${RET}, expected is 0"
 
     echo "${MODUTIL} -dbdir ${DBDIR} -list"
-    DBLIST=`${MODUTIL} -dbdir ${DBDIR} -list 2>&1`
+    DBLIST=`${BINDIR}/${MODUTIL} -dbdir ${DBDIR} -list 2>&1`
     RET=$?  
     html_msg "${RET}" "0" "${TESTNAME} (modutil -list)" \
              "produced a returncode of ${RET}, expected is 0"
@@ -826,7 +829,10 @@ CLONG="-c ABCDEF:C001:C002:C003:C004:C005:C006:C007:C008:C009:C00A:C00B:C00C:C00
 
 if [ -z  "$DO_REM_ST" -a -z  "$DO_DIST_ST" ] ; then
 
-    ulimit -n 1000 # make sure we have enough file descriptors
+    if [ "${OS_ARCH}" != "WINNT" ]; then
+        ulimit -n 1000 # make sure we have enough file descriptors
+    fi
+
     ssl_init
 
     # save the directories as setup by init.sh
@@ -847,15 +853,17 @@ if [ -z  "$DO_REM_ST" -a -z  "$DO_DIST_ST" ] ; then
     # Test all combinations of client bypass and server bypass
 
     if [ -z "$NSS_TEST_DISABLE_CIPHERS" ] ; then
-	if [ -n "$NSS_TEST_DISABLE_BYPASS" ] ; then
+        if [ -n "$NSS_TEST_DISABLE_BYPASS" ] ; then
             SERVER_OPTIONS=""
             CLIENT_OPTIONS=""
             BYPASS_STRING="No Bypass"
             ssl_run
-	fi
+        fi
 
-        if [ -z "$NSS_TEST_DISABLE_BYPASS" -a -z "$NSS_TEST_DISABLE_CLIENT_BYPASS" ] ; then
-            CLIENT_OPTIONS="-B -s"
+        if [ -z "$NSS_TEST_DISABLE_BYPASS" -a \
+            -z "$NSS_TEST_DISABLE_CLIENT_BYPASS" -a \
+            -z "$NSS_TEST_SERVER_CLIENT_BYPASS" ] ; then
+            CLIENT_OPTIONS="-B -s" 
             SERVER_OPTIONS=""
             BYPASS_STRING="Client Bypass"
             ssl_run
@@ -863,13 +871,23 @@ if [ -z  "$DO_REM_ST" -a -z  "$DO_DIST_ST" ] ; then
             echo "$SCRIPTNAME: Skipping Cipher Coverage - Client Bypass Tests"
         fi
 
-        if [ -z "$NSS_TEST_DISABLE_BYPASS" -a -z "$NSS_TEST_DISABLE_SERVER_BYPASS" ] ; then
+        if [ -z "$NSS_TEST_DISABLE_BYPASS" -a \
+            -z "$NSS_TEST_DISABLE_SERVER_BYPASS" -a \
+            -z "$NSS_TEST_SERVER_CLIENT_BYPASS" ] ; then
             SERVER_OPTIONS="-B -s"
             CLIENT_OPTIONS=""
             BYPASS_STRING="Server Bypass"
             ssl_run
         else
             echo "$SCRIPTNAME: Skipping Cipher Coverage - Server Bypass Tests"
+        fi
+
+        if [ -n "$NSS_TEST_SERVER_CLIENT_BYPASS" -a \
+            -z "$NSS_TEST_DISABLE_BYPASS" ] ; then
+            SERVER_OPTIONS="-B -s"
+            CLIENT_OPTIONS="-B -s"
+            BYPASS_STRING="Server Bypass/Client Bypass"
+            ssl_run
         fi
 
         if [ -z "$NSS_TEST_DISABLE_FIPS" ] ; then
