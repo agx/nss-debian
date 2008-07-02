@@ -11,14 +11,15 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is the Netscape security libraries.
+ * The Original Code is the PKIX-C library.
  *
  * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * Red Hat, Inc.
+ * Portions created by the Initial Developer are
+ * Copyright 2008 Red Hat, Inc.  All Rights Reserved.
  *
  * Contributor(s):
+ *   Red Hat, Inc.
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -33,51 +34,54 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-
-#ifndef ASN1M_H
-#define ASN1M_H
-
-#ifdef DEBUG
-static const char ASN1M_CVS_ID[] = "@(#) $RCSfile: asn1m.h,v $ $Revision: 1.3 $ $Date: 2005/01/20 02:25:44 $";
-#endif /* DEBUG */
-
 /*
- * asn1m.h
+ * pkix_pl_ocspcertid.h
  *
- * This file contains the ASN.1 encoder/decoder routines available
- * only within the ASN.1 module itself.
- */
-
-#ifndef ASN1_H
-#include "asn1.h"
-#endif /* ASN1_H */
-
-PR_BEGIN_EXTERN_C
-
-/*
- * nssasn1_number_length
+ * Public Key Object Definitions
  *
  */
 
-NSS_EXTERN PRUint32
-nssasn1_length_length
-(
-  PRUint32 number
-);
+#ifndef _PKIX_PL_OCSPCERTID_H
+#define _PKIX_PL_OCSPCERTID_H
 
-/*
- * nssasn1_get_subtemplate
- *
- */
+#include "pkix_pl_common.h"
 
-NSS_EXTERN const nssASN1Template *
-nssasn1_get_subtemplate
-(
-  const nssASN1Template template[],
-  void *thing,
-  PRBool encoding
-);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-PR_END_EXTERN_C
+struct PKIX_PL_OcspCertIDStruct {
+        CERTOCSPCertID *certID;
+        PRBool certIDWasConsumed;
+};
 
-#endif /* ASN1M_H */
+/* see source file for function documentation */
+
+PKIX_Error *pkix_pl_OcspCertID_RegisterSelf(void *plContext);
+
+PKIX_Error *
+PKIX_PL_OcspCertID_Create(
+        PKIX_PL_Cert *cert,
+        PKIX_PL_Date *validity,
+        PKIX_PL_OcspCertID **object,
+        void *plContext);
+
+PKIX_Error *
+PKIX_PL_OcspCertID_GetFreshCacheStatus(
+        PKIX_PL_OcspCertID *cid, 
+        PKIX_PL_Date *validity,
+        PKIX_Boolean *hasFreshStatus,
+        PKIX_Boolean *statusIsGood,
+        SECErrorCodes *missingResponseError,
+        void *plContext);
+
+PKIX_Error *
+PKIX_PL_OcspCertID_RememberOCSPProcessingFailure(
+        PKIX_PL_OcspCertID *cid, 
+        void *plContext);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* _PKIX_PL_OCSPCERTID_H */

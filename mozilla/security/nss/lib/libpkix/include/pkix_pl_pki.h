@@ -2572,6 +2572,7 @@ typedef PKIX_Error *
 PKIX_Error *
 pkix_pl_OcspRequest_Create(
         PKIX_PL_Cert *cert,
+        PKIX_PL_OcspCertID *cid,
         PKIX_PL_Date *validity,
         PKIX_Boolean addServiceLocator,
         PKIX_PL_Cert *signerCert,
@@ -2608,12 +2609,12 @@ pkix_pl_OcspResponse_VerifySignature(
         PKIX_PL_Cert *cert,
         PKIX_ProcessingParams *procParams,
         PKIX_Boolean *pPassed,
-        SECErrorCodes *pReturnCode,
         void **pNBIOContext,
         void *plContext);
 
 PKIX_Error *
 pkix_pl_OcspResponse_GetStatusForCert(
+        PKIX_PL_OcspCertID *cid,
         PKIX_PL_OcspResponse *response,
         PKIX_Boolean *pPassed,
         SECErrorCodes *pReturnCode,
