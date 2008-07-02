@@ -1,0 +1,36 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 80_security_tools.dpatch by Mike Hommey <glandium@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Enable building of some NSS tools.
+## DP: Disable rpath.
+
+@DPATCH@
+
+--- nss/mozilla/security/coreconf/Linux.mk
++++ nss/mozilla/security/coreconf/Linux.mk
+@@ -176,3 +176,6 @@
+ # Always set CPU_TAG on Linux, OpenVMS, WINCE.
+ #
+ CPU_TAG = _$(CPU_ARCH)
++
++USE_SYSTEM_ZLIB = 1
++ZLIB_LIBS = -lz
+--- nss/mozilla/security/nss/cmd/platlibs.mk
++++ nss/mozilla/security/nss/cmd/platlibs.mk
+@@ -38,6 +38,7 @@
+ # set RPATH-type linker instructions here so they can be used in the shared
+ # version and in the mixed (static nss libs/shared NSPR libs) version.
+ 
++ifdef ENABLE_RPATH
+ ifeq ($(OS_ARCH), SunOS) 
+ ifeq ($(BUILD_SUN_PKG), 1)
+ ifeq ($(USE_64), 1)
+@@ -71,6 +72,7 @@
+ endif
+ endif
+ endif
++endif
+ 
+ 
+ ifdef USE_STATIC_LIBS

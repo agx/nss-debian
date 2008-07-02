@@ -1,0 +1,118 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpatch/dpatch.make
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)-.*$$/\1/ p')
+
+CFLAGS := -Wall -pipe
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2 -fno-strict-aliasing
+endif
+
+CFLAGS += -g
+
+DISTDIR := $(CURDIR)/mozilla/dist
+
+build: build-stamp
+build-stamp: patch-stamp
+	dh_testdir
+
+	$(MAKE) -C mozilla/security/nss \
+		build_coreconf \
+		build_dbm \
+		all \
+		MOZILLA_CLIENT=1 \
+		MOZILLA_INCLUDES=-I/usr/include/nspr \
+		SOURCE_MD_DIR=$(DISTDIR) \
+		DIST=$(DISTDIR) \
+		BUILD_OPT=1 \
+		NS_USE_GCC=1 \
+		OPTIMIZER="$(CFLAGS)"
+
+	touch build-stamp
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp install-stamp
+
+	$(MAKE) -C mozilla/security/nss \
+		clobber \
+		clobber_dbm \
+		clobber_coreconf \
+		SOURCE_MD_DIR=$(DISTDIR) \
+		DIST=$(DISTDIR) \
+		BUILD_OPT=1
+
+	rm -rf $(DISTDIR)
+
+	dh_clean
+
+install: install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	install -m 644 -t debian/libnss3-0d/usr/lib \
+		$(DISTDIR)/lib/*.so.0d
+	install -m 644 -t debian/libnss3-0d/usr/lib/nss \
+		$(DISTDIR)/lib/libfreebl3.so \
+		$(DISTDIR)/lib/libnssckbi.so
+
+	install -m 644 -t debian/libnss3-dev/usr/include/nss \
+		$(DISTDIR)/public/nss/*
+	sed s/@VERSION@/$(UPSTREAM_VERSION)/ debian/nss.pc.in > debian/libnss3-dev/usr/lib/pkgconfig/nss.pc
+
+	install -m 755 -t debian/libnss3-tools/usr/bin \
+		$(foreach bin,certutil modutil pk12util shlibsign signtool ssltap, \
+		$(DISTDIR)/bin/$(bin))
+
+	touch install-stamp
+
+binary-indep: install-stamp
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: install-stamp
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_link -a
+	dh_strip -a --dbg-package=libnss3-0d-dbg
+	$(foreach lib,libsoftokn3.so.0d nss/libfreebl3.so, \
+		LD_LIBRARY_PATH=debian/libnss3-0d/usr/lib \
+		debian/libnss3-tools/usr/bin/shlibsign -v -i debian/libnss3-0d/usr/lib/$(lib);)
+	dh_compress -a
+	dh_fixperms -a
+	dh_makeshlibs -a -V 'libnss3-0d (>= 1.8.0.10)'
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+
+.PHONY: clean install build clean-patched binary-indep binary-arch binary

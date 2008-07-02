@@ -1,0 +1,28 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 38_mips64_build.dpatch by Mike Hommey <glandium@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Patch from Martin Michlmayr for mips64 builds. bz#330626
+
+@DPATCH@
+
+--- nss/mozilla/security/coreconf/Linux.mk
++++ nss/mozilla/security/coreconf/Linux.mk
+@@ -78,6 +78,9 @@
+ ifeq ($(OS_TEST),parisc64)
+ 	CPU_ARCH        = hppa
+ else
++ifeq ($(OS_TEST),mips64)
++	CPU_ARCH        = mips
++else
+ ifeq (,$(filter-out i686 i586 i486 i386,$(OS_TEST)))
+ 	OS_REL_CFLAGS	+= -Di386
+ 	CPU_ARCH	= x86
+@@ -87,6 +90,7 @@
+ endif
+ endif
+ endif
++endif
+ 
+ 
+ LIBC_TAG		= _glibc

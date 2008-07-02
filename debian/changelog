@@ -1,0 +1,5 @@
+nss (3.11.5-1) experimental; urgency=low
+
+  * Initial release. (Closes: #416151)
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 25 Mar 2007 23:56:17 +0200
