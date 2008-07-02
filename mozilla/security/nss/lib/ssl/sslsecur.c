@@ -37,7 +37,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: sslsecur.c,v 1.34.2.2 2006/04/23 03:05:42 nelson%bolyard.com Exp $ */
+/* $Id: sslsecur.c,v 1.34.2.4 2007/05/01 06:09:31 nelson%bolyard.com Exp $ */
 #include "cert.h"
 #include "secitem.h"
 #include "keyhi.h"
@@ -433,6 +433,20 @@ sslBuffer_Grow(sslBuffer *b, unsigned int newLen)
     return SECSuccess;
 }
 
+SECStatus 
+sslBuffer_Append(sslBuffer *b, const void * data, unsigned int len)
+{
+    unsigned int newLen = b->len + len;
+    SECStatus rv;
+
+    rv = sslBuffer_Grow(b, newLen);
+    if (rv != SECSuccess)
+    	return rv;
+    PORT_Memcpy(b->buf + b->len, data, len);
+    b->len += len;
+    return SECSuccess;
+}
+
 /*
 ** Save away write data that is trying to be written before the security
 ** handshake has been completed. When the handshake is completed, we will
@@ -442,22 +456,13 @@ sslBuffer_Grow(sslBuffer *b, unsigned int newLen)
 SECStatus 
 ssl_SaveWriteData(sslSocket *ss, const void *data, unsigned int len)
 {
-    unsigned int newlen;
     SECStatus    rv;
 
     PORT_Assert( ss->opt.noLocks || ssl_HaveXmitBufLock(ss) );
-    newlen = ss->pendingBuf.len + len;
-    if (newlen > ss->pendingBuf.space) {
-	rv = sslBuffer_Grow(&ss->pendingBuf, newlen);
-	if (rv) {
-	    return rv;
-	}
-    }
-    SSL_TRC(5, ("%d: SSL[%d]: saving %d bytes of data (%d total saved so far)",
-		 SSL_GETPID(), ss->fd, len, newlen));
-    PORT_Memcpy(ss->pendingBuf.buf + ss->pendingBuf.len, data, len);
-    ss->pendingBuf.len = newlen;
-    return SECSuccess;
+    rv = sslBuffer_Append(&ss->pendingBuf, data, len);
+    SSL_TRC(5, ("%d: SSL[%d]: saving %u bytes of data (%u total saved so far)",
+		 SSL_GETPID(), ss->fd, len, ss->pendingBuf.len));
+    return rv;
 }
 
 /*
@@ -1057,13 +1062,18 @@ ssl_SecureSend(sslSocket *ss, const unsigned char *buf, int len, int flags)
 {
     int              rv		= 0;
 
+    SSL_TRC(2, ("%d: SSL[%d]: SecureSend: sending %d bytes",
+		SSL_GETPID(), ss->fd, len));
+
     if (ss->shutdownHow & ssl_SHUTDOWN_SEND) {
 	PORT_SetError(PR_SOCKET_SHUTDOWN_ERROR);
-    	return PR_FAILURE;
+    	rv = PR_FAILURE;
+	goto done;
     }
     if (flags) {
 	PORT_SetError(PR_INVALID_ARGUMENT_ERROR);
-    	return PR_FAILURE;
+    	rv = PR_FAILURE;
+	goto done;
     }
 
     ssl_GetXmitBufLock(ss);
@@ -1078,7 +1088,7 @@ ssl_SecureSend(sslSocket *ss, const unsigned char *buf, int len, int flags)
     }
     ssl_ReleaseXmitBufLock(ss);
     if (rv < 0) {
-	return rv;
+	goto done;
     }
 
     if (len > 0) 
@@ -1093,23 +1103,22 @@ ssl_SecureSend(sslSocket *ss, const unsigned char *buf, int len, int flags)
     }
     if (rv < 0) {
     	ss->writerThread = NULL;
-	return rv;
+	goto done;
     }
 
     /* Check for zero length writes after we do housekeeping so we make forward
      * progress.
      */
     if (len == 0) {
-    	return 0;
+    	rv = 0;
+	goto done;
     }
     PORT_Assert(buf != NULL);
     if (!buf) {
 	PORT_SetError(PR_INVALID_ARGUMENT_ERROR);
-    	return PR_FAILURE;
+    	rv = PR_FAILURE;
+	goto done;
     }
-    
-    SSL_TRC(2, ("%d: SSL[%d]: SecureSend: sending %d bytes",
-		SSL_GETPID(), ss->fd, len));
 
     /* Send out the data using one of these functions:
      *	ssl2_SendClear, ssl2_SendStream, ssl2_SendBlock, 
@@ -1119,6 +1128,14 @@ ssl_SecureSend(sslSocket *ss, const unsigned char *buf, int len, int flags)
     rv = (*ss->sec.send)(ss, buf, len, flags);
     ssl_ReleaseXmitBufLock(ss);
     ss->writerThread = NULL;
+done:
+    if (rv < 0) {
+	SSL_TRC(2, ("%d: SSL[%d]: SecureSend: returning %d count, error %d",
+		    SSL_GETPID(), ss->fd, rv, PORT_GetError()));
+    } else {
+	SSL_TRC(2, ("%d: SSL[%d]: SecureSend: returning %d count",
+		    SSL_GETPID(), ss->fd, rv));
+    }
     return rv;
 }
 

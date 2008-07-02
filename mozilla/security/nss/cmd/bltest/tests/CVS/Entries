@@ -1,4 +1,3 @@
-/README/1.2/Fri Nov  1 21:03:24 2002//TNSS_3_11_5_RTM
 D/aes_cbc////
 D/aes_ecb////
 D/des3_cbc////
@@ -19,3 +18,4 @@ D/sha1////
 D/sha256////
 D/sha384////
 D/sha512////
+/README/1.2/Fri Nov  1 21:03:24 2002//TNSS_3_11_7_RTM

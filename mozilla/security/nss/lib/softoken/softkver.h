@@ -1,4 +1,7 @@
-/* ***** BEGIN LICENSE BLOCK *****
+/*
+ * Softoken version numbers
+ *
+ * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -15,7 +18,7 @@
  *
  * The Initial Developer of the Original Code is
  * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 2005
+ * Portions created by the Initial Developer are Copyright (C) 1994-2000
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -34,23 +37,30 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-/* Library identity and versioning */
+#ifndef _SOFTKVER_H_
+#define _SOFTKVER_H_
 
-#include "softkver.h"
-
-#if defined(DEBUG)
-#define _DEBUG_STRING " (debug)"
+#ifdef NSS_ENABLE_ECC
+#ifdef NSS_ECC_MORE_THAN_SUITE_B
+#define SOFTOKEN_ECC_STRING " Extended ECC"
 #else
-#define _DEBUG_STRING ""
+#define SOFTOKEN_ECC_STRING " Basic ECC"
+#endif
+#else
+#define SOFTOKEN_ECC_STRING ""
 #endif
 
 /*
- * Version information for the 'ident' and 'what commands
+ * Softoken's major version, minor version, patch level, and whether
+ * this is a beta release.
  *
- * NOTE: the first component of the concatenated rcsid string
- * must not end in a '$' to prevent rcs keyword substitution.
+ * The format of the version string should be
+ *     "<major version>.<minor version>[.<patch level>][ <ECC>][ <Beta>]"
  */
-const char __nss_freebl_rcsid[] = "$Header: NSS " SOFTOKEN_VERSION _DEBUG_STRING
-        "  " __DATE__ " " __TIME__ " $";
-const char __nss_freebl_sccsid[] = "@(#)NSS " SOFTOKEN_VERSION _DEBUG_STRING
-        "  " __DATE__ " " __TIME__;
+#define SOFTOKEN_VERSION  "3.11.7.1" SOFTOKEN_ECC_STRING
+#define SOFTOKEN_VMAJOR   3
+#define SOFTOKEN_VMINOR   11
+#define SOFTOKEN_VPATCH   7
+#define SOFTOKEN_BETA     PR_FALSE
+
+#endif /* _SOFTKVER_H_ */
