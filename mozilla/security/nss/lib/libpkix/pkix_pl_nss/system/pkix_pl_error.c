@@ -11,14 +11,15 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is the Netscape security libraries.
+ * The Original Code is the PKIX-C library.
  *
  * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 2001
- * the Initial Developer. All Rights Reserved.
+ * Sun Microsystems, Inc.
+ * Portions created by the Initial Developer are
+ * Copyright 2004-2007 Sun Microsystems, Inc.  All Rights Reserved.
  *
  * Contributor(s):
+ *   Sun Microsystems, Inc.
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -33,15 +34,26 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
+/*
+ * pkix_pl_error.c
+ *
+ * PL error functions
+ *
+ */
 
-#ifndef __nssrenam_h_
-#define __nssrenam_h_
+#include "pkix_pl_common.h"
 
-#define CERT_AddTempCertToPerm __CERT_AddTempCertToPerm
-#define PK11_CreateContextByRawKey __PK11_CreateContextByRawKey
-#define CERT_ClosePermCertDB __CERT_ClosePermCertDB
-#define CERT_DecodeDERCertificate __CERT_DecodeDERCertificate
-#define CERT_TraversePermCertsForNickname __CERT_TraversePermCertsForNickname
-#define CERT_TraversePermCertsForSubject __CERT_TraversePermCertsForSubject
+#undef PKIX_ERRORENTRY
 
-#endif /* __nssrenam_h_ */
+#define PKIX_ERRORENTRY(name,desc,plerr) plerr
+
+const SECErrorCodes PKIX_PLErrorIndex[] =
+{
+#include "pkix_errorstrings.h"
+};
+
+int
+PKIX_PL_GetPLErrorCode()
+{
+    return PORT_GetError();
+}
