@@ -1,3 +1,19 @@
+nss (3.12.0~rc3-2) unstable; urgency=low
+
+  * debian/patches/92_ocsp.dpatch: Apply patches from bz433594 and bz#433386,
+    which are applied in upstream RC4 (and are the only changes), to fix
+    crashes under some conditions with OCSP checks.
+  * debian/patches/00list: Updated accordingly.
+  * debian/libnss3-dev.links, debian/libnss3-1d.links: Don't install so
+    files in the -dev package but in the library package. It will allow
+    external applications linked against upstream nss to work on Debian with
+    system nss libraries, and will avoid all browsers to have to implement
+    symlinks themselves to allow some external plugins to work properly.
+  * debian/control: Make libnss3-1d conflict with older versions of
+    libnss3-dev and libnss3-dev need newer libnss3-1d accordingly.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 07 Jun 2008 11:57:55 +0200
+
 nss (3.12.0~rc3-1) unstable; urgency=low
 
   * New upstream snapshot, picked from NSS_3_12_RC3 cvs tag.
