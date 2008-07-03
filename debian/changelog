@@ -3,6 +3,8 @@ nss (3.12.0-1) UNRELEASED; urgency=low
   * New upstream release.
   * debian/patches/92_ocsp.dpatch: Removed, as applied upstream.
   * debian/patches/00list: Updated accordingly.
+  * debian/control:
+    + Bumped Standards-Version to 3.8.0.1. No changes needed.
 
  -- Mike Hommey <glandium@debian.org>  Thu, 03 Jul 2008 07:40:13 +0200
 
