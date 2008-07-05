@@ -8,6 +8,7 @@ nss (3.12.0-1) UNRELEASED; urgency=low
     + Added Vcs-Browser and Vcs-Git fields.
     + libnss3-dev don't need explicit version dependency on libnss3-1d.
     + libnss3-dev depends on libnspr4-dev. Closes: #488402.
+    + Make the -dbg package less a hassle for manual installations with dpkg.
   * debian/patches/85_security_load.dpatch: Load files from /usr/lib/nss if
     given reference path is only a filename, which happens when freebl is
     statically linked in a binary executable, such as signtool, and the

@@ -56,8 +56,8 @@ Package: libnss3-1d-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: libnss3-1d (= ${binary:Version})
-Conflicts: libnss3-tools (<< ${source:Version}), libnss3-tools (>= ${source:Version}.1~), libnss3-0d-dbg
+Depends: libnss3-1d (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
+Conflicts: libnss3-0d-dbg
 Description: Development files for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
