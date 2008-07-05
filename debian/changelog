@@ -1,4 +1,4 @@
-nss (3.12.0-1) UNRELEASED; urgency=low
+nss (3.12.0-1) unstable; urgency=low
 
   * New upstream release.
   * debian/patches/92_ocsp.dpatch: Removed, as applied upstream.
@@ -19,7 +19,7 @@ nss (3.12.0-1) UNRELEASED; urgency=low
     Closes: #483774.
   * debian/libnss3-1d.symbols: Re-enable symbols file.
 
- -- Mike Hommey <glandium@debian.org>  Thu, 03 Jul 2008 07:40:13 +0200
+ -- Mike Hommey <glandium@debian.org>  Sat, 05 Jul 2008 10:19:53 +0200
 
 nss (3.12.0~rc3-3) unstable; urgency=low
 
