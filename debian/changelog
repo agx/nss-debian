@@ -9,12 +9,15 @@ nss (3.12.0-1) UNRELEASED; urgency=low
     + libnss3-dev don't need explicit version dependency on libnss3-1d.
     + libnss3-dev depends on libnspr4-dev. Closes: #488402.
     + Make the -dbg package less a hassle for manual installations with dpkg.
+    + libnss3-1d depends on version of dpkg that either don't support symbols
+      files or has fix for #474079.
   * debian/patches/85_security_load.dpatch: Load files from /usr/lib/nss if
     given reference path is only a filename, which happens when freebl is
     statically linked in a binary executable, such as signtool, and the
     executable is run from $PATH. When the executable is run using a full
     path, we must replace /bin/ in the path with /lib/ to find the libraries.
     Closes: #483774.
+  * debian/libnss3-1d.symbols: Re-enable symbols file.
 
  -- Mike Hommey <glandium@debian.org>  Thu, 03 Jul 2008 07:40:13 +0200
 
