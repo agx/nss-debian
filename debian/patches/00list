@@ -8,3 +8,4 @@
 85_security_load
 90_realpath
 91_build_pwdecrypt
+95_add_spi+cacert_ca_certs
