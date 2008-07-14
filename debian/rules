@@ -44,6 +44,7 @@ build-stamp: patch-stamp
 		NS_USE_GCC=1 \
 		OPTIMIZER="$(CFLAGS)" \
 		NSS_USE_SYSTEM_SQLITE=1 \
+		NSS_ENABLE_ECC=1 \
 		$(USE_64)
 
 	touch build-stamp
