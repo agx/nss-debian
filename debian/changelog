@@ -1,6 +1,8 @@
 nss (3.12.0-3) UNRELEASED; urgency=low
 
-  * debian/rules: Enable ECC cypher suite. Closes: #490826.
+  * debian/rules:
+    + Enable ECC cypher suite. Closes: #490826.
+    + Build with the same optimization level as upstream.
 
  -- Mike Hommey <glandium@debian.org>  Mon, 14 Jul 2008 17:29:22 +0200
 
