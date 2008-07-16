@@ -1,9 +1,9 @@
-nss (3.12.0-4) UNRELEASED; urgency=low
+nss (3.12.0-4) unstable; urgency=low
 
   * debian/control: Remove conflict with libnss3-0d, it was only useful when
     libnss3-0d was a transitional package. Closes: #490995.
 
- -- Mike Hommey <glandium@debian.org>  Wed, 16 Jul 2008 21:27:26 +0200
+ -- Mike Hommey <glandium@debian.org>  Wed, 16 Jul 2008 21:29:19 +0200
 
 nss (3.12.0-3) unstable; urgency=low
 
