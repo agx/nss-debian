@@ -1,8 +1,11 @@
 nss (3.12.0-5) UNRELEASED; urgency=low
 
-  * debian/control: Conflict with libnss3-0d >= 3.11.5, that has conflicting
-    files in /usr/lib/nss. Older versions (those from etch) don't conflict.
-    This makes updates from old testing smoother. Closes: #492332.
+  * debian/control:
+    + Conflict with libnss3-0d >= 3.11.5, that has conflicting files in
+      /usr/lib/nss. Older versions (those from etch) don't conflict.
+      This makes updates from old testing smoother. Closes: #492332.
+    + Build-depend on libsqlite3-dev >= 3.3.9, since API introduced in this
+      version is used. Closes: #493191.
 
  -- Mike Hommey <glandium@debian.org>  Sun, 03 Aug 2008 09:21:55 +0200
 
