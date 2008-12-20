@@ -15,7 +15,7 @@
 +ifeq ($(OS_TEST),mips64)
 +	CPU_ARCH        = mips
 +else
- ifeq (,$(filter-out i686 i586 i486 i386,$(OS_TEST)))
+ ifeq (,$(filter-out i%86,$(OS_TEST)))
  	OS_REL_CFLAGS	+= -Di386
  	CPU_ARCH	= x86
 @@ -87,6 +90,7 @@

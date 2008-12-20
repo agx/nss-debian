@@ -1,3 +1,12 @@
+nss (3.12.1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * debian/patches/95_add_spi+cacert_ca_certs.dpatch,
+    debian/patches/38_mips64_build.dpatch,
+    debian/patches/38_kbsd.dpatch: Adapted to upstream changes.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 20 Dec 2008 11:47:55 +0100
+
 nss (3.12.0-5) unstable; urgency=low
 
   * debian/control:

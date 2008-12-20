@@ -7,9 +7,11 @@
 
 @DPATCH@
 
---- nss/mozilla/security/coreconf/Linux.mk
-+++ nss/mozilla/security/coreconf/Linux.mk
-@@ -52,72 +52,46 @@
+diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
+index 18aa1a1..9b970cd 100644
+--- a/mozilla/security/coreconf/Linux.mk
++++ b/mozilla/security/coreconf/Linux.mk
+@@ -52,81 +52,56 @@ RANLIB			= ranlib
  
  DEFAULT_COMPILER = gcc
  
@@ -40,12 +42,12 @@
  ifeq ($(OS_TEST),alpha)
 -        OS_REL_CFLAGS   = -D_ALPHA_ -DLINUX1_2 -D_XOPEN_SOURCE
 -	CPU_ARCH	= alpha
-+        OS_REL_CFLAGS   += -D_ALPHA_
- else
+-else
 -ifeq ($(OS_TEST),ia64)
 -	OS_REL_CFLAGS	= -DLINUX1_2 -D_XOPEN_SOURCE
 -	CPU_ARCH	= ia64
--else
++        OS_REL_CFLAGS   += -D_ALPHA_
+ else
  ifeq ($(OS_TEST),x86_64)
 -ifeq ($(USE_64),1)
 -	OS_REL_CFLAGS	= -DLINUX1_2 -D_XOPEN_SOURCE
@@ -78,35 +80,33 @@
 -	OS_REL_CFLAGS   = -DLINUX1_2 -D_XOPEN_SOURCE
  	CPU_ARCH        = hppa
  else
--ifeq ($(OS_TEST),s390)
+ ifeq ($(OS_TEST),s390)
 -	OS_REL_CFLAGS   = -DLINUX1_2 -D_XOPEN_SOURCE
--	CPU_ARCH        = s390
--else
--ifeq ($(OS_TEST),s390x)
+ 	CPU_ARCH        = s390
+ else
+ ifeq ($(OS_TEST),s390x)
 -	OS_REL_CFLAGS   = -DLINUX1_2 -D_XOPEN_SOURCE
--	CPU_ARCH        = s390x
--else
--ifeq ($(OS_TEST),mips)
+ 	CPU_ARCH        = s390x
+ else
+ ifeq ($(OS_TEST),mips)
 -	OS_REL_CFLAGS   = -DLINUX1_2 -D_XOPEN_SOURCE
--	CPU_ARCH        = mips
--else
+ 	CPU_ARCH        = mips
+ else
+ ifeq (,$(filter-out i%86,$(OS_TEST)))
 -	OS_REL_CFLAGS	= -DLINUX1_2 -Di386 -D_XOPEN_SOURCE
-+ifeq (,$(filter-out i686 i586 i486 i386,$(OS_TEST)))
-+	OS_REL_CFLAGS	+= -Di386
++	OS_REL_CFLAGS	= -Di386
  	CPU_ARCH	= x86
+-else
+-	OS_REL_CFLAGS   = -DLINUX1_2 -D_XOPEN_SOURCE
+-	CPU_ARCH	= $(OS_TEST)
+-endif
+-endif
+-endif
+-endif
  endif
  endif
-@@ -127,17 +101,11 @@
  endif
- endif
- endif
--endif
--endif
--endif
--endif
--endif
--endif
- 
+@@ -142,7 +117,7 @@ endif
  
  LIBC_TAG		= _glibc
  
@@ -115,7 +115,7 @@
  	OS_REL_CFLAGS	+= -DLINUX2_0
  	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
  	ifdef MAPFILE
-@@ -155,21 +123,22 @@
+@@ -164,21 +139,22 @@ ifeq ($(USE_PTHREADS),1)
  OS_PTHREAD = -lpthread 
  endif
  
@@ -142,11 +142,13 @@
  G++INCLUDES		= -I/usr/include/g++
  
  #
---- nss/mozilla/security/coreconf/Linux2.6.mk
-+++ nss/mozilla/security/coreconf/Linux2.6.mk
-@@ -39,7 +39,10 @@
+diff --git a/mozilla/security/coreconf/Linux2.6.mk b/mozilla/security/coreconf/Linux2.6.mk
+index 86bffef..7091468 100644
+--- a/mozilla/security/coreconf/Linux2.6.mk
++++ b/mozilla/security/coreconf/Linux2.6.mk
+@@ -37,7 +37,10 @@
  
- DSO_LDOPTS      += -Wl,-z,defs
+ include $(CORE_DEPTH)/coreconf/Linux.mk
  
 +ifeq ($(KERNEL), linux)
  OS_REL_CFLAGS   += -DLINUX2_1
@@ -155,9 +157,11 @@
  MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
  
  ifdef MAPFILE
---- nss/mozilla/security/coreconf/arch.mk
-+++ nss/mozilla/security/coreconf/arch.mk
-@@ -154,6 +154,14 @@
+diff --git a/mozilla/security/coreconf/arch.mk b/mozilla/security/coreconf/arch.mk
+index fba38ff..784071a 100644
+--- a/mozilla/security/coreconf/arch.mk
++++ b/mozilla/security/coreconf/arch.mk
+@@ -155,6 +155,14 @@ ifeq ($(OS_ARCH),Linux)
      ifneq ($(words $(OS_RELEASE)),1)
  	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
      endif
@@ -172,33 +176,38 @@
  endif
  
  #
---- nss/mozilla/security/coreconf/config.mk
-+++ nss/mozilla/security/coreconf/config.mk
-@@ -63,7 +63,7 @@
+diff --git a/mozilla/security/coreconf/config.mk b/mozilla/security/coreconf/config.mk
+index 3f9c81b..58806b6 100644
+--- a/mozilla/security/coreconf/config.mk
++++ b/mozilla/security/coreconf/config.mk
+@@ -63,7 +63,7 @@ endif
  #######################################################################
  
  TARGET_OSES = FreeBSD BSD_OS NetBSD OpenUNIX OS2 QNX Darwin BeOS OpenBSD \
--              OpenVMS AIX
-+              OpenVMS AIX GNU GNU_%
+-              OpenVMS AIX RISCOS
++              OpenVMS AIX RISCOS GNU GNU_%
  
  ifeq (,$(filter-out $(TARGET_OSES),$(OS_TARGET)))
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
---- nss/mozilla/security/nss/lib/freebl/unix_rand.c
-+++ nss/mozilla/security/nss/lib/freebl/unix_rand.c
-@@ -184,7 +184,9 @@
- #endif
+diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
+index aec738c..46a3341 100644
+--- a/mozilla/security/nss/lib/freebl/unix_rand.c
++++ b/mozilla/security/nss/lib/freebl/unix_rand.c
+@@ -186,7 +186,8 @@ static SECStatus RNG_kstat(PRUint32* fed)
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
--    || defined(NETBSD) || defined(NTO) || defined(DARWIN) || defined(OPENBSD)
-+    || defined(NETBSD) || defined(NTO) || defined(DARWIN) || defined(OPENBSD) \
-+    || defined(__FreeBSD_kernel__) || defined(__NetBSD_kernel__) \
-+    || defined(__GNU__)
+     || defined(NETBSD) || defined(DARWIN) || defined(OPENBSD) \
+-    || defined(NTO) || defined(__riscos__)
++    || defined(NTO) || defined(__riscos__) || defined(__GNU__) \
++    || defined(__FreeBSD_kernel__) || defined(__NetBSD_kernel__)
  #include <sys/times.h>
  
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
---- nss/mozilla/security/nss/lib/ssl/sslmutex.c
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.c
-@@ -89,7 +89,7 @@
+diff --git a/mozilla/security/nss/lib/ssl/sslmutex.c b/mozilla/security/nss/lib/ssl/sslmutex.c
+index f92205a..78c6c3d 100644
+--- a/mozilla/security/nss/lib/ssl/sslmutex.c
++++ b/mozilla/security/nss/lib/ssl/sslmutex.c
+@@ -89,7 +89,7 @@ static SECStatus single_process_sslMutex_Lock(sslMutex* pMutex)
      return SECSuccess;
  }
  
@@ -207,9 +216,11 @@
  
  #include <unistd.h>
  #include <fcntl.h>
---- nss/mozilla/security/nss/lib/ssl/sslmutex.h
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.h
-@@ -79,7 +79,7 @@
+diff --git a/mozilla/security/nss/lib/ssl/sslmutex.h b/mozilla/security/nss/lib/ssl/sslmutex.h
+index dc8eee9..4057803 100644
+--- a/mozilla/security/nss/lib/ssl/sslmutex.h
++++ b/mozilla/security/nss/lib/ssl/sslmutex.h
+@@ -79,7 +79,7 @@ typedef struct
  
  typedef int    sslPID;
  
