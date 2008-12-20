@@ -37,49 +37,12 @@
 
 include $(CORE_DEPTH)/coreconf/UNIX.mk
 
-DEFAULT_COMPILER	= gcc
-CC			= gcc
-CCC			= g++
-RANLIB			= ranlib
+DLL_SUFFIX  = a
+MKSHLIB     = $(GCCSDK_INSTALL_CROSSBIN)/arm-unknown-riscos-ar cr
 
-ifeq ($(OS_TEST),alpha)
-CPU_ARCH		= alpha
-else
-CPU_ARCH		= x86
+OS_RELEASE =
+OS_TARGET  = RISCOS
+
+ifdef BUILD_OPT
+	OPTIMIZER = -O2 -mpoke-function-name
 endif
-
-OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
-
-DSO_CFLAGS		= -fPIC
-DSO_LDOPTS		= -shared -Wl,-soname -Wl,$(notdir $@)
-
-#
-# The default implementation strategy for FreeBSD is pthreads.
-#
-ifndef CLASSIC_NSPR
-USE_PTHREADS		= 1
-DEFINES			+= -D_THREAD_SAFE -D_REENTRANT
-OS_LIBS			+= -pthread
-DSO_LDOPTS		+= -pthread
-endif
-
-ARCH			= freebsd
-
-MOZ_OBJFORMAT		:= $(shell test -x /usr/bin/objformat && /usr/bin/objformat || echo elf)
-
-ifeq ($(MOZ_OBJFORMAT),elf)
-DLL_SUFFIX		= so
-else
-DLL_SUFFIX		= so.1.0
-endif
-
-MKSHLIB			= $(CC) $(DSO_LDOPTS)
-ifdef MAPFILE
-	MKSHLIB += -Wl,--version-script,$(MAPFILE)
-endif
-PROCESS_MAP_FILE = grep -v ';-' $< | \
-        sed -e 's,;+,,' -e 's; DATA ;;' -e 's,;;,,' -e 's,;.*,;,' > $@
-
-G++INCLUDES		= -I/usr/include/g++
-
-INCLUDES		+= -I/usr/X11R6/include
