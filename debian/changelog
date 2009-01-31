@@ -1,4 +1,4 @@
-nss (3.12.2.with.ckbi.1.73-1) UNRELEASED; urgency=low
+nss (3.12.2.with.ckbi.1.73-1) unstable; urgency=low
 
   * debian/patches/38_kbsd.dpatch: Brown paper bag fix for regression
     in previous release that led to FTBFS on i386 only. Closes: #513101.
@@ -8,7 +8,7 @@ nss (3.12.2.with.ckbi.1.73-1) UNRELEASED; urgency=low
   * debian/libnss3-1d.symbols: Update symbols file with new symbols.
   * debian/rules: Bumped shlibs.
 
- -- Mike Hommey <glandium@debian.org>  Sat, 31 Jan 2009 16:03:41 +0100
+ -- Mike Hommey <glandium@debian.org>  Sat, 31 Jan 2009 16:41:26 +0100
 
 nss (3.12.1-1) unstable; urgency=low
 
