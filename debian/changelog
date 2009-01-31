@@ -5,6 +5,8 @@ nss (3.12.2.with.ckbi.1.73-1) UNRELEASED; urgency=low
     Thanks Steffen Joeris, Sebastian Andrzej Siewior and Petr Salinger.
   * debian/patches/95_add_spi+cacert_ca_certs.dpatch,
     debian/patches/80_security_tools.dpatch: Adapted to upstream changes.
+  * debian/libnss3-1d.symbols: Update symbols file with new symbols.
+  * debian/rules: Bumped shlibs.
 
  -- Mike Hommey <glandium@debian.org>  Sat, 31 Jan 2009 16:03:41 +0100
 
