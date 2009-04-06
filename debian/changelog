@@ -1,10 +1,10 @@
-nss (3.12.2.with.ckbi.1.73-2) UNRELEASED; urgency=low
+nss (3.12.2.with.ckbi.1.73-2) unstable; urgency=low
 
   * mozilla/security/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.h:
     Apply patch from upstream to fix alignment issues on sparc and ia64.
     Closes: #509930.
 
- -- Mike Hommey <glandium@debian.org>  Mon, 06 Apr 2009 20:21:52 +0200
+ -- Mike Hommey <glandium@debian.org>  Mon, 06 Apr 2009 20:24:01 +0200
 
 nss (3.12.2.with.ckbi.1.73-1) unstable; urgency=low
 
