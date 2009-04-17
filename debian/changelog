@@ -1,3 +1,9 @@
+nss (3.12.2.with.ckbi.1.73-3) UNRELEASED; urgency=low
+
+  * debian/watch: Updated to catch new upstream .bz2 tarballs.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
+
 nss (3.12.2.with.ckbi.1.73-2) unstable; urgency=low
 
   * mozilla/security/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.h:
