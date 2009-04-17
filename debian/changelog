@@ -1,6 +1,9 @@
-nss (3.12.2.with.ckbi.1.73-3) UNRELEASED; urgency=low
+nss (3.12.3-1) UNRELEASED; urgency=low
 
+  * New upstream release.
   * debian/watch: Updated to catch new upstream .bz2 tarballs.
+  * debian/copyright: Add information about
+    mozilla/security/corecond/mkdepend.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 
