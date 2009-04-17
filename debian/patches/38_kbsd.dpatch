@@ -8,7 +8,7 @@
 @DPATCH@
 
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
-index 18aa1a1..9b970cd 100644
+index 7725a97..6f33ba9 100644
 --- a/mozilla/security/coreconf/Linux.mk
 +++ b/mozilla/security/coreconf/Linux.mk
 @@ -52,81 +52,56 @@ RANLIB			= ranlib
@@ -158,7 +158,7 @@ index 86bffef..7091468 100644
  
  ifdef MAPFILE
 diff --git a/mozilla/security/coreconf/arch.mk b/mozilla/security/coreconf/arch.mk
-index fba38ff..784071a 100644
+index 4381dc8..f90c9a3 100644
 --- a/mozilla/security/coreconf/arch.mk
 +++ b/mozilla/security/coreconf/arch.mk
 @@ -155,6 +155,14 @@ ifeq ($(OS_ARCH),Linux)
@@ -177,23 +177,23 @@ index fba38ff..784071a 100644
  
  #
 diff --git a/mozilla/security/coreconf/config.mk b/mozilla/security/coreconf/config.mk
-index 3f9c81b..58806b6 100644
+index a45eb8c..0bdef21 100644
 --- a/mozilla/security/coreconf/config.mk
 +++ b/mozilla/security/coreconf/config.mk
 @@ -63,7 +63,7 @@ endif
  #######################################################################
  
  TARGET_OSES = FreeBSD BSD_OS NetBSD OpenUNIX OS2 QNX Darwin BeOS OpenBSD \
--              OpenVMS AIX RISCOS
-+              OpenVMS AIX RISCOS GNU GNU_%
+-              OpenVMS AIX RISCOS WINNT WIN95 WINCE
++              OpenVMS AIX RISCOS WINNT WIN95 WINCE GNU GNU_%
  
  ifeq (,$(filter-out $(TARGET_OSES),$(OS_TARGET)))
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
-index aec738c..46a3341 100644
+index 28b5237..685db56 100644
 --- a/mozilla/security/nss/lib/freebl/unix_rand.c
 +++ b/mozilla/security/nss/lib/freebl/unix_rand.c
-@@ -186,7 +186,8 @@ static SECStatus RNG_kstat(PRUint32* fed)
+@@ -188,7 +188,8 @@ static SECStatus RNG_kstat(PRUint32* fed)
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
      || defined(NETBSD) || defined(DARWIN) || defined(OPENBSD) \
@@ -204,28 +204,28 @@ index aec738c..46a3341 100644
  
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
 diff --git a/mozilla/security/nss/lib/ssl/sslmutex.c b/mozilla/security/nss/lib/ssl/sslmutex.c
-index f92205a..78c6c3d 100644
+index a91dde3..e7119f9 100644
 --- a/mozilla/security/nss/lib/ssl/sslmutex.c
 +++ b/mozilla/security/nss/lib/ssl/sslmutex.c
 @@ -89,7 +89,7 @@ static SECStatus single_process_sslMutex_Lock(sslMutex* pMutex)
      return SECSuccess;
  }
  
--#if defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || defined(NETBSD) || defined(OPENBSD)
-+#if defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || defined(NETBSD) || defined(OPENBSD) || defined(__GLIBC__)
+-#if defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || (defined(NETBSD) && __NetBSD_Version__ < 500000000) || defined(OPENBSD)
++#if defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || (defined(NETBSD) && __NetBSD_Version__ < 500000000) || defined(OPENBSD) || defined(__GLIBC__)
  
  #include <unistd.h>
  #include <fcntl.h>
 diff --git a/mozilla/security/nss/lib/ssl/sslmutex.h b/mozilla/security/nss/lib/ssl/sslmutex.h
-index dc8eee9..4057803 100644
+index aeeef64..297d25f 100644
 --- a/mozilla/security/nss/lib/ssl/sslmutex.h
 +++ b/mozilla/security/nss/lib/ssl/sslmutex.h
-@@ -79,7 +79,7 @@ typedef struct
+@@ -83,7 +83,7 @@ typedef struct
  
  typedef int    sslPID;
  
--#elif defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || defined(NETBSD) || defined(OPENBSD)
-+#elif defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || defined(NETBSD) || defined(OPENBSD) || defined(__GLIBC__)
+-#elif defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || (defined(NETBSD) && __NetBSD_Version__ < 500000000) || defined(OPENBSD)
++#elif defined(LINUX) || defined(AIX) || defined(VMS) || defined(BEOS) || defined(BSDI) || (defined(NETBSD) && __NetBSD_Version__ < 500000000) || defined(OPENBSD) || defined(__GLIBC__)
  
  #include <sys/types.h>
  #include "prtypes.h"
