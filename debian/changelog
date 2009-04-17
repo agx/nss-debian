@@ -9,8 +9,11 @@ nss (3.12.3-1) UNRELEASED; urgency=low
   * debian/patches/85_security_load.dpatch: Load libsoftokn3.so from
     /usr/lib/nss when unable to load it from standard ld.so paths in
     shlibsign.
-  * debian/rules: Add debian/libnss3-1d/usr/lib/nss to LD_LIBRARY_PATH when
-    running shlibsign during build.
+  * debian/rules:
+    + Add debian/libnss3-1d/usr/lib/nss to LD_LIBRARY_PATH when running
+      shlibsign during build.
+    + Bumped shlibs.
+  * debian/libnss3-1d.symbols: Update symbols file with new symbols.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 
