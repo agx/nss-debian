@@ -14,7 +14,9 @@ nss (3.12.3-1) UNRELEASED; urgency=low
       shlibsign during build.
     + Bumped shlibs.
   * debian/libnss3-1d.symbols: Update symbols file with new symbols.
-  * debian/control: Bumped Standards-Version to 3.8.1.0. No changes needed.
+  * debian/control:
+    + Bumped Standards-Version to 3.8.1.0. No changes needed.
+    + Put the libnss3-1d-dbg package in the "debug" section.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 

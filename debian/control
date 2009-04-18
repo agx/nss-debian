@@ -53,7 +53,7 @@ Description: Development files for the Network Security Service libraries
  Network Security Service Libraries.
 
 Package: libnss3-1d-dbg
-Section: libdevel
+Section: debug
 Priority: extra
 Architecture: any
 Depends: libnss3-1d (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
