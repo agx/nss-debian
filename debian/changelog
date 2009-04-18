@@ -18,6 +18,7 @@ nss (3.12.3-1) UNRELEASED; urgency=low
     + Bumped Standards-Version to 3.8.1.0. No changes needed.
     + Put the libnss3-1d-dbg package in the "debug" section.
     + Correct libnss3-1d-dbg short description.
+    + Remove redundant section on libnss3-1d.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 
