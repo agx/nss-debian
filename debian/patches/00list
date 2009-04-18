@@ -1,5 +1,6 @@
 25_entropy
 38_hurd
+38_intel_aes_executable_stack
 38_kbsd
 38_mips64_build
 80_security_build

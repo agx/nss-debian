@@ -22,6 +22,9 @@ nss (3.12.3-1) UNRELEASED; urgency=low
     + Build-depend on proper version of debhelper for dh_lintian.
   * debian/*.lintian-overrides, debian/rules: Install some Lintian
     overrides with dh_lintian.
+  * debian/patches/38_intel_aes_executable_stack.dpatch: Indicate that
+    we don't need executable stack in intel-aes.s.
+  * debian/patches/00list: Updated accordingly.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 

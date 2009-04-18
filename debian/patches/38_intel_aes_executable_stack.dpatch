@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 38_intel_aes_executable_stack.dpatch by  <glandium@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Indicate that we don't need executable stack in intel-aes.s
+
+@DPATCH@
+
+diff --git a/mozilla/security/nss/lib/freebl/intel-aes.s b/mozilla/security/nss/lib/freebl/intel-aes.s
+index 52845a0..a4eb3e6 100644
+--- a/mozilla/security/nss/lib/freebl/intel-aes.s
++++ b/mozilla/security/nss/lib/freebl/intel-aes.s
+@@ -1634,3 +1634,7 @@ intel_aes_decrypt_cbc_256:
+ 	xor	%eax, %eax
+ 	ret
+ 	.size intel_aes_decrypt_cbc_256, .-intel_aes_decrypt_cbc_256
++
++# Magic indicating no need for an executable stack
++.section .note.GNU-stack, "", @progbits
++.previous
