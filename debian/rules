@@ -106,6 +106,7 @@ binary-arch: install-stamp
 	dh_installdocs -a
 	dh_link -a
 	dh_strip -a --dbg-package=libnss3-1d-dbg
+	dh_lintian -a
 	$(foreach lib,libsoftokn3.so libfreebl3.so, \
 		LD_LIBRARY_PATH=debian/libnss3-1d/usr/lib:debian/libnss3-1d/usr/lib/nss \
 		debian/libnss3-tools/usr/bin/shlibsign -v -i debian/libnss3-1d/usr/lib/nss/$(lib);)

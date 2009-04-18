@@ -19,6 +19,9 @@ nss (3.12.3-1) UNRELEASED; urgency=low
     + Put the libnss3-1d-dbg package in the "debug" section.
     + Correct libnss3-1d-dbg short description.
     + Remove redundant section on libnss3-1d.
+    + Build-depend on proper version of debhelper for dh_lintian.
+  * debian/*.lintian-overrides, debian/rules: Install some Lintian
+    overrides with dh_lintian.
 
  -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
 
