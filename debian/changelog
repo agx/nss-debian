@@ -1,4 +1,4 @@
-nss (3.12.3-1) UNRELEASED; urgency=low
+nss (3.12.3-1) unstable; urgency=low
 
   * New upstream release.
   * debian/watch: Updated to catch new upstream .bz2 tarballs.
@@ -26,7 +26,7 @@ nss (3.12.3-1) UNRELEASED; urgency=low
     we don't need executable stack in intel-aes.s.
   * debian/patches/00list: Updated accordingly.
 
- -- Mike Hommey <glandium@debian.org>  Fri, 17 Apr 2009 22:32:34 +0200
+ -- Mike Hommey <glandium@debian.org>  Sat, 18 Apr 2009 09:37:31 +0200
 
 nss (3.12.2.with.ckbi.1.73-2) unstable; urgency=low
 
