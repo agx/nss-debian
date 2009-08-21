@@ -7,57 +7,57 @@
 @DPATCH@
 
 diff --git a/mozilla/security/nss/lib/ckfw/builtins/certdata.c b/mozilla/security/nss/lib/ckfw/builtins/certdata.c
-index 46d5900..3bb8b52 100644
+index 7868357..05f7be9 100644
 --- a/mozilla/security/nss/lib/ckfw/builtins/certdata.c
 +++ b/mozilla/security/nss/lib/ckfw/builtins/certdata.c
 @@ -35,7 +35,7 @@
   *
   * ***** END LICENSE BLOCK ***** */
  #ifdef DEBUG
--static const char CVS_ID[] = "@(#) $RCSfile: certdata.c,v $ $Revision: 1.52 $ $Date: 2009/01/15 22:35:15 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.52 $ $Date: 2009/01/15 22:35:15 $";
-+static const char CVS_ID[] = "@(#) $RCSfile: certdata.txt,v $ $Revision: 1.51 $ $Date: 2009/01/15 22:35:15 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.12 $ $Date: 2008/01/23 07:34:49 $";
+-static const char CVS_ID[] = "@(#) $RCSfile: certdata.c,v $ $Revision: 1.54 $ $Date: 2009/05/21 19:50:27 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.54 $ $Date: 2009/05/21 19:50:27 $";
++static const char CVS_ID[] = "@(#) $RCSfile: certdata.txt,v $ $Revision: 1.53 $ $Date: 2009/05/21 19:50:28 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.12 $ $Date: 2008/01/23 07:34:49 $";
  #endif /* DEBUG */
  
  #ifndef BUILTINS_H
-@@ -816,6 +816,24 @@ static const CK_ATTRIBUTE_TYPE nss_builtins_types_252 [] = {
- static const CK_ATTRIBUTE_TYPE nss_builtins_types_253 [] = {
+@@ -900,6 +900,24 @@ static const CK_ATTRIBUTE_TYPE nss_builtins_types_280 [] = {
+ static const CK_ATTRIBUTE_TYPE nss_builtins_types_281 [] = {
   CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERT_SHA1_HASH,  CKA_CERT_MD5_HASH,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_TRUST_SERVER_AUTH,  CKA_TRUST_EMAIL_PROTECTION,  CKA_TRUST_CODE_SIGNING,  CKA_TRUST_STEP_UP_APPROVED
  };
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_254 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_282 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERTIFICATE_TYPE,  CKA_SUBJECT,  CKA_ID,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_VALUE
 +};
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_255 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_283 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERT_SHA1_HASH,  CKA_CERT_MD5_HASH,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_TRUST_SERVER_AUTH,  CKA_TRUST_EMAIL_PROTECTION,  CKA_TRUST_CODE_SIGNING,  CKA_TRUST_STEP_UP_APPROVED
 +};
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_256 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_284 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERTIFICATE_TYPE,  CKA_SUBJECT,  CKA_ID,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_VALUE
 +};
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_257 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_285 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERT_SHA1_HASH,  CKA_CERT_MD5_HASH,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_TRUST_SERVER_AUTH,  CKA_TRUST_EMAIL_PROTECTION,  CKA_TRUST_CODE_SIGNING,  CKA_TRUST_STEP_UP_APPROVED
 +};
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_258 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_286 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERTIFICATE_TYPE,  CKA_SUBJECT,  CKA_ID,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_VALUE
 +};
-+static const CK_ATTRIBUTE_TYPE nss_builtins_types_259 [] = {
++static const CK_ATTRIBUTE_TYPE nss_builtins_types_287 [] = {
 + CKA_CLASS,  CKA_TOKEN,  CKA_PRIVATE,  CKA_MODIFIABLE,  CKA_LABEL,  CKA_CERT_SHA1_HASH,  CKA_CERT_MD5_HASH,  CKA_ISSUER,  CKA_SERIAL_NUMBER,  CKA_TRUST_SERVER_AUTH,  CKA_TRUST_EMAIL_PROTECTION,  CKA_TRUST_CODE_SIGNING,  CKA_TRUST_STEP_UP_APPROVED
 +};
  #ifdef DEBUG
  static const NSSItem nss_builtins_items_0 [] = {
    { (void *)&cko_data, (PRUint32)sizeof(CK_OBJECT_CLASS) },
-@@ -824,7 +842,7 @@ static const NSSItem nss_builtins_items_0 [] = {
+@@ -908,7 +926,7 @@ static const NSSItem nss_builtins_items_0 [] = {
    { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
    { (void *)"CVS ID", (PRUint32)7 },
    { (void *)"NSS", (PRUint32)4 },
--  { (void *)"@(#) $RCSfile: certdata.c,v $ $Revision: 1.52 $ $Date: 2009/01/15 22:35:15 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.52 $ $Date: 2009/01/15 22:35:15 $", (PRUint32)160 }
-+  { (void *)"@(#) $RCSfile: certdata.txt,v $ $Revision: 1.51 $ $Date: 2009/01/15 22:35:15 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.12 $ $Date: 2008/01/23 07:34:49 $", (PRUint32)160 }
+-  { (void *)"@(#) $RCSfile: certdata.c,v $ $Revision: 1.54 $ $Date: 2009/05/21 19:50:27 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.54 $ $Date: 2009/05/21 19:50:27 $", (PRUint32)160 }
++  { (void *)"@(#) $RCSfile: certdata.txt,v $ $Revision: 1.53 $ $Date: 2009/05/21 19:50:28 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.12 $ $Date: 2008/01/23 07:34:49 $", (PRUint32)160 }
  };
  #endif /* DEBUG */
  static const NSSItem nss_builtins_items_1 [] = {
-@@ -17101,6 +17119,531 @@ static const NSSItem nss_builtins_items_253 [] = {
-   { (void *)&ckt_netscape_untrusted, (PRUint32)sizeof(CK_TRUST) },
+@@ -18953,6 +18971,531 @@ static const NSSItem nss_builtins_items_281 [] = {
+   { (void *)&ckt_netscape_trust_unknown, (PRUint32)sizeof(CK_TRUST) },
    { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) }
  };
-+static const NSSItem nss_builtins_items_254 [] = {
++static const NSSItem nss_builtins_items_282 [] = {
 +  { (void *)&cko_certificate, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -204,7 +204,7 @@ index 46d5900..3bb8b52 100644
 +"\103"
 +, (PRUint32)1857 }
 +};
-+static const NSSItem nss_builtins_items_255 [] = {
++static const NSSItem nss_builtins_items_283 [] = {
 +  { (void *)&cko_netscape_trust, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -231,7 +231,7 @@ index 46d5900..3bb8b52 100644
 +  { (void *)&ckt_netscape_trusted_delegator, (PRUint32)sizeof(CK_TRUST) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) }
 +};
-+static const NSSItem nss_builtins_items_256 [] = {
++static const NSSItem nss_builtins_items_284 [] = {
 +  { (void *)&cko_certificate, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -356,7 +356,7 @@ index 46d5900..3bb8b52 100644
 +"\322\156\245\033\231\047\200\347\013\251\250\000"
 +, (PRUint32)1548 }
 +};
-+static const NSSItem nss_builtins_items_257 [] = {
++static const NSSItem nss_builtins_items_285 [] = {
 +  { (void *)&cko_netscape_trust, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -383,7 +383,7 @@ index 46d5900..3bb8b52 100644
 +  { (void *)&ckt_netscape_trusted_delegator, (PRUint32)sizeof(CK_TRUST) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) }
 +};
-+static const NSSItem nss_builtins_items_258 [] = {
++static const NSSItem nss_builtins_items_286 [] = {
 +  { (void *)&cko_certificate, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -551,7 +551,7 @@ index 46d5900..3bb8b52 100644
 +"\243\140"
 +, (PRUint32)2066 }
 +};
-+static const NSSItem nss_builtins_items_259 [] = {
++static const NSSItem nss_builtins_items_287 [] = {
 +  { (void *)&cko_netscape_trust, (PRUint32)sizeof(CK_OBJECT_CLASS) },
 +  { (void *)&ck_true, (PRUint32)sizeof(CK_BBOOL) },
 +  { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
@@ -585,34 +585,34 @@ index 46d5900..3bb8b52 100644
  
  builtinsInternalObject
  nss_builtins_data[] = {
-@@ -17359,11 +17902,17 @@ nss_builtins_data[] = {
-   { 11, nss_builtins_types_250, nss_builtins_items_250, {NULL} },
-   { 13, nss_builtins_types_251, nss_builtins_items_251, {NULL} },
-   { 11, nss_builtins_types_252, nss_builtins_items_252, {NULL} },
--  { 13, nss_builtins_types_253, nss_builtins_items_253, {NULL} }
-+  { 13, nss_builtins_types_253, nss_builtins_items_253, {NULL} },
-+  { 11, nss_builtins_types_254, nss_builtins_items_254, {NULL} },
-+  { 13, nss_builtins_types_255, nss_builtins_items_255, {NULL} },
-+  { 11, nss_builtins_types_256, nss_builtins_items_256, {NULL} },
-+  { 13, nss_builtins_types_257, nss_builtins_items_257, {NULL} },
-+  { 11, nss_builtins_types_258, nss_builtins_items_258, {NULL} },
-+  { 13, nss_builtins_types_259, nss_builtins_items_259, {NULL} }
+@@ -19239,11 +19782,17 @@ nss_builtins_data[] = {
+   { 11, nss_builtins_types_278, nss_builtins_items_278, {NULL} },
+   { 13, nss_builtins_types_279, nss_builtins_items_279, {NULL} },
+   { 11, nss_builtins_types_280, nss_builtins_items_280, {NULL} },
+-  { 13, nss_builtins_types_281, nss_builtins_items_281, {NULL} }
++  { 13, nss_builtins_types_281, nss_builtins_items_281, {NULL} },
++  { 11, nss_builtins_types_282, nss_builtins_items_282, {NULL} },
++  { 13, nss_builtins_types_283, nss_builtins_items_283, {NULL} },
++  { 11, nss_builtins_types_284, nss_builtins_items_284, {NULL} },
++  { 13, nss_builtins_types_285, nss_builtins_items_285, {NULL} },
++  { 11, nss_builtins_types_286, nss_builtins_items_286, {NULL} },
++  { 13, nss_builtins_types_287, nss_builtins_items_287, {NULL} }
  };
  const PRUint32
  #ifdef DEBUG
--  nss_builtins_nObjects = 253+1;
-+  nss_builtins_nObjects = 259+1;
+-  nss_builtins_nObjects = 281+1;
++  nss_builtins_nObjects = 287+1;
  #else
--  nss_builtins_nObjects = 253;
-+  nss_builtins_nObjects = 259;
+-  nss_builtins_nObjects = 281;
++  nss_builtins_nObjects = 287;
  #endif /* DEBUG */
 diff --git a/mozilla/security/nss/lib/ckfw/builtins/certdata.txt b/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
-index 11ddc48..badbea6 100644
+index 3ccf575..49e30ab 100644
 --- a/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
 +++ b/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
-@@ -17628,3 +17628,558 @@ CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NETSCAPE_UNTRUSTED
- CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NETSCAPE_UNTRUSTED
- CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NETSCAPE_UNTRUSTED
+@@ -19536,3 +19536,558 @@ CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NETSCAPE_TRUSTED_DELEGATOR
+ CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NETSCAPE_TRUST_UNKNOWN
+ CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NETSCAPE_TRUST_UNKNOWN
  CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE
 +
 +#
