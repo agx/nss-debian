@@ -1,3 +1,11 @@
+nss (3.12.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/95_add_spi+cacert_ca_certs.dpatch, Adapted to upstream
+    changes.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 21 Aug 2009 23:47:24 +0200
+
 nss (3.12.3-1) unstable; urgency=low
 
   * New upstream release.
