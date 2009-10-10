@@ -175,6 +175,19 @@ index c8344b9..70e48d8 100644
  #include <sys/times.h>
  
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
+diff --git a/mozilla/security/nss/lib/softoken/softoken.h b/mozilla/security/nss/lib/softoken/softoken.h
+index 6375f9a..a4ba6b0 100644
+--- a/mozilla/security/nss/lib/softoken/softoken.h
++++ b/mozilla/security/nss/lib/softoken/softoken.h
+@@ -303,7 +303,7 @@ extern PRBool sftk_fatalError;
+ 
+ #define CHECK_FORK_MIXED
+ 
+-#elif defined(LINUX)
++#elif defined(LINUX) || defined (__GLIBC__)
+ 
+ #define CHECK_FORK_PTHREAD
+ 
 diff --git a/mozilla/security/nss/lib/ssl/sslmutex.c b/mozilla/security/nss/lib/ssl/sslmutex.c
 index 6b5dbd1..edd0b00 100644
 --- a/mozilla/security/nss/lib/ssl/sslmutex.c
