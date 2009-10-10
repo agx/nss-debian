@@ -31,7 +31,7 @@
 --- nss/mozilla/security/coreconf/FreeBSD.mk
 +++ nss/mozilla/security/coreconf/FreeBSD.mk
 @@ -51,7 +51,7 @@
- OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
+ OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
  
  DSO_CFLAGS		= -fPIC
 -DSO_LDOPTS		= -shared -Wl,-soname -Wl,$(notdir $@)
@@ -47,9 +47,9 @@
  
 -DSO_LDOPTS		= -b +h $(notdir $@)
 +DSO_LDOPTS		= -b +h $(SONAME)
- ifeq ($(OS_TEST),ia64)
- 	DSO_LDOPTS	+= +b '$$ORIGIN'
- endif
+ RPATH			= +b '$$ORIGIN'
+ ifneq ($(OS_TEST),ia64)
+ # pa-risc
 --- nss/mozilla/security/coreconf/IRIX.mk
 +++ nss/mozilla/security/coreconf/IRIX.mk
 @@ -102,7 +102,7 @@
@@ -63,12 +63,12 @@
  endif
 --- nss/mozilla/security/coreconf/Linux.mk
 +++ nss/mozilla/security/coreconf/Linux.mk
-@@ -139,7 +139,7 @@
+@@ -110,7 +110,7 @@
  
  ifeq ($(KERNEL)-$(OS_RELEASE),linux-2.0)
  	OS_REL_CFLAGS	+= -DLINUX2_0
--	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(SONAME)
+-	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(SONAME) $(RPATH)
  	ifdef MAPFILE
  		MKSHLIB += -Wl,--version-script,$(MAPFILE)
  	endif
@@ -78,8 +78,8 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  ifeq ($(OS_RELEASE),2.1)
          OS_REL_CFLAGS   += -DLINUX2_1
--        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME)
+-        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  	ifdef MAPFILE
  		MKSHLIB += -Wl,--version-script,$(MAPFILE)
  	endif
@@ -89,8 +89,8 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
  OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME)
+-MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
@@ -100,8 +100,8 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
  OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME)
+-MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
@@ -111,19 +111,19 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
  OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME)
+-MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
 --- nss/mozilla/security/coreconf/Linux2.6.mk
 +++ nss/mozilla/security/coreconf/Linux2.6.mk
-@@ -42,7 +42,7 @@
+@@ -41,7 +41,7 @@
  OS_REL_CFLAGS   += -DLINUX2_1
  endif
-
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME)
+ 
+-MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
++MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
@@ -151,7 +151,7 @@
  endif
 --- nss/mozilla/security/coreconf/OpenBSD.mk
 +++ nss/mozilla/security/coreconf/OpenBSD.mk
-@@ -64,7 +64,7 @@
+@@ -65,7 +65,7 @@
  ARCH			= openbsd
  
  DSO_CFLAGS		= -fPIC -DPIC
@@ -184,7 +184,7 @@
  	## native compiler (CDS++ 1.0)
 --- nss/mozilla/security/coreconf/SunOS5.mk
 +++ nss/mozilla/security/coreconf/SunOS5.mk
-@@ -170,7 +170,7 @@
+@@ -143,7 +143,7 @@
  ifeq ($(USE_64), 1)
  	DSO_LDOPTS += -m64
  endif
@@ -193,7 +193,7 @@
  else
  ifeq ($(USE_64), 1)
  	ifeq ($(OS_TEST),i86pc)
-@@ -179,7 +179,7 @@
+@@ -152,7 +152,7 @@
  	    DSO_LDOPTS +=-xarch=v9
  	endif
  endif
@@ -201,10 +201,10 @@
 +	DSO_LDOPTS += -G -h $(SONAME)
  endif
  DSO_LDOPTS += -z combreloc -z defs -z ignore
-
+ 
 --- nss/mozilla/security/coreconf/rules.mk
 +++ nss/mozilla/security/coreconf/rules.mk
-@@ -119,6 +119,7 @@
+@@ -115,6 +115,7 @@
  	$(INSTALL) -m 644 $(SHARED_LIBRARY:$(DLL_SUFFIX)=pdb) $(SOURCE_LIB_DIR)
  endif
  endif
@@ -212,7 +212,7 @@
  endif
  ifdef IMPORT_LIBRARY
  	$(INSTALL) -m 775 $(IMPORT_LIBRARY) $(SOURCE_LIB_DIR)
-@@ -268,6 +269,7 @@
+@@ -258,6 +259,7 @@
  release_md::
  ifneq ($(MD_LIB_RELEASE_FILES),)
  	$(INSTALL) -m 444 $(MD_LIB_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_LIB_DIR)
@@ -220,7 +220,7 @@
  endif
  ifneq ($(MD_BIN_RELEASE_FILES),)
  	$(INSTALL) -m 555 $(MD_BIN_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_BIN_DIR)
-@@ -328,6 +330,8 @@
+@@ -313,6 +315,8 @@
  endif
  endif
  
@@ -257,7 +257,7 @@
      ifndef MAPFILE_SOURCE
  	MAPFILE_SOURCE = $(LIBRARY_NAME).def
      endif
-@@ -177,7 +196,7 @@
+@@ -189,7 +208,7 @@
  endif
  
  ALL_TRASH =	$(TARGETS) $(OBJS) $(OBJDIR) LOGS TAGS $(GARBAGE) \
@@ -268,7 +268,7 @@
      ALL_TRASH += $(JDK_HEADER_CFILES) $(JDK_STUB_CFILES) \
 --- nss/mozilla/security/nss/lib/nss/manifest.mn
 +++ nss/mozilla/security/nss/lib/nss/manifest.mn
-@@ -57,6 +57,7 @@
+@@ -58,6 +58,7 @@
  
  LIBRARY_NAME = nss
  LIBRARY_VERSION = 3
@@ -288,7 +288,7 @@
  export ALLOW_OPT_CODE_SIZE = 1
 --- nss/mozilla/security/nss/lib/ssl/manifest.mn
 +++ nss/mozilla/security/nss/lib/ssl/manifest.mn
-@@ -86,6 +86,7 @@
+@@ -78,6 +78,7 @@
  
  LIBRARY_NAME = ssl
  LIBRARY_VERSION = 3
@@ -298,7 +298,7 @@
  export ALLOW_OPT_CODE_SIZE = 1
 --- nss/mozilla/security/nss/lib/util/manifest.mn
 +++ nss/mozilla/security/nss/lib/util/manifest.mn
-@@ -101,6 +101,7 @@
+@@ -106,6 +106,7 @@
  
  LIBRARY_NAME = nssutil
  LIBRARY_VERSION = 3
