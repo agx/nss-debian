@@ -1,3 +1,16 @@
+nss (3.12.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/38_kbsd.dpatch:
+    + Use CHECK_FORK_PTHREAD on kfreebsd and hurd. Closes: #547301.
+    + Adapt to upstream changes.
+  * debian/patches/95_add_spi+cacert_ca_certs.dpatch,
+  * debian/patches/81_sonames.dpatch: Adapt to upstream changes.
+  * debian/libnss3-1d.symbols: Update symbols file with new symbols.
+  * debian/rules: Bumped shlibs.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 11 Oct 2009 01:26:14 +0200
+
 nss (3.12.3.1-1) unstable; urgency=low
 
   * New upstream release.
