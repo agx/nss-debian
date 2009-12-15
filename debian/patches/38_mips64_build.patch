@@ -1,10 +1,7 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 38_mips64_build.dpatch by Mike Hommey <glandium@debian.org>
+## 38_mips64_build.patch by Mike Hommey <glandium@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Patch from Martin Michlmayr for mips64 builds. bz#330626
-
-@DPATCH@
 
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
 index 3f10f99..d610752 100644

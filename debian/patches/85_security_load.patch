@@ -1,10 +1,7 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 85_security_load.dpatch by Mike Hommey <glandium@debian.org>
+## 85_security_load.patch by Mike Hommey <glandium@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Load modules from $ORIGIN/nss.
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 index e486f7f..ae050f9 100644

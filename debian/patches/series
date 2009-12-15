@@ -1,0 +1,12 @@
+25_entropy.patch
+38_hurd.patch
+38_intel_aes_executable_stack.patch
+38_kbsd.patch
+38_mips64_build.patch
+80_security_build.patch
+80_security_tools.patch
+81_sonames.patch
+85_security_load.patch
+90_realpath.patch
+91_build_pwdecrypt.patch
+95_add_spi+cacert_ca_certs.patch

@@ -1,11 +1,8 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 90_realpath.dpatch by Mike Hommey <glandium@debian.org>
+## 90_realpath.patch by Mike Hommey <glandium@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Use realpath() for loader_GetOriginalPathname, so that symlinks are
 ## DP: properly followed when determining where the current library lives.
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/lib/freebl/genload.c b/mozilla/security/nss/lib/freebl/genload.c
 index ff73674..4f56e95 100644

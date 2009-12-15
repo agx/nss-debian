@@ -1,11 +1,8 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 25_entropy.dpatch by Mike Hommey <glandium@debian.org>
+## 25_entropy.patch by Mike Hommey <glandium@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Remove code that called netstat to gain so called entropy. It's pretty
 ## DP: useless on a Linux system. Thanks Wichert Akkerman. bz#51429.
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
 index c8344b9..6c019da 100644

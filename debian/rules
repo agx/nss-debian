@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 
-include /usr/share/dpatch/dpatch.make
-
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
@@ -28,7 +26,7 @@ CFLAGS += -g
 DISTDIR := $(CURDIR)/mozilla/dist
 
 build: build-stamp
-build-stamp: patch-stamp
+build-stamp:
 	dh_testdir
 
 	$(MAKE) -C mozilla/security/nss \
@@ -49,8 +47,7 @@ build-stamp: patch-stamp
 
 	touch build-stamp
 
-clean: clean-patched unpatch
-clean-patched:
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp install-stamp
@@ -121,4 +118,4 @@ binary-arch: install-stamp
 
 binary: binary-arch
 
-.PHONY: clean install build clean-patched binary-indep binary-arch binary
+.PHONY: clean install build binary-indep binary-arch binary

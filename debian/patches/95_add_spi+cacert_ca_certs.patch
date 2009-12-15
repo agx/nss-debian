@@ -1,10 +1,7 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 95_add_spi+cacert_ca_certs.dpatch by martin f. krafft <madduck@debian.org>
+## 95_add_spi+cacert_ca_certs.patch by martin f. krafft <madduck@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Adds the SPI Inc. and CAcert.org CA certificates
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/lib/ckfw/builtins/certdata.c b/mozilla/security/nss/lib/ckfw/builtins/certdata.c
 index 3fc0253..ac2c852 100644

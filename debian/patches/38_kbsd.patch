@@ -1,11 +1,8 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 38_kbsd.dpatch by Petr Salinger <Petr.Salinger@seznam.cz>
+## 38_kbsd.patch by Petr Salinger <Petr.Salinger@seznam.cz>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: GNU/kFreeBSD support. bz#356011
 ## DP: Added Hurd support.
-
-@DPATCH@
 
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
 index 3ecb584..3f10f99 100644

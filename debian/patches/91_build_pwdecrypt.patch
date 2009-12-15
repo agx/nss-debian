@@ -1,10 +1,7 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 91_build_pwdecrypt.dpatch by Paul Wise <pabs@debian.org>
+## 91_build_pwdecrypt.patch by Paul Wise <pabs@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Enable building and installing pwdecrypt (Closes: #472303)
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/cmd/manifest.mn b/mozilla/security/nss/cmd/manifest.mn
 index 4032e81..6de19aa 100644

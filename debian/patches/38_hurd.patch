@@ -1,10 +1,7 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 38_hurd.dpatch by  <glandium@debian.org>
+## 38_hurd.patch by  <glandium@debian.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Fix FTBFS on Hurd because of MAXPATHLEN
-
-@DPATCH@
 
 diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 index 6e93225..e486f7f 100644
