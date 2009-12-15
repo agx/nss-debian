@@ -6,10 +6,12 @@
 
 @DPATCH@
 
---- nss/mozilla/security/coreconf/Linux.mk
-+++ nss/mozilla/security/coreconf/Linux.mk
-@@ -78,6 +78,9 @@
- ifeq ($(OS_TEST),parisc64)
+diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
+index 3f10f99..d610752 100644
+--- a/mozilla/security/coreconf/Linux.mk
++++ b/mozilla/security/coreconf/Linux.mk
+@@ -87,6 +87,9 @@ else
+ ifeq (,$(filter-out parisc%,$(OS_TEST)))
  	CPU_ARCH        = hppa
  else
 +ifeq ($(OS_TEST),mips64)
@@ -18,7 +20,7 @@
  ifeq (,$(filter-out i%86,$(OS_TEST)))
  	OS_REL_CFLAGS	+= -Di386
  	CPU_ARCH	= x86
-@@ -87,6 +90,7 @@
+@@ -101,6 +104,7 @@ endif
  endif
  endif
  endif

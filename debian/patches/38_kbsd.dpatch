@@ -8,7 +8,7 @@
 @DPATCH@
 
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
-index 5b05477..2c73822 100644
+index 3ecb584..3f10f99 100644
 --- a/mozilla/security/coreconf/Linux.mk
 +++ b/mozilla/security/coreconf/Linux.mk
 @@ -52,50 +52,47 @@ RANLIB			= ranlib
@@ -105,8 +105,8 @@ index 5b05477..2c73822 100644
  DSO_CFLAGS		= -fPIC
  DSO_LDOPTS		= -shared $(ARCHFLAG)
  # The linker on Red Hat Linux 7.2 and RHEL 2.1 (GNU ld version 2.11.90.0.8)
-@@ -153,7 +151,7 @@ DSO_LDOPTS		+= $(if $(findstring 2.11.90.0.8,$(shell ld -v)),,$(ZDEFS_FLAG))
- DSO_LDFLAGS		=
+@@ -152,7 +150,7 @@ ZDEFS_FLAG		= -Wl,-z,defs
+ DSO_LDOPTS		+= $(if $(findstring 2.11.90.0.8,$(shell ld -v)),,$(ZDEFS_FLAG))
  LDFLAGS			+= $(ARCHFLAG)
  
 -# INCLUDES += -I/usr/include -Y/usr/include/linux
@@ -149,7 +149,7 @@ index bd3c02c..86aca7c 100644
  
  #
 diff --git a/mozilla/security/coreconf/config.mk b/mozilla/security/coreconf/config.mk
-index 778bd93..8154956 100644
+index 5b560fb..b9f7e3d 100644
 --- a/mozilla/security/coreconf/config.mk
 +++ b/mozilla/security/coreconf/config.mk
 @@ -63,7 +63,7 @@ endif
@@ -162,7 +162,7 @@ index 778bd93..8154956 100644
  ifeq (,$(filter-out $(TARGET_OSES),$(OS_TARGET)))
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
-index c8344b9..70e48d8 100644
+index 6c019da..de56e31 100644
 --- a/mozilla/security/nss/lib/freebl/unix_rand.c
 +++ b/mozilla/security/nss/lib/freebl/unix_rand.c
 @@ -188,7 +188,8 @@ static SECStatus RNG_kstat(PRUint32* fed)

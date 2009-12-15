@@ -7,9 +7,11 @@
 
 @DPATCH@
 
---- nss/mozilla/security/nss/cmd/shlibsign/Makefile
-+++ nss/mozilla/security/nss/cmd/shlibsign/Makefile
-@@ -110,5 +110,5 @@
+diff --git a/mozilla/security/nss/cmd/shlibsign/Makefile b/mozilla/security/nss/cmd/shlibsign/Makefile
+index 892a2db..22cfc0c 100644
+--- a/mozilla/security/nss/cmd/shlibsign/Makefile
++++ b/mozilla/security/nss/cmd/shlibsign/Makefile
+@@ -120,5 +120,5 @@ else
  	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
  endif
  

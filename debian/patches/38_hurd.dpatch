@@ -7,7 +7,7 @@
 @DPATCH@
 
 diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-index 6e93225..6ca8606 100644
+index 6e93225..e486f7f 100644
 --- a/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 +++ b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 @@ -594,7 +594,6 @@ int main(int argc, char **argv)

@@ -7,8 +7,10 @@
 
 @DPATCH@
 
---- nss/mozilla/security/nss/lib/freebl/genload.c
-+++ nss/mozilla/security/nss/lib/freebl/genload.c
+diff --git a/mozilla/security/nss/lib/freebl/genload.c b/mozilla/security/nss/lib/freebl/genload.c
+index ff73674..4f56e95 100644
+--- a/mozilla/security/nss/lib/freebl/genload.c
++++ b/mozilla/security/nss/lib/freebl/genload.c
 @@ -62,6 +62,16 @@
   */
  static char* loader_GetOriginalPathname(const char* link)
@@ -26,7 +28,7 @@
      char* resolved = NULL;
      char* input = NULL;
      PRUint32 iterations = 0;
-@@ -96,6 +106,7 @@
+@@ -96,6 +106,7 @@ static char* loader_GetOriginalPathname(const char* link)
          input = NULL;
      }
      return input;

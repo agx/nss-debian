@@ -6,20 +6,24 @@
 
 @DPATCH@
 
---- nss/mozilla/security/coreconf/BSD_OS.mk
-+++ nss/mozilla/security/coreconf/BSD_OS.mk
-@@ -73,7 +73,7 @@
+diff --git a/mozilla/security/coreconf/BSD_OS.mk b/mozilla/security/coreconf/BSD_OS.mk
+index 95cb706..0edb7cc 100644
+--- a/mozilla/security/coreconf/BSD_OS.mk
++++ b/mozilla/security/coreconf/BSD_OS.mk
+@@ -71,7 +71,7 @@ OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) -Wall -Wno-switch -DBSD_OS -DBSDI -D
+ ARCH			= bsdos
+ 
  DSO_CFLAGS		= -fPIC -DPIC
- DSO_LDOPTS		= -shared
- DSO_LDFLAGS		=
--DSO_LDOPTS		+= -Wl,-soname,lib$(LIBRARY_NAME)$(LIBRARY_VERSION).$(DLL_SUFFIX)
-+DSO_LDOPTS		+= -Wl,-soname,$(SONAME)
+-DSO_LDOPTS		= -shared -Wl,-soname,lib$(LIBRARY_NAME)$(LIBRARY_VERSION).$(DLL_SUFFIX)
++DSO_LDOPTS		= -shared -Wl,-soname,$(SONAME)
  
  ifdef LIBRUNPATH
  DSO_LDOPTS		+= -Wl,-R$(LIBRUNPATH)
---- nss/mozilla/security/coreconf/BeOS.mk
-+++ nss/mozilla/security/coreconf/BeOS.mk
-@@ -59,7 +59,7 @@
+diff --git a/mozilla/security/coreconf/BeOS.mk b/mozilla/security/coreconf/BeOS.mk
+index 2695891..511d058 100644
+--- a/mozilla/security/coreconf/BeOS.mk
++++ b/mozilla/security/coreconf/BeOS.mk
+@@ -59,7 +59,7 @@ else
  	CPU_ARCH	= x86
  endif
  
@@ -28,9 +32,11 @@
  ifdef BUILD_OPT
  	OPTIMIZER	= -O2
  endif
---- nss/mozilla/security/coreconf/FreeBSD.mk
-+++ nss/mozilla/security/coreconf/FreeBSD.mk
-@@ -51,7 +51,7 @@
+diff --git a/mozilla/security/coreconf/FreeBSD.mk b/mozilla/security/coreconf/FreeBSD.mk
+index 8d1dad7..5979af7 100644
+--- a/mozilla/security/coreconf/FreeBSD.mk
++++ b/mozilla/security/coreconf/FreeBSD.mk
+@@ -56,7 +56,7 @@ endif
  OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
  
  DSO_CFLAGS		= -fPIC
@@ -39,9 +45,11 @@
  
  #
  # The default implementation strategy for FreeBSD is pthreads.
---- nss/mozilla/security/coreconf/HP-UX.mk
-+++ nss/mozilla/security/coreconf/HP-UX.mk
-@@ -83,7 +83,7 @@
+diff --git a/mozilla/security/coreconf/HP-UX.mk b/mozilla/security/coreconf/HP-UX.mk
+index 974b831..315b40d 100644
+--- a/mozilla/security/coreconf/HP-UX.mk
++++ b/mozilla/security/coreconf/HP-UX.mk
+@@ -83,7 +83,7 @@ endif
  PROCESS_MAP_FILE = grep -v ';+' $< | grep -v ';-' | \
           sed -e 's; DATA ;;' -e 's,;;,,' -e 's,;.*,,' -e 's,^,+e ,' > $@
  
@@ -50,9 +58,11 @@
  RPATH			= +b '$$ORIGIN'
  ifneq ($(OS_TEST),ia64)
  # pa-risc
---- nss/mozilla/security/coreconf/IRIX.mk
-+++ nss/mozilla/security/coreconf/IRIX.mk
-@@ -102,7 +102,7 @@
+diff --git a/mozilla/security/coreconf/IRIX.mk b/mozilla/security/coreconf/IRIX.mk
+index 28f4f05..f1296ee 100644
+--- a/mozilla/security/coreconf/IRIX.mk
++++ b/mozilla/security/coreconf/IRIX.mk
+@@ -102,7 +102,7 @@ ifeq ($(USE_N32),1)
  	SHLIB_LD_OPTS	+= -n32 -mips3
  endif
  
@@ -61,9 +71,11 @@
  ifdef MAPFILE
  # Add LD options to restrict exported symbols to those in the map file
  endif
---- nss/mozilla/security/coreconf/Linux.mk
-+++ nss/mozilla/security/coreconf/Linux.mk
-@@ -110,7 +110,7 @@
+diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
+index d610752..1ed89ef 100644
+--- a/mozilla/security/coreconf/Linux.mk
++++ b/mozilla/security/coreconf/Linux.mk
+@@ -111,7 +111,7 @@ LIBC_TAG		= _glibc
  
  ifeq ($(KERNEL)-$(OS_RELEASE),linux-2.0)
  	OS_REL_CFLAGS	+= -DLINUX2_0
@@ -72,8 +84,10 @@
  	ifdef MAPFILE
  		MKSHLIB += -Wl,--version-script,$(MAPFILE)
  	endif
---- nss/mozilla/security/coreconf/Linux2.1.mk
-+++ nss/mozilla/security/coreconf/Linux2.1.mk
+diff --git a/mozilla/security/coreconf/Linux2.1.mk b/mozilla/security/coreconf/Linux2.1.mk
+index e92503a..97f96fa 100644
+--- a/mozilla/security/coreconf/Linux2.1.mk
++++ b/mozilla/security/coreconf/Linux2.1.mk
 @@ -38,7 +38,7 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  ifeq ($(OS_RELEASE),2.1)
@@ -83,8 +97,10 @@
  	ifdef MAPFILE
  		MKSHLIB += -Wl,--version-script,$(MAPFILE)
  	endif
---- nss/mozilla/security/coreconf/Linux2.2.mk
-+++ nss/mozilla/security/coreconf/Linux2.2.mk
+diff --git a/mozilla/security/coreconf/Linux2.2.mk b/mozilla/security/coreconf/Linux2.2.mk
+index 4a6cc1e..1378903 100644
+--- a/mozilla/security/coreconf/Linux2.2.mk
++++ b/mozilla/security/coreconf/Linux2.2.mk
 @@ -38,7 +38,7 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
@@ -94,8 +110,10 @@
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
---- nss/mozilla/security/coreconf/Linux2.4.mk
-+++ nss/mozilla/security/coreconf/Linux2.4.mk
+diff --git a/mozilla/security/coreconf/Linux2.4.mk b/mozilla/security/coreconf/Linux2.4.mk
+index a387672..19cc538 100644
+--- a/mozilla/security/coreconf/Linux2.4.mk
++++ b/mozilla/security/coreconf/Linux2.4.mk
 @@ -38,7 +38,7 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
@@ -105,8 +123,10 @@
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
---- nss/mozilla/security/coreconf/Linux2.5.mk
-+++ nss/mozilla/security/coreconf/Linux2.5.mk
+diff --git a/mozilla/security/coreconf/Linux2.5.mk b/mozilla/security/coreconf/Linux2.5.mk
+index 4a6cc1e..1378903 100644
+--- a/mozilla/security/coreconf/Linux2.5.mk
++++ b/mozilla/security/coreconf/Linux2.5.mk
 @@ -38,7 +38,7 @@
  include $(CORE_DEPTH)/coreconf/Linux.mk
  
@@ -116,9 +136,11 @@
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
---- nss/mozilla/security/coreconf/Linux2.6.mk
-+++ nss/mozilla/security/coreconf/Linux2.6.mk
-@@ -41,7 +41,7 @@
+diff --git a/mozilla/security/coreconf/Linux2.6.mk b/mozilla/security/coreconf/Linux2.6.mk
+index 8d5cf07..d008e3e 100644
+--- a/mozilla/security/coreconf/Linux2.6.mk
++++ b/mozilla/security/coreconf/Linux2.6.mk
+@@ -41,7 +41,7 @@ ifeq ($(KERNEL), linux)
  OS_REL_CFLAGS   += -DLINUX2_1
  endif
  
@@ -127,20 +149,24 @@
  
  ifdef MAPFILE
  	MKSHLIB += -Wl,--version-script,$(MAPFILE)
---- nss/mozilla/security/coreconf/NetBSD.mk
-+++ nss/mozilla/security/coreconf/NetBSD.mk
-@@ -68,7 +68,7 @@
+diff --git a/mozilla/security/coreconf/NetBSD.mk b/mozilla/security/coreconf/NetBSD.mk
+index 551f10f..ca8f123 100644
+--- a/mozilla/security/coreconf/NetBSD.mk
++++ b/mozilla/security/coreconf/NetBSD.mk
+@@ -67,7 +67,7 @@ ARCH			= netbsd
+ DSO_CFLAGS		= -fPIC -DPIC
  DSO_LDOPTS		= -shared
- DSO_LDFLAGS		=
  ifeq ($(OBJECT_FMT),ELF)
 -DSO_LDOPTS		+= -Wl,-soname,lib$(LIBRARY_NAME)$(LIBRARY_VERSION).$(DLL_SUFFIX)
 +DSO_LDOPTS		+= -Wl,-soname,$(SONAME)
  endif
  
  ifdef LIBRUNPATH
---- nss/mozilla/security/coreconf/OSF1.mk
-+++ nss/mozilla/security/coreconf/OSF1.mk
-@@ -64,7 +64,7 @@
+diff --git a/mozilla/security/coreconf/OSF1.mk b/mozilla/security/coreconf/OSF1.mk
+index fd52047..a3f3046 100644
+--- a/mozilla/security/coreconf/OSF1.mk
++++ b/mozilla/security/coreconf/OSF1.mk
+@@ -64,7 +64,7 @@ ifeq ($(USE_PTHREADS),1)
  endif
  
  # The command to build a shared library on OSF1.
@@ -149,20 +175,24 @@
  ifdef MAPFILE
  MKSHLIB += -hidden -input $(MAPFILE)
  endif
---- nss/mozilla/security/coreconf/OpenBSD.mk
-+++ nss/mozilla/security/coreconf/OpenBSD.mk
-@@ -65,7 +65,7 @@
+diff --git a/mozilla/security/coreconf/OpenBSD.mk b/mozilla/security/coreconf/OpenBSD.mk
+index 6ec4c34..beb0954 100644
+--- a/mozilla/security/coreconf/OpenBSD.mk
++++ b/mozilla/security/coreconf/OpenBSD.mk
+@@ -65,7 +65,7 @@ OS_LIBS			=
  ARCH			= openbsd
  
  DSO_CFLAGS		= -fPIC -DPIC
 -DSO_LDOPTS		= -shared -fPIC -Wl,-soname,lib$(LIBRARY_NAME)$(LIBRARY_VERSION).$(DLL_SUFFIX)
 +DSO_LDOPTS		= -shared -fPIC -Wl,-soname,$(SONAME)
- DSO_LDFLAGS		=
  
  MKSHLIB			= $(CC) $(DSO_LDOPTS)
---- nss/mozilla/security/coreconf/QNX.mk
-+++ nss/mozilla/security/coreconf/QNX.mk
-@@ -54,7 +54,7 @@
+ 
+diff --git a/mozilla/security/coreconf/QNX.mk b/mozilla/security/coreconf/QNX.mk
+index 315bde4..de04c12 100644
+--- a/mozilla/security/coreconf/QNX.mk
++++ b/mozilla/security/coreconf/QNX.mk
+@@ -54,7 +54,7 @@ else
  	CPU_ARCH	= x86
  endif
  
@@ -171,9 +201,11 @@
  ifdef BUILD_OPT
  	OPTIMIZER	= -O2
  endif
---- nss/mozilla/security/coreconf/ReliantUNIX.mk
-+++ nss/mozilla/security/coreconf/ReliantUNIX.mk
-@@ -51,7 +51,7 @@
+diff --git a/mozilla/security/coreconf/ReliantUNIX.mk b/mozilla/security/coreconf/ReliantUNIX.mk
+index 671132a..07e13ff 100644
+--- a/mozilla/security/coreconf/ReliantUNIX.mk
++++ b/mozilla/security/coreconf/ReliantUNIX.mk
+@@ -51,7 +51,7 @@ ifdef NS_USE_GCC
  		OPTIMIZER += -O6
  	endif
  	MKSHLIB     = $(LD)
@@ -182,9 +214,11 @@
  	DSO_LDOPTS += -G -Xlinker -Blargedynsym
  else
  	## native compiler (CDS++ 1.0)
---- nss/mozilla/security/coreconf/SunOS5.mk
-+++ nss/mozilla/security/coreconf/SunOS5.mk
-@@ -143,7 +143,7 @@
+diff --git a/mozilla/security/coreconf/SunOS5.mk b/mozilla/security/coreconf/SunOS5.mk
+index c3f8e18..dfe9a67 100644
+--- a/mozilla/security/coreconf/SunOS5.mk
++++ b/mozilla/security/coreconf/SunOS5.mk
+@@ -143,7 +143,7 @@ ifdef NS_USE_GCC
  ifeq ($(USE_64), 1)
  	DSO_LDOPTS += -m64
  endif
@@ -193,7 +227,7 @@
  else
  ifeq ($(USE_64), 1)
  	ifeq ($(OS_TEST),i86pc)
-@@ -152,7 +152,7 @@
+@@ -152,7 +152,7 @@ ifeq ($(USE_64), 1)
  	    DSO_LDOPTS +=-xarch=v9
  	endif
  endif
@@ -202,9 +236,11 @@
  endif
  DSO_LDOPTS += -z combreloc -z defs -z ignore
  
---- nss/mozilla/security/coreconf/rules.mk
-+++ nss/mozilla/security/coreconf/rules.mk
-@@ -115,6 +115,7 @@
+diff --git a/mozilla/security/coreconf/rules.mk b/mozilla/security/coreconf/rules.mk
+index 9041512..a364911 100644
+--- a/mozilla/security/coreconf/rules.mk
++++ b/mozilla/security/coreconf/rules.mk
+@@ -115,6 +115,7 @@ ifeq (,$(filter-out _WIN%,$(NS_USE_GCC)_$(OS_TARGET)))
  	$(INSTALL) -m 644 $(SHARED_LIBRARY:$(DLL_SUFFIX)=pdb) $(SOURCE_LIB_DIR)
  endif
  endif
@@ -212,7 +248,7 @@
  endif
  ifdef IMPORT_LIBRARY
  	$(INSTALL) -m 775 $(IMPORT_LIBRARY) $(SOURCE_LIB_DIR)
-@@ -258,6 +259,7 @@
+@@ -258,6 +259,7 @@ endif
  release_md::
  ifneq ($(MD_LIB_RELEASE_FILES),)
  	$(INSTALL) -m 444 $(MD_LIB_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_LIB_DIR)
@@ -220,7 +256,7 @@
  endif
  ifneq ($(MD_BIN_RELEASE_FILES),)
  	$(INSTALL) -m 555 $(MD_BIN_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_BIN_DIR)
-@@ -313,6 +315,8 @@
+@@ -313,6 +315,8 @@ SUB_SHLOBJS = $(foreach dir,$(SHARED_LIBRARY_DIRS),$(addprefix $(dir)/,$(shell $
  endif
  endif
  
@@ -229,9 +265,11 @@
  $(SHARED_LIBRARY): $(OBJS) $(RES) $(MAPFILE) $(SUB_SHLOBJS)
  	@$(MAKE_OBJDIR)
  	rm -f $@
---- nss/mozilla/security/coreconf/ruleset.mk
-+++ nss/mozilla/security/coreconf/ruleset.mk
-@@ -123,6 +123,25 @@
+diff --git a/mozilla/security/coreconf/ruleset.mk b/mozilla/security/coreconf/ruleset.mk
+index c083378..f6aa6d9 100644
+--- a/mozilla/security/coreconf/ruleset.mk
++++ b/mozilla/security/coreconf/ruleset.mk
+@@ -123,6 +123,25 @@ ifdef LIBRARY_NAME
      ifndef SHARED_LIBRARY
  	SHARED_LIBRARY = $(OBJDIR)/$(DLL_PREFIX)$(LIBRARY_NAME)$(LIBRARY_VERSION)$(JDK_DEBUG_SUFFIX).$(DLL_SUFFIX)
      endif
@@ -257,7 +295,7 @@
      ifndef MAPFILE_SOURCE
  	MAPFILE_SOURCE = $(LIBRARY_NAME).def
      endif
-@@ -189,7 +208,7 @@
+@@ -189,7 +208,7 @@ else
  endif
  
  ALL_TRASH =	$(TARGETS) $(OBJS) $(OBJDIR) LOGS TAGS $(GARBAGE) \
@@ -266,9 +304,11 @@
  
  ifdef NS_USE_JDK
      ALL_TRASH += $(JDK_HEADER_CFILES) $(JDK_STUB_CFILES) \
---- nss/mozilla/security/nss/lib/nss/manifest.mn
-+++ nss/mozilla/security/nss/lib/nss/manifest.mn
-@@ -58,6 +58,7 @@
+diff --git a/mozilla/security/nss/lib/nss/manifest.mn b/mozilla/security/nss/lib/nss/manifest.mn
+index b3bbd97..a87a90c 100644
+--- a/mozilla/security/nss/lib/nss/manifest.mn
++++ b/mozilla/security/nss/lib/nss/manifest.mn
+@@ -58,6 +58,7 @@ MAPFILE = $(OBJDIR)/nss.def
  
  LIBRARY_NAME = nss
  LIBRARY_VERSION = 3
@@ -276,9 +316,11 @@
  
  # This part of the code, including all sub-dirs, can be optimized for size
  export ALLOW_OPT_CODE_SIZE = 1
---- nss/mozilla/security/nss/lib/smime/manifest.mn
-+++ nss/mozilla/security/nss/lib/smime/manifest.mn
-@@ -79,6 +79,7 @@
+diff --git a/mozilla/security/nss/lib/smime/manifest.mn b/mozilla/security/nss/lib/smime/manifest.mn
+index a72b413..a782e1d 100644
+--- a/mozilla/security/nss/lib/smime/manifest.mn
++++ b/mozilla/security/nss/lib/smime/manifest.mn
+@@ -79,6 +79,7 @@ REQUIRES = dbm
  
  LIBRARY_NAME = smime
  LIBRARY_VERSION = 3
@@ -286,9 +328,11 @@
  
  # This part of the code, including all sub-dirs, can be optimized for size
  export ALLOW_OPT_CODE_SIZE = 1
---- nss/mozilla/security/nss/lib/ssl/manifest.mn
-+++ nss/mozilla/security/nss/lib/ssl/manifest.mn
-@@ -78,6 +78,7 @@
+diff --git a/mozilla/security/nss/lib/ssl/manifest.mn b/mozilla/security/nss/lib/ssl/manifest.mn
+index 8451229..ec3495e 100644
+--- a/mozilla/security/nss/lib/ssl/manifest.mn
++++ b/mozilla/security/nss/lib/ssl/manifest.mn
+@@ -78,6 +78,7 @@ CSRCS = \
  
  LIBRARY_NAME = ssl
  LIBRARY_VERSION = 3
@@ -296,9 +340,11 @@
  
  # This part of the code, including all sub-dirs, can be optimized for size
  export ALLOW_OPT_CODE_SIZE = 1
---- nss/mozilla/security/nss/lib/util/manifest.mn
-+++ nss/mozilla/security/nss/lib/util/manifest.mn
-@@ -106,6 +106,7 @@
+diff --git a/mozilla/security/nss/lib/util/manifest.mn b/mozilla/security/nss/lib/util/manifest.mn
+index ac72413..e5fa14b 100644
+--- a/mozilla/security/nss/lib/util/manifest.mn
++++ b/mozilla/security/nss/lib/util/manifest.mn
+@@ -107,6 +107,7 @@ MAPFILE = $(OBJDIR)/nssutil.def
  
  LIBRARY_NAME = nssutil
  LIBRARY_VERSION = 3
