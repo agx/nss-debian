@@ -34,10 +34,25 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: sslinfo.c,v 1.18 2008/12/17 06:09:19 nelson%bolyard.com Exp $ */
+/* $Id: sslinfo.c,v 1.21 2009/11/09 22:00:18 wtc%google.com Exp $ */
 #include "ssl.h"
 #include "sslimpl.h"
 #include "sslproto.h"
+
+static const char *
+ssl_GetCompressionMethodName(SSLCompressionMethod compression)
+{
+    switch (compression) {
+    case ssl_compression_null:
+	return "NULL";
+#ifdef NSS_ENABLE_ZLIB
+    case ssl_compression_deflate:
+	return "DEFLATE";
+#endif
+    default:
+	return "???";
+    }
+}
 
 SECStatus 
 SSL_GetChannelInfo(PRFileDesc *fd, SSLChannelInfo *info, PRUintn len)
@@ -67,11 +82,20 @@ SSL_GetChannelInfo(PRFileDesc *fd, SSLChannelInfo *info, PRUintn len)
 	inf.authKeyBits      = ss->sec.authKeyBits;
 	inf.keaKeyBits       = ss->sec.keaKeyBits;
 	if (ss->version < SSL_LIBRARY_VERSION_3_0) { /* SSL2 */
-	    inf.cipherSuite      = ss->sec.cipherType | 0xff00;
+	    inf.cipherSuite           = ss->sec.cipherType | 0xff00;
+	    inf.compressionMethod     = ssl_compression_null;
+	    inf.compressionMethodName = "N/A";
 	} else if (ss->ssl3.initialized) { 	/* SSL3 and TLS */
-
-	    /* XXX  These should come from crSpec */
-	    inf.cipherSuite      = ss->ssl3.hs.cipher_suite;
+	    ssl_GetSpecReadLock(ss);
+	    /* XXX  The cipher suite should be in the specs and this
+	     * function should get it from crSpec rather than from the "hs".
+	     * See bug 275744 comment 69.
+	     */
+	    inf.cipherSuite           = ss->ssl3.hs.cipher_suite;
+	    inf.compressionMethod     = ss->ssl3.crSpec->compression_method;
+	    ssl_ReleaseSpecReadLock(ss);
+	    inf.compressionMethodName =
+		ssl_GetCompressionMethodName(inf.compressionMethod);
 	}
 	if (sid) {
 	    inf.creationTime   = sid->creationTime;

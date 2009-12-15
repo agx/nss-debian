@@ -39,7 +39,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: sslimpl.h,v 1.66 2008/12/17 06:09:19 nelson%bolyard.com Exp $ */
+/* $Id: sslimpl.h,v 1.69 2009/11/07 18:23:06 wtc%google.com Exp $ */
 
 #ifndef __sslimpl_h_
 #define __sslimpl_h_
@@ -334,6 +334,9 @@ typedef struct sslOptionsStr {
     unsigned int bypassPKCS11           : 1;  /* 16 */
     unsigned int noLocks                : 1;  /* 17 */
     unsigned int enableSessionTickets   : 1;  /* 18 */
+    unsigned int enableDeflate          : 1;  /* 19 */
+    unsigned int enableRenegotiation    : 2;  /* 20-21 */
+    unsigned int requireSafeNegotiation : 1;  /* 22 */
 } sslOptions;
 
 typedef enum { sslHandshakingUndetermined = 0,
@@ -448,6 +451,12 @@ typedef SECStatus (*SSLCipher)(void *               context,
 			       int                  maxout, 
 			       const unsigned char *in,
 			       int                  inlen);
+typedef SECStatus (*SSLCompressor)(void *               context,
+                                   unsigned char *      out,
+                                   int *                outlen,
+                                   int                  maxout,
+                                   const unsigned char *in,
+                                   int                  inlen);
 typedef SECStatus (*SSLDestroy)(void *context, PRBool freeit);
 
 
@@ -523,12 +532,19 @@ typedef struct {
 typedef struct {
     const ssl3BulkCipherDef *cipher_def;
     const ssl3MACDef * mac_def;
+    SSLCompressionMethod compression_method;
     int                mac_size;
     SSLCipher          encode;
     SSLCipher          decode;
     SSLDestroy         destroy;
     void *             encodeContext;
     void *             decodeContext;
+    SSLCompressor      compress;
+    SSLCompressor      decompress;
+    SSLDestroy         destroyCompressContext;
+    void *             compressContext;
+    SSLDestroy         destroyDecompressContext;
+    void *             decompressContext;
     PRBool             bypassCiphers;	/* did double bypass (at least) */
     PK11SymKey *       master_secret;
     SSL3SequenceNumber write_seq_num;
@@ -589,7 +605,7 @@ struct sslSessionIDStr {
 	    SSL3Opaque            sessionID[SSL3_SESSIONID_BYTES];
 
 	    ssl3CipherSuite       cipherSuite;
-	    SSL3CompressionMethod compression;
+	    SSLCompressionMethod  compression;
 	    int                   policy;
 	    ssl3SidKeys           keys;
 	    CK_MECHANISM_TYPE     masterWrapMech;
@@ -735,7 +751,7 @@ typedef struct SSL3HandshakeStateStr {
 const ssl3KEADef *        kea_def;
     ssl3CipherSuite       cipher_suite;
 const ssl3CipherSuiteDef *suite_def;
-    SSL3CompressionMethod compression;
+    SSLCompressionMethod  compression;
     sslBuffer             msg_body;    /* protected by recvBufLock */
                                /* partial handshake message from record layer */
     unsigned int          header_bytes; 
@@ -827,7 +843,7 @@ typedef struct SessionTicketStr {
     uint16                ticket_version;
     SSL3ProtocolVersion   ssl_version;
     ssl3CipherSuite       cipher_suite;
-    SSL3CompressionMethod compression_method;
+    SSLCompressionMethod  compression_method;
     SSLSignType           authAlgorithm;
     uint32                authKeyBits;
     SSLKEAType            keaType;

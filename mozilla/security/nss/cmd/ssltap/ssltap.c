@@ -66,7 +66,7 @@
 #include "cert.h"
 #include "sslproto.h"
 
-#define VERSIONSTRING "$Revision: 1.13 $ ($Date: 2009/03/13 02:24:07 $) $Author: nelson%bolyard.com $"
+#define VERSIONSTRING "$Revision: 1.16 $ ($Date: 2009/11/07 20:01:49 $) $Author: wtc%google.com $"
 
 
 struct _DataBufferList;
@@ -365,6 +365,10 @@ const char * V2CipherString(int cs_int)
   case 0x000039:    cs_str = "TLS/DHE-RSA/AES256-CBC/SHA";	break;
   case 0x00003A:    cs_str = "TLS/DH-ANON/AES256-CBC/SHA";	break;
 
+  case 0x00003C:    cs_str = "TLS/RSA/AES128-CBC/SHA256";  	break;
+  case 0x00003D:    cs_str = "TLS/RSA/AES256-CBC/SHA256";  	break;
+  case 0x000040:    cs_str = "TLS/DHE-DSS/AES128-CBC/SHA256";	break;
+
   case 0x000041:    cs_str = "TLS/RSA/CAMELLIA128-CBC/SHA";	break;
   case 0x000042:    cs_str = "TLS/DH-DSS/CAMELLIA128-CBC/SHA";	break;
   case 0x000043:    cs_str = "TLS/DH-RSA/CAMELLIA128-CBC/SHA";	break;
@@ -379,6 +383,8 @@ const char * V2CipherString(int cs_int)
   case 0x000063:    cs_str = "TLS/DHE-DSS_EXPORT1024/DES56-CBC/SHA"; break;
   case 0x000065:    cs_str = "TLS/DHE-DSS_EXPORT1024/RC4-56/SHA";  break;
   case 0x000066:    cs_str = "TLS/DHE-DSS/RC4-128/SHA";		   break;
+
+  case 0x00006A:    cs_str = "TLS/DHE-DSS/AES256-CBC/SHA256";	break;
 
   case 0x000072:    cs_str = "TLS/DHE-DSS/3DESEDE-CBC/RMD160"; break;
   case 0x000073:    cs_str = "TLS/DHE-DSS/AES128-CBC/RMD160";  break;
@@ -446,6 +452,13 @@ const char * V2CipherString(int cs_int)
   case 0x00C018:    cs_str = "TLS/ECDH-anon/AES128-CBC/SHA";    break;
   case 0x00C019:    cs_str = "TLS/ECDH-anon/AES256-CBC/SHA";    break;
 
+  case 0x00C023:    cs_str = "TLS/ECDHE-ECDSA/AES128-CBC/SHA256"; break;
+  case 0x00C024:    cs_str = "TLS/ECDHE-ECDSA/AES256-CBC/SHA384"; break;
+  case 0x00C027:    cs_str = "TLS/ECDHE-RSA/AES128-CBC/SHA256"; break;
+  case 0x00C028:    cs_str = "TLS/ECDHE-RSA/AES256-CBC/SHA384"; break;
+  case 0x00C02B:    cs_str = "TLS/ECDHE-ECDSA/AES128-GCM/SHA256"; break;
+  case 0x00C02C:    cs_str = "TLS/ECDHE-ECDSA/AES256-GCM/SHA384"; break;
+
   case 0x00feff:    cs_str = "SSL3/RSA-FIPS/3DESEDE-CBC/SHA";	break;
   case 0x00fefe:    cs_str = "SSL3/RSA-FIPS/DES-CBC/SHA";	break;
   case 0x00ffe1:    cs_str = "SSL3/RSA-FIPS/DES56-CBC/SHA";     break;
@@ -456,6 +469,20 @@ const char * V2CipherString(int cs_int)
   }
 
   return cs_str;
+}
+
+const char * CompressionMethodString(int cm_int) 
+{
+  char *cm_str;
+  cm_str = NULL;
+  switch (cm_int) {
+  case  0: cm_str = "NULL";     break;
+  case  1: cm_str = "DEFLATE";  break;  /* RFC 3749 */
+  case 64: cm_str = "LZS";      break;  /* RFC 3943 */
+  default: cm_str = "???";      break;
+  }
+
+  return cm_str;
 }
 
 const char * helloExtensionNameString(int ex_num) 
@@ -472,6 +499,7 @@ const char * helloExtensionNameString(int ex_num)
   case  5: ex_name = "status_request";                 break;
   case 10: ex_name = "elliptic_curves";                break;
   case 11: ex_name = "ec_point_formats";               break;
+  case 13: ex_name = "signature_algorithms";           break;
   case 35: ex_name = "session_ticket";                 break;
   default: sprintf(buf, "%d", ex_num);  ex_name = (const char *)buf; break;
   }
@@ -554,10 +582,8 @@ void print_sslv2(DataBufferList *s, unsigned char *recordBuf, unsigned int recor
 	       (PRUint32)(GET_SHORT((chv2->rndlength))));
     PR_fprintf(PR_STDOUT,"           cipher-suites = { \n");
     for (p=0;p<GET_SHORT((chv2->cslength));p+=3) {
-      const char *cs_str=NULL;
-      PRUint32 cs_int=0;
-      cs_int = GET_24((&chv2->csuites[p]));
-      cs_str = V2CipherString(cs_int);
+      PRUint32 cs_int    = GET_24((&chv2->csuites[p]));
+      const char *cs_str = V2CipherString(cs_int);
 
       PR_fprintf(PR_STDOUT,"                (0x%06x) %s\n",
 		  cs_int, cs_str);
@@ -641,10 +667,8 @@ void print_sslv2(DataBufferList *s, unsigned char *recordBuf, unsigned int recor
     PR_fprintf(PR_STDOUT,"           cipher-suites = { ");
     len = GET_SHORT((shv2->cslength));
     for (p = 0; p < len; p += 3) {
-      const char *cs_str=NULL;
-      PRUint32 cs_int=0;
-      cs_int = GET_24((pos+p));
-      cs_str = V2CipherString(cs_int);
+      PRUint32 cs_int    = GET_24((pos+p));
+      const char *cs_str = V2CipherString(cs_int);
       PR_fprintf(PR_STDOUT,"\n              ");
       PR_fprintf(PR_STDOUT,"(0x%06x) %s", cs_int, cs_str);
     }
@@ -816,17 +840,15 @@ void print_ssl3_handshake(unsigned char *recordBuf,
 	  /* pretty print cipher suites */
 	  {
 	    int csuitelength = GET_SHORT((hsdata+pos));
-	    PR_fprintf(PR_STDOUT,"            cipher_suites[%d] = { \n",
+	    PR_fprintf(PR_STDOUT,"            cipher_suites[%d] = {\n",
 		       csuitelength/2);
 	    if (csuitelength % 2) {
 	      PR_fprintf(PR_STDOUT,
 		 "*error in protocol - csuitelength shouldn't be odd*\n");
 	    }
 	    for (w=0; w<csuitelength; w+=2) {
-	      const char *cs_str=NULL;
-	      PRUint32 cs_int=0;
-	      cs_int = GET_SHORT((hsdata+pos+2+w));
-	      cs_str = V2CipherString(cs_int);
+	      PRUint32 cs_int    = GET_SHORT((hsdata+pos+2+w));
+	      const char *cs_str = V2CipherString(cs_int);
 	      PR_fprintf(PR_STDOUT,
 		"                (0x%04x) %s\n", cs_int, cs_str);
 	    }
@@ -837,13 +859,16 @@ void print_ssl3_handshake(unsigned char *recordBuf,
 	  /* pretty print compression methods */
 	  {
 	    int complength = hsdata[pos];
-	    PR_fprintf(PR_STDOUT,"            compression[%d] = {",
+	    PR_fprintf(PR_STDOUT,"            compression[%d] = {\n",
 	               complength);
 	    for (w=0; w < complength; w++) {
-	      PR_fprintf(PR_STDOUT, " %02x", hsdata[pos+1+w]);
+	      PRUint32 cm_int    = hsdata[pos+1+w];
+	      const char *cm_str = CompressionMethodString(cm_int);
+	      PR_fprintf(PR_STDOUT,
+		"                (%02x) %s\n", cm_int, cm_str);
 	    }
 	    pos += 1 + complength;
-	    PR_fprintf(PR_STDOUT," }\n");
+	    PR_fprintf(PR_STDOUT,"            }\n");
 	  }
 
 	  /* pretty print extensions, if any */
@@ -887,8 +912,13 @@ void print_ssl3_handshake(unsigned char *recordBuf,
 	  currentcipher = cs_int;
 	  pos += 2;
 	}
-	PR_fprintf(PR_STDOUT,  "            compression method = %02x\n", 
-		   hsdata[pos++]);
+	/* pretty print chosen compression method */
+	{
+	  PRUint32 cm_int    = hsdata[pos++];
+	  const char *cm_str = CompressionMethodString(cm_int);
+	  PR_fprintf(PR_STDOUT,"            compression method = (%02x) %s\n",
+		     cm_int, cm_str);
+	}
 
 	/* pretty print extensions, if any */
 	pos = print_hello_extension(hsdata, sslh.length, pos);

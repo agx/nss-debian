@@ -41,7 +41,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 /* TLS extension code moved here from ssl3ecc.c */
-/* $Id: ssl3ext.c,v 1.3 2008/10/06 22:04:15 nelson%bolyard.com Exp $ */
+/* $Id: ssl3ext.c,v 1.5 2009/11/07 18:23:06 wtc%google.com Exp $ */
 
 #include "nssrenam.h"
 #include "nss.h"
@@ -867,7 +867,7 @@ ssl3_ServerHandleSessionTicketXtn(sslSocket *ss, PRUint16 ex_type,
 	    if (rv != SECSuccess)
 		goto no_ticket;
 	}
-	if (PORT_Memcmp(computed_mac, enc_session_ticket.mac,
+	if (NSS_SecureMemcmp(computed_mac, enc_session_ticket.mac,
 		computed_mac_length) != 0) {
 	    SSL_DBG(("%d: SSL[%d]: Session ticket MAC mismatch.",
 			SSL_GETPID(), ss->fd));
@@ -963,7 +963,7 @@ ssl3_ServerHandleSessionTicketXtn(sslSocket *ss, PRUint16 ex_type,
 	/* Read compression_method. */
 	temp = ssl3_ConsumeHandshakeNumber(ss, 1, &buffer, &buffer_len);
 	if (temp < 0) goto no_ticket;
-	parsed_session_ticket->compression_method = (SSL3CompressionMethod)temp;
+	parsed_session_ticket->compression_method = (SSLCompressionMethod)temp;
 
 	/* Read cipher spec parameters. */
 	temp = ssl3_ConsumeHandshakeNumber(ss, 1, &buffer, &buffer_len);
