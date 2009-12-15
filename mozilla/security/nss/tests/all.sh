@@ -188,7 +188,7 @@ run_cycle_pkix()
     export NSS_ENABLE_PKIX_VERIFY
 
     TESTS="${ALL_TESTS}"
-    TESTS_SKIP="cipher dbtests sdr crmf smime merge"
+    TESTS_SKIP="cipher dbtests sdr crmf smime merge multinit"
 
     echo "${NSS_SSL_TESTS}" | grep "_" > /dev/null
     RET=$?
