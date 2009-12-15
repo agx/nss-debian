@@ -26,7 +26,7 @@ following licensing terms:
 
 === zlib
 
-The  mozilla/security/nss/cmd/zlib directory is licensed under the following
+The  mozilla/security/nss/lib/zlib directory is licensed under the following
 terms:
 
  (C) 1995-2004 Jean-loup Gailly and Mark Adler
