@@ -4,10 +4,10 @@
 ## DP: Load modules from $ORIGIN/nss.
 
 diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-index e486f7f..ae050f9 100644
+index 6e93225..501e70b 100644
 --- a/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 +++ b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-@@ -768,6 +768,8 @@ int main(int argc, char **argv)
+@@ -769,6 +769,8 @@ int main(int argc, char **argv)
      libname = PR_GetLibraryName(NULL, "softokn3");
      assert(libname != NULL);
      lib = PR_LoadLibrary(libname);
@@ -16,11 +16,28 @@ index e486f7f..ae050f9 100644
      assert(lib != NULL);
      PR_FreeLibraryName(libname);
  
-diff --git a/mozilla/security/nss/lib/freebl/genload.c b/mozilla/security/nss/lib/freebl/genload.c
-index fac6e22..ff73674 100644
---- a/mozilla/security/nss/lib/freebl/genload.c
-+++ b/mozilla/security/nss/lib/freebl/genload.c
-@@ -113,9 +113,14 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+diff --git a/mozilla/security/nss/lib/pk11wrap/pk11load.c b/mozilla/security/nss/lib/pk11wrap/pk11load.c
+index 1929993..2d4f91b 100644
+--- a/mozilla/security/nss/lib/pk11wrap/pk11load.c
++++ b/mozilla/security/nss/lib/pk11wrap/pk11load.c
+@@ -440,6 +440,12 @@ secmod_LoadPKCS11Module(SECMODModule *mod, SECMODModule **oldModule) {
+ 	 * unload the library if anything goes wrong from here on out...
+ 	 */
+ 	library = PR_LoadLibrary(full_name);
++	if ((library == NULL) &&
++	    !rindex(full_name, PR_GetDirectorySeparator())) {
++            library = PORT_LoadLibraryFromOrigin(my_shlib_name,
++                                      (PRFuncPtr) &softoken_LoadDSO,
++                                      full_name);
++	}
+ 	mod->library = (void *)library;
+ 	PORT_Free(full_name);
+ 
+diff --git a/mozilla/security/nss/lib/util/secload.c b/mozilla/security/nss/lib/util/secload.c
+index 6f9b527..7d6fc22 100644
+--- a/mozilla/security/nss/lib/util/secload.c
++++ b/mozilla/security/nss/lib/util/secload.c
+@@ -104,9 +104,14 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
  
      /* Remove the trailing filename from referencePath and add the new one */
      c = strrchr(referencePath, PR_GetDirectorySeparator());
@@ -36,7 +53,7 @@ index fac6e22..ff73674 100644
          if (fullName) {
              memcpy(fullName, referencePath, referencePathSize);
              strcpy(fullName + referencePathSize, name); 
-@@ -125,7 +130,17 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+@@ -116,6 +121,12 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
  #endif
              libSpec.type = PR_LibSpec_Pathname;
              libSpec.value.pathname = fullName;
@@ -46,7 +63,13 @@ index fac6e22..ff73674 100644
 +            }
 +            strcpy(fullName + referencePathSize, "nss/");
 +            strcpy(fullName + referencePathSize + 4, name);
-             dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
+             dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL
+ #ifdef PR_LD_ALT_SEARCH_PATH
+             /* allow library's dependencies to be found in the same directory
+@@ -123,6 +134,10 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+                                           | PR_LD_ALT_SEARCH_PATH 
+ #endif
+                                           );
 +            if (! dlh) {
 +                strcpy(fullName + referencePathSize, name);
 +                dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
@@ -54,22 +77,3 @@ index fac6e22..ff73674 100644
              PORT_Free(fullName);
          }
      }
-diff --git a/mozilla/security/nss/lib/pk11wrap/pk11load.c b/mozilla/security/nss/lib/pk11wrap/pk11load.c
-index 1929993..6beb59c 100644
---- a/mozilla/security/nss/lib/pk11wrap/pk11load.c
-+++ b/mozilla/security/nss/lib/pk11wrap/pk11load.c
-@@ -444,6 +444,14 @@ secmod_LoadPKCS11Module(SECMODModule *mod, SECMODModule **oldModule) {
- 	PORT_Free(full_name);
- 
- 	if (library == NULL) {
-+	    full_name = rindex(mod->dllName, PR_GetDirectorySeparator());
-+	    if (full_name)
-+	        full_name++;
-+	    else
-+	        full_name = mod->dllName;
-+	    library = loader_LoadLibrary(full_name);
-+	}
-+	if (library == NULL) {
- 	    return SECFailure;
- 	}
- 
