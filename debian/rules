@@ -5,7 +5,11 @@ MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
 MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
 MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
 
-USE_64 := $(shell echo "int main(void) { int assert[(sizeof(long) == 8) ? 1 : -1]; return 0; }" | gcc -o /dev/null -x c - 2> /dev/null && echo USE_64=1)
+ifeq (64,$(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS))
+USE_64 := USE_64=1
+else
+USE_64 :=
+endif
 
 CFLAGS := -Wall -pipe
 
