@@ -1,8 +1,33 @@
-nss (3.12.5-1) UNRELEASED; urgency=low
+nss (3.12.5-1) unstable; urgency=low
 
-  * 
+  * New upstream release.
+  * debian/copyright: Modify with new location for the embedded copy of zlib.
+  * debian/patches/*:
+    + Adapt patches to new upstream.
+    + Switch to quilt format
+  * debian/source/format: Switch to 3.0 (quilt) format.
+  * debian/rules, debian/control: Stop using dpatch.
+  * debian/patches/38_intel_aes_executable_stack.patch: Removed. An upstream
+    change in version 3.12.4 obsoleted it.
+  * debian/rules:
+    + Remove DEB_{BUILD,HOST}_* variables, they are not used.
+    + Use DEB_BUILD_ARCH_BITS to determine whether to build with USE_64 or not.
+    + Ship more tools in libnss3-tools. Closes: #526267.
+    + Work around gcc 4.4 bug on powerpc with -Os.
+    + Force non parallel build. There are too many race conditions in the
+      build system to support parallel builds. Closes: #536248.
+    + Bump shlibs.
+  * debian/control:
+    + Bump Standards-Version to 3.8.3.0.
+    + Build-depend on dpkg-dev (>= 1.15.4) for DEB_BUILD_ARCH_BITS.
+    + Stricter dependency between libnss3-dev and libnss3-1d.
+  * debian/libnss3-1d.symbols:
+    + Add new symbols.
+    + Remove debian revision for symbols added in 3.12.4.
+  * debian/patches/38_hurd.patch: Fix FTBFS on Hurd due to PATH_MAX usage in
+    unix_rand.c. Closes: #550995.
 
- -- Mike Hommey <glandium@debian.org>  Tue, 15 Dec 2009 16:56:03 +0100
+ -- Mike Hommey <glandium@debian.org>  Fri, 18 Dec 2009 11:48:14 +0100
 
 nss (3.12.4-1) unstable; urgency=low
 
