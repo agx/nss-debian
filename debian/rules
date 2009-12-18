@@ -31,7 +31,7 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 
-	$(MAKE) -C mozilla/security/nss \
+	$(MAKE) -j1 -C mozilla/security/nss \
 		build_coreconf \
 		build_dbm \
 		all \
