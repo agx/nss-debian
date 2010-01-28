@@ -1,3 +1,16 @@
+nss (3.12.5-2) unstable; urgency=low
+
+  * debian/control:
+    + Remove build dependency on autotools-dev, we don't use it.
+    + libnss3-dev depends on libnspr4-dev >= 4.6.6-1. 4.6.6-1 was the first
+      version where the pkg-config file was nspr.pc instead of
+      xulrunner-nspr.pc. Closes: #567134.
+  * debian/patches/96_NSS_VersionCheck.patch, debian/patches/series:
+    Remove runtime check of NSPR version in NSS_VersionCheck, which seems to
+    be pointless. Closes: #567136.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 28 Jan 2010 12:12:35 +0100
+
 nss (3.12.5-1) unstable; urgency=low
 
   * New upstream release.
