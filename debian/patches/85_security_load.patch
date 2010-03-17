@@ -4,10 +4,10 @@
 ## DP: Load modules from $ORIGIN/nss.
 
 diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-index 6e93225..501e70b 100644
+index e486f7f..ae050f9 100644
 --- a/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 +++ b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-@@ -769,6 +769,8 @@ int main(int argc, char **argv)
+@@ -768,6 +768,8 @@ int main(int argc, char **argv)
      libname = PR_GetLibraryName(NULL, "softokn3");
      assert(libname != NULL);
      lib = PR_LoadLibrary(libname);

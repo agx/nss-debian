@@ -3,10 +3,10 @@ be pointless.
 
 https://bugzilla.mozilla.org/show_bug.cgi?id=542741
 diff --git a/mozilla/security/nss/lib/nss/nssinit.c b/mozilla/security/nss/lib/nss/nssinit.c
-index 3100fc7..60dc973 100644
+index f2e3ffb..66be164 100644
 --- a/mozilla/security/nss/lib/nss/nssinit.c
 +++ b/mozilla/security/nss/lib/nss/nssinit.c
-@@ -1200,9 +1200,5 @@ NSS_VersionCheck(const char *importedVersion)
+@@ -1198,9 +1198,5 @@ NSS_VersionCheck(const char *importedVersion)
          vpatch == NSS_VPATCH && vbuild > NSS_VBUILD) {
          return PR_FALSE;
      }

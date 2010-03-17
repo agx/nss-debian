@@ -5,7 +5,7 @@
 ## DP: properly followed when determining where the current library lives.
 
 diff --git a/mozilla/security/nss/lib/freebl/genload.c b/mozilla/security/nss/lib/freebl/genload.c
-index ff73674..4f56e95 100644
+index fac6e22..d242517 100644
 --- a/mozilla/security/nss/lib/freebl/genload.c
 +++ b/mozilla/security/nss/lib/freebl/genload.c
 @@ -62,6 +62,16 @@

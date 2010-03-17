@@ -69,10 +69,10 @@ index 28f4f05..f1296ee 100644
  # Add LD options to restrict exported symbols to those in the map file
  endif
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
-index d610752..1ed89ef 100644
+index 4ed2e80..f81ccb9 100644
 --- a/mozilla/security/coreconf/Linux.mk
 +++ b/mozilla/security/coreconf/Linux.mk
-@@ -111,7 +111,7 @@ LIBC_TAG		= _glibc
+@@ -107,7 +107,7 @@ LIBC_TAG		= _glibc
  
  ifeq ($(KERNEL)-$(OS_RELEASE),linux-2.0)
  	OS_REL_CFLAGS	+= -DLINUX2_0
@@ -234,7 +234,7 @@ index c3f8e18..dfe9a67 100644
  DSO_LDOPTS += -z combreloc -z defs -z ignore
  
 diff --git a/mozilla/security/coreconf/rules.mk b/mozilla/security/coreconf/rules.mk
-index 9041512..a364911 100644
+index 01cd254..5d430b4 100644
 --- a/mozilla/security/coreconf/rules.mk
 +++ b/mozilla/security/coreconf/rules.mk
 @@ -115,6 +115,7 @@ ifeq (,$(filter-out _WIN%,$(NS_USE_GCC)_$(OS_TARGET)))
@@ -338,10 +338,10 @@ index 8451229..ec3495e 100644
  # This part of the code, including all sub-dirs, can be optimized for size
  export ALLOW_OPT_CODE_SIZE = 1
 diff --git a/mozilla/security/nss/lib/util/manifest.mn b/mozilla/security/nss/lib/util/manifest.mn
-index ac72413..e5fa14b 100644
+index 74ddd92..30f530a 100644
 --- a/mozilla/security/nss/lib/util/manifest.mn
 +++ b/mozilla/security/nss/lib/util/manifest.mn
-@@ -107,6 +107,7 @@ MAPFILE = $(OBJDIR)/nssutil.def
+@@ -106,6 +106,7 @@ MAPFILE = $(OBJDIR)/nssutil.def
  
  LIBRARY_NAME = nssutil
  LIBRARY_VERSION = 3
