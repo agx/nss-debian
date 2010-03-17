@@ -56,7 +56,7 @@ Section: debug
 Priority: extra
 Architecture: any
 Depends: libnss3-1d (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
-Conflicts: libnss3-0d-dbg
+Conflicts: libnss3-0d-dbg, libnss3-1d (<< ${binary:Version}), libnss3-1d (>> ${binary:Version}), libnss3-tools (<< ${binary:Version}), libnss3-tools (>> ${binary:Version})
 Description: Debugging symbols for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
