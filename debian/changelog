@@ -1,8 +1,24 @@
-nss (3.12.6-1) UNRELEASED; urgency=low
+nss (3.12.6-1) unstable; urgency=low
 
   * New upstream release.
+  * debian/patches/*: Refresh patches.
+  * debian/libnss3-1d.symbols, debian/rules: Update symbols file with new
+    symbols and bump shlibs.
+  * debian/patches/97_SSL_RENEGOTIATE_TRANSITIONAL.patch,
+    debian/patches/series: Enable transitional scheme for ssl renegotiation.
+    Closes: #561918.
+  * debian/control:
+    + Bump Standards-Version to 3.8.4.0.
+    + Drop libnss3-1d dependency on dpkg. The versions it didn't really like
+      were between oldstable and stable.
+    + Don't allow different versions of libnss3-1d, libnss3-1d-dbg and
+      libnss3-tools to be installed at the same time.
+    + Add ${misc:Depends} to libnss3-1d-dbg dependencies.
+  * debian/rules: Revert workaround for gcc 4.4 bug on powerpc with -Os.
+  * debian/rules, debian/control, debian/compat: Simplify debian/rules by
+    using dh.
 
- -- Mike Hommey <glandium@debian.org>  Wed, 17 Mar 2010 09:58:18 +0100
+ -- Mike Hommey <glandium@debian.org>  Wed, 17 Mar 2010 20:33:32 +0100
 
 nss (3.12.5-2) unstable; urgency=low
 
