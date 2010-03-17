@@ -36,7 +36,7 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-/* $Id: nssinit.c,v 1.103 2009/10/29 21:33:10 rrelyea%redhat.com Exp $ */
+/* $Id: nssinit.c,v 1.105 2010/01/22 02:10:54 wtc%google.com Exp $ */
 
 #include <ctype.h>
 #include <string.h>
@@ -46,8 +46,6 @@
 #include "prmem.h"
 #include "cert.h"
 #include "key.h"
-#include "ssl.h"
-#include "sslproto.h"
 #include "secmod.h"
 #include "secoid.h"
 #include "nss.h"
@@ -885,8 +883,8 @@ NSS_RegisterShutdown(NSS_ShutdownFunc sFunc, void *appData)
 {
     int i;
 
-    if (!nssIsInitted) {
-	PORT_SetError(SEC_ERROR_LIBRARY_FAILURE);
+    if (!NSS_IsInitialized()) {
+	PORT_SetError(SEC_ERROR_NOT_INITIALIZED);
 	return SECFailure;
     }
     if (sFunc == NULL) {
@@ -939,8 +937,8 @@ SECStatus
 NSS_UnregisterShutdown(NSS_ShutdownFunc sFunc, void *appData)
 {
     int i;
-    if (!nssIsInitted) {
-	PORT_SetError(SEC_ERROR_LIBRARY_FAILURE);
+    if (!NSS_IsInitialized()) {
+	PORT_SetError(SEC_ERROR_NOT_INITIALIZED);
 	return SECFailure;
     }
 
