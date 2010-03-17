@@ -10,3 +10,4 @@
 91_build_pwdecrypt.patch
 95_add_spi+cacert_ca_certs.patch
 96_NSS_VersionCheck.patch
+97_SSL_RENEGOTIATE_TRANSITIONAL.patch
