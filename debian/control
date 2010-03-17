@@ -11,7 +11,7 @@ Vcs-Browser: http://git.debian.org/?p=pkg-mozilla/nss.git
 
 Package: libnss3-1d
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, dpkg (<< 1.14.8) | dpkg (>= 1.14.18)
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libnss3-0d (>= 3.11.5), libnss3-dev (<= 3.12.0~rc3-1), libnss3
 Description: Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
