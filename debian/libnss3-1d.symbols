@@ -12,6 +12,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_AsciiToName@NSS_3.2 3.12.0~1.9b1
  CERT_CRLCacheRefreshIssuer@NSS_3.7 3.12.0~1.9b1
  CERT_CacheCRL@NSS_3.10 3.12.0~1.9b1
+ CERT_CacheOCSPResponseFromSideChannel@NSS_3.12.6 3.12.6
  CERT_CertChainFromCert@NSS_3.2 3.12.0~1.9b1
  CERT_CertListFromCert@NSS_3.2 3.12.0~1.9b1
  CERT_CertTimesValid@NSS_3.2 3.12.0~1.9b1
@@ -70,8 +71,10 @@ libnss3.so.1d libnss3-1d #MINVER#
  CERT_DestroyValidity@NSS_3.5 3.12.0~1.9b1
  CERT_DisableOCSPChecking@NSS_3.3 3.12.0~1.9b1
  CERT_DisableOCSPDefaultResponder@NSS_3.3 3.12.0~1.9b1
+ CERT_DistNamesFromCertList@NSS_3.12.6 3.12.6
  CERT_DupCertList@NSS_3.2 3.12.0~1.9b1
  CERT_DupCertificate@NSS_3.2 3.12.0~1.9b1
+ CERT_DupDistNames@NSS_3.12.6 3.12.6
  CERT_EnableOCSPChecking@NSS_3.2 3.12.0~1.9b1
  CERT_EnableOCSPDefaultResponder@NSS_3.3 3.12.0~1.9b1
  CERT_EncodeAltNameExtension@NSS_3.7 3.12.0~1.9b1
@@ -263,6 +266,7 @@ libnss3.so.1d libnss3-1d #MINVER#
  NSS_3.12.3@NSS_3.12.3 3.12.3
  NSS_3.12.4@NSS_3.12.4 3.12.4
  NSS_3.12.5@NSS_3.12.5 3.12.5
+ NSS_3.12.6@NSS_3.12.6 3.12.6
  NSS_3.12@NSS_3.12 3.12.0~1.9b1
  NSS_3.2.1@NSS_3.2.1 3.12.0~1.9b1
  NSS_3.2@NSS_3.2 3.12.0~1.9b1
@@ -1162,6 +1166,7 @@ libssl3.so.1d libnss3-1d #MINVER#
  NSSSSL_VersionCheck@NSS_3.2.1 3.12.0~1.9b1
  NSS_3.11.4@NSS_3.11.4 3.12.0~1.9b1
  NSS_3.11.8@NSS_3.11.8 3.12.0~1.9b1
+ NSS_3.12.6@NSS_3.12.6 3.12.6
  NSS_3.2.1@NSS_3.2.1 3.12.0~1.9b1
  NSS_3.2@NSS_3.2 3.12.0~1.9b1
  NSS_3.4@NSS_3.4 3.12.0~1.9b1
@@ -1187,16 +1192,21 @@ libssl3.so.1d libnss3-1d #MINVER#
  SSL_ConfigMPServerSIDCache@NSS_3.2 3.12.0~1.9b1
  SSL_ConfigSecureServer@NSS_3.2 3.12.0~1.9b1
  SSL_ConfigServerSessionIDCache@NSS_3.2 3.12.0~1.9b1
+ SSL_ConfigServerSessionIDCacheWithOpt@NSS_3.12.6 3.12.6
  SSL_DataPending@NSS_3.2 3.12.0~1.9b1
  SSL_ForceHandshake@NSS_3.2 3.12.0~1.9b1
  SSL_ForceHandshakeWithTimeout@NSS_3.11.4 3.12.0~1.9b1
  SSL_GetChannelInfo@NSS_3.4 3.12.0~1.9b1
  SSL_GetCipherSuiteInfo@NSS_3.4 3.12.0~1.9b1
  SSL_GetClientAuthDataHook@NSS_3.2 3.12.0~1.9b1
+ SSL_GetImplementedCiphers@NSS_3.12.6 3.12.6
  SSL_GetMaxServerCacheLocks@NSS_3.4 3.12.0~1.9b1
+ SSL_GetNegotiatedHostInfo@NSS_3.12.6 3.12.6
+ SSL_GetNumImplementedCiphers@NSS_3.12.6 3.12.6
  SSL_GetSessionID@NSS_3.2 3.12.0~1.9b1
  SSL_GetStatistics@NSS_3.2 3.12.0~1.9b1
  SSL_HandshakeCallback@NSS_3.2 3.12.0~1.9b1
+ SSL_HandshakeNegotiatedExtension@NSS_3.12.6 3.12.6
  SSL_ImplementedCiphers@NSS_3.2 3.12.0~1.9b1
  SSL_ImportFD@NSS_3.2 3.12.0~1.9b1
  SSL_InheritMPServerSIDCache@NSS_3.2 3.12.0~1.9b1
@@ -1212,15 +1222,18 @@ libssl3.so.1d libnss3-1d #MINVER#
  SSL_PreencryptedStreamToFile@NSS_3.2 3.12.0~1.9b1
  SSL_ReHandshake@NSS_3.2 3.12.0~1.9b1
  SSL_ReHandshakeWithTimeout@NSS_3.11.4 3.12.0~1.9b1
+ SSL_ReconfigFD@NSS_3.12.6 3.12.6
  SSL_ResetHandshake@NSS_3.2 3.12.0~1.9b1
  SSL_RestartHandshakeAfterCertReq@NSS_3.2 3.12.0~1.9b1
  SSL_RestartHandshakeAfterServerCert@NSS_3.2 3.12.0~1.9b1
  SSL_RevealCert@NSS_3.2 3.12.0~1.9b1
  SSL_RevealPinArg@NSS_3.2 3.12.0~1.9b1
  SSL_RevealURL@NSS_3.2 3.12.0~1.9b1
+ SSL_SNISocketConfigHook@NSS_3.12.6 3.12.6
  SSL_SecurityStatus@NSS_3.2 3.12.0~1.9b1
  SSL_SetMaxServerCacheLocks@NSS_3.4 3.12.0~1.9b1
  SSL_SetPKCS11PinArg@NSS_3.2 3.12.0~1.9b1
  SSL_SetSockPeerID@NSS_3.2 3.12.0~1.9b1
+ SSL_SetTrustAnchors@NSS_3.12.6 3.12.6
  SSL_SetURL@NSS_3.2 3.12.0~1.9b1
  SSL_ShutdownServerSessionIDCache@NSS_3.7.4 3.12.0~1.9b1
