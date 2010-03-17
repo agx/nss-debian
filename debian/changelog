@@ -1,3 +1,9 @@
+nss (3.12.6-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Mike Hommey <glandium@debian.org>  Wed, 17 Mar 2010 09:58:18 +0100
+
 nss (3.12.5-2) unstable; urgency=low
 
   * debian/control:
