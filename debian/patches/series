@@ -1,3 +1,4 @@
+00_ckbi_1.79.patch
 25_entropy.patch
 38_hurd.patch
 38_kbsd.patch
