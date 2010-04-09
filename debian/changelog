@@ -1,3 +1,11 @@
+nss (3.12.6-2) unstable; urgency=low
+
+  * debian/patches/series:
+    + 00_ckbi_1.79.patch: New patch to update CKBI to 1.79.
+    + 95_add_spi+cacert_ca_certs.patch: Refreshed against CKBI 1.79.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 09 Apr 2010 10:45:01 +0200
+
 nss (3.12.6-1) unstable; urgency=low
 
   * New upstream release.
