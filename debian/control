@@ -12,7 +12,6 @@ Vcs-Browser: http://git.debian.org/?p=pkg-mozilla/nss.git
 Package: libnss3-1d
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Conflicts: libnss3-0d (>= 3.11.5), libnss3-dev (<= 3.12.0~rc3-1), libnss3
 Description: Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
@@ -41,7 +40,6 @@ Package: libnss3-dev
 Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}, libnss3-1d (= ${binary:Version}), libnspr4-dev (>= 4.6.6-1)
-Conflicts: libnss3
 Description: Development files for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
@@ -56,7 +54,7 @@ Section: debug
 Priority: extra
 Architecture: any
 Depends: ${misc:Depends}, libnss3-1d (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
-Conflicts: libnss3-0d-dbg, libnss3-1d (<< ${binary:Version}), libnss3-1d (>> ${binary:Version}), libnss3-tools (<< ${binary:Version}), libnss3-tools (>> ${binary:Version})
+Conflicts: libnss3-1d (<< ${binary:Version}), libnss3-1d (>> ${binary:Version}), libnss3-tools (<< ${binary:Version}), libnss3-tools (>> ${binary:Version})
 Description: Debugging symbols for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
