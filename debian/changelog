@@ -1,3 +1,15 @@
+nss (3.12.7-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/*: Refresh patches.
+  * debian/control:
+    - Bump Standards-Version to 3.9.1.0.
+    - Build depend on libnspr4-dev >= 4.8.6.
+  * debian/libnss3-1d.symbols: Simplify symbols file and add new symbols.
+  * debian/rules: Bump shlibs.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 06 Aug 2010 13:55:14 +0200
+
 nss (3.12.6-3) unstable; urgency=low
 
   * debian/rules:
