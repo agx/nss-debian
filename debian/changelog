@@ -1,9 +1,9 @@
-nss (3.12.8~b1-1) UNRELEASED; urgency=low
+nss (3.12.8~b2-1) experimental; urgency=low
 
-  * New upstream snapshot, picked from NSS_3_12_8_BETA1 cvs tag.
+  * New upstream snapshot, picked from NSS_3_12_8_BETA2 cvs tag.
   * debian/patches/*: Refresh patches.
 
- -- Mike Hommey <glandium@debian.org>  Fri, 06 Aug 2010 19:10:39 +0200
+ -- Mike Hommey <glandium@debian.org>  Mon, 23 Aug 2010 18:11:12 +0200
 
 nss (3.12.7-1) unstable; urgency=low
 
