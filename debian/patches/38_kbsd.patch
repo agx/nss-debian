@@ -5,7 +5,7 @@
 ## DP: Added Hurd support.
 
 diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
-index 44b20b2..86d3edc 100644
+index caf05a8..eee395b 100644
 --- a/mozilla/security/coreconf/Linux.mk
 +++ b/mozilla/security/coreconf/Linux.mk
 @@ -101,7 +101,7 @@ endif
@@ -17,7 +17,7 @@ index 44b20b2..86d3edc 100644
  	OS_REL_CFLAGS	+= -DLINUX2_0
  	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
  	ifdef MAPFILE
-@@ -132,14 +132,21 @@ endif
+@@ -136,14 +136,21 @@ endif
  # -ansi on platforms like Android where the system headers are C99 and do
  # not build with -ansi.
  STANDARDS_CFLAGS	= -ansi -D_POSIX_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE
@@ -41,9 +41,9 @@ index 44b20b2..86d3edc 100644
  
  DSO_CFLAGS		= -fPIC
  DSO_LDOPTS		= -shared $(ARCHFLAG)
-@@ -150,7 +157,7 @@ ZDEFS_FLAG		= -Wl,-z,defs
- DSO_LDOPTS		+= $(if $(findstring 2.11.90.0.8,$(shell ld -v)),,$(ZDEFS_FLAG))
- LDFLAGS			+= $(ARCHFLAG)
+@@ -160,7 +167,7 @@ ifdef _SBOX_DIR
+ LDFLAGS			+= -Wl,-rpath-link,/usr/lib:/lib
+ endif
  
 -# INCLUDES += -I/usr/include -Y/usr/include/linux
 +# INCLUDES += -I/usr/include
@@ -98,7 +98,7 @@ index 5b560fb..b9f7e3d 100644
  ifeq (,$(filter-out $(TARGET_OSES),$(OS_TARGET)))
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
-index 78c1769..be212a3 100644
+index 47ff359..5d46f1c 100644
 --- a/mozilla/security/nss/lib/freebl/unix_rand.c
 +++ b/mozilla/security/nss/lib/freebl/unix_rand.c
 @@ -188,7 +188,8 @@ static SECStatus RNG_kstat(PRUint32* fed)
@@ -125,7 +125,7 @@ index 6375f9a..a4ba6b0 100644
  #define CHECK_FORK_PTHREAD
  
 diff --git a/mozilla/security/nss/lib/ssl/sslmutex.c b/mozilla/security/nss/lib/ssl/sslmutex.c
-index 6b5dbd1..edd0b00 100644
+index 8403365..e7f99b5 100644
 --- a/mozilla/security/nss/lib/ssl/sslmutex.c
 +++ b/mozilla/security/nss/lib/ssl/sslmutex.c
 @@ -89,7 +89,7 @@ static SECStatus single_process_sslMutex_Lock(sslMutex* pMutex)
