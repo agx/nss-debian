@@ -1,3 +1,13 @@
+nss (3.12.8-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/*: Refresh patches.
+  * debian/patches/series:
+    + lower-dhe-priority.patch: Upstream patch from bz#583337 to lower DHE
+      priority. Closes: #592315.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 07 Oct 2010 08:50:48 +0200
+
 nss (3.12.8~b2-1) experimental; urgency=low
 
   * New upstream snapshot, picked from NSS_3_12_8_BETA2 cvs tag.
