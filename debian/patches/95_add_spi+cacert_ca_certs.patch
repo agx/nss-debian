@@ -4,15 +4,15 @@
 ## DP: Adds the SPI Inc. and CAcert.org CA certificates
 
 diff --git a/mozilla/security/nss/lib/ckfw/builtins/certdata.c b/mozilla/security/nss/lib/ckfw/builtins/certdata.c
-index bf83a9a..c3d74b2 100644
+index 924f36b..5f5135f 100644
 --- a/mozilla/security/nss/lib/ckfw/builtins/certdata.c
 +++ b/mozilla/security/nss/lib/ckfw/builtins/certdata.c
 @@ -35,7 +35,7 @@
   *
   * ***** END LICENSE BLOCK ***** */
  #ifdef DEBUG
--static const char CVS_ID[] = "@(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.1 $ $Date: 2010/08/27 15:46:44 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.1 $ $Date: 2010/08/27 15:46:44 $";
-+static const char CVS_ID[] = "@(#) $RCSfile: certdata.txt,v $ $Revision: 1.64.2.1 $ $Date: 2010/08/27 15:46:44 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.13 $ $Date: 2010/03/26 22:06:47 $";
+-static const char CVS_ID[] = "@(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.6 $ $Date: 2010/12/02 23:26:35 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.6 $ $Date: 2010/12/02 23:26:35 $";
++static const char CVS_ID[] = "@(#) $RCSfile: certdata.txt,v $ $Revision: 1.64.2.6 $ $Date: 2010/12/02 23:26:35 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.13 $ $Date: 2010/03/26 22:06:47 $";
  #endif /* DEBUG */
  
  #ifndef BUILTINS_H
@@ -45,12 +45,12 @@ index bf83a9a..c3d74b2 100644
    { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
    { (void *)"CVS ID", (PRUint32)7 },
    { (void *)"NSS", (PRUint32)4 },
--  { (void *)"@(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.1 $ $Date: 2010/08/27 15:46:44 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.1 $ $Date: 2010/08/27 15:46:44 $", (PRUint32)160 }
-+  { (void *)"@(#) $RCSfile: certdata.txt,v $ $Revision: 1.64.2.1 $ $Date: 2010/08/27 15:46:44 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.13 $ $Date: 2010/03/26 22:06:47 $", (PRUint32)164 }
+-  { (void *)"@(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.6 $ $Date: 2010/12/02 23:26:35 $""; @(#) $RCSfile: certdata.c,v $ $Revision: 1.67.2.6 $ $Date: 2010/12/02 23:26:35 $", (PRUint32)164 }
++  { (void *)"@(#) $RCSfile: certdata.txt,v $ $Revision: 1.64.2.6 $ $Date: 2010/12/02 23:26:35 $""; @(#) $RCSfile: certdata.perl,v $ $Revision: 1.13 $ $Date: 2010/03/26 22:06:47 $", (PRUint32)164 }
  };
  #endif /* DEBUG */
  static const NSSItem nss_builtins_items_1 [] = {
-@@ -20864,6 +20882,531 @@ static const NSSItem nss_builtins_items_311 [] = {
+@@ -20992,6 +21010,531 @@ static const NSSItem nss_builtins_items_311 [] = {
    { (void *)&ckt_netscape_trusted_delegator, (PRUint32)sizeof(CK_TRUST) },
    { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) }
  };
@@ -582,7 +582,7 @@ index bf83a9a..c3d74b2 100644
  
  builtinsInternalObject
  nss_builtins_data[] = {
-@@ -21180,11 +21723,17 @@ nss_builtins_data[] = {
+@@ -21308,11 +21851,17 @@ nss_builtins_data[] = {
    { 11, nss_builtins_types_308, nss_builtins_items_308, {NULL} },
    { 13, nss_builtins_types_309, nss_builtins_items_309, {NULL} },
    { 11, nss_builtins_types_310, nss_builtins_items_310, {NULL} },
@@ -604,10 +604,10 @@ index bf83a9a..c3d74b2 100644
 +  nss_builtins_nObjects = 317;
  #endif /* DEBUG */
 diff --git a/mozilla/security/nss/lib/ckfw/builtins/certdata.txt b/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
-index f759631..ca2b232 100644
+index 4694e77..e154d45 100644
 --- a/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
 +++ b/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
-@@ -21508,3 +21508,558 @@ CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NETSCAPE_TRUSTED_DELEGATOR
+@@ -21636,3 +21636,558 @@ CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NETSCAPE_TRUSTED_DELEGATOR
  CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NETSCAPE_TRUSTED_DELEGATOR
  CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NETSCAPE_TRUSTED_DELEGATOR
  CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE

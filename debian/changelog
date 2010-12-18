@@ -1,3 +1,12 @@
+nss (3.12.9~beta2-1) experimental; urgency=low
+
+  * New upstream snapshot, picked from NSS_3_12_9_BETA2 cvs tag.
+  * debian/patches/*: Refresh patches.
+  * debian/libnss3-1d.symbols: Add new symbol versions.
+  * debian/rules: Bump shlibs.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 17 Dec 2010 15:01:31 +0100
+
 nss (3.12.8-1) unstable; urgency=low
 
   * New upstream release.
