@@ -1,3 +1,9 @@
+nss (3.12.9-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 15 Jan 2011 11:33:35 +0100
+
 nss (3.12.9~beta2-1) experimental; urgency=low
 
   * New upstream snapshot, picked from NSS_3_12_9_BETA2 cvs tag.
