@@ -1,4 +1,3 @@
-25_entropy.patch
 38_hurd.patch
 38_kbsd.patch
 38_mips64_build.patch
