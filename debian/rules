@@ -38,6 +38,7 @@ override_dh_auto_build:
 		OPTIMIZER="$(CFLAGS)" \
 		NSS_USE_SYSTEM_SQLITE=1 \
 		NSS_ENABLE_ECC=1 \
+		CHECKLOC= \
 		$(USE_64)
 
 override_dh_auto_clean:
