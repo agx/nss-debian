@@ -1,3 +1,20 @@
+nss (3.12.9-2) unstable; urgency=low
+
+  * Upload to unstable.
+  * debian/rules: Fallback to DEB_BUILD_ARCH when dpkg-architecture does't
+    support DEB_BUILD_ARCH_BITS.
+  * debian/control: Lower build depends on dpkg-dev to (>= 1.13.19), which
+    was the previous value.
+  * mozilla/security/nss/lib/freebl/unix_rand.c: We don't need to prevent
+    using netstat for entropy seeding. The seeding will stop before netstat
+    if it could get data from /dev/urandom.
+  * mozilla/security/coreconf/Linux.mk: We shouldn't need to special case
+    mips64 anymore.
+  * mozilla/security/nss/cmd/shlibsign/Makefile, debian/rules: Don't rely
+    on patching the source to not create .chk files during build.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 06 Mar 2011 09:58:41 +0100
+
 nss (3.12.9-1) experimental; urgency=low
 
   * New upstream release.
