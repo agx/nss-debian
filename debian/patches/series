@@ -1,6 +1,5 @@
 38_hurd.patch
 38_kbsd.patch
-38_mips64_build.patch
 80_security_build.patch
 80_security_tools.patch
 81_sonames.patch
