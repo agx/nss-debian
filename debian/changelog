@@ -1,3 +1,11 @@
+nss (3.12.9.with.ckbi.1.82-1) unstable; urgency=low
+
+  * New upstream release.
+    - Marks fraudulent Comodo certificates as untrusted.
+  * mozilla/security/nss/lib/ckfw/builtins/certdata.*: Refreshed.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 24 Mar 2011 16:37:46 +0100
+
 nss (3.12.9-2) unstable; urgency=low
 
   * Upload to unstable.
