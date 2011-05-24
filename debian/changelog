@@ -1,3 +1,12 @@
+nss (3.12.10-1) unstable; urgency=low
+
+  * New upstream release.
+  * mozilla/security/nss/lib/ckfw/builtins/certdata.*: Refreshed.
+  * debian/control: Build depend on libnspr4-dev >= 4.8.8.
+  * debian/libnss3-1d.symbols: Add new symbol version.
+
+ -- Mike Hommey <glandium@debian.org>  Wed, 25 May 2011 10:20:59 +0200
+
 nss (3.12.9.with.ckbi.1.82-1) unstable; urgency=low
 
   * New upstream release.
