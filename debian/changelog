@@ -1,3 +1,13 @@
+nss (3.12.10-2) unstable; urgency=low
+
+  * debian/control, debian/libnss3-1d.dirs,
+    debian/libnss3-1d.lintian-overrides.in, debian/libnss3-dev.dirs,
+    debian/libnss3-1d.links.in, debian/libnss3-dev.links.in,
+    debian/rules: Switch to multi-arch while keeping backports easy.
+    Closes: #497088.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 04 Jul 2011 11:24:18 +0200
+
 nss (3.12.10-1) unstable; urgency=low
 
   * New upstream release.
