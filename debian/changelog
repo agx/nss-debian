@@ -1,3 +1,10 @@
+nss (3.12.10-3) unstable; urgency=low
+
+  * debian/nss-config.in, debian/nss.pc.in, debian/rules: Return the multiarch
+    path in nss-config and nss.pc.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 21 Jul 2011 18:08:48 +0200
+
 nss (3.12.10-2) unstable; urgency=low
 
   * debian/control, debian/libnss3-1d.dirs,
