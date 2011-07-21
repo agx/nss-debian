@@ -1,6 +1,6 @@
 prefix=/usr
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
+libdir=${exec_prefix}/lib/@DEB_HOST_MULTIARCH@
 includedir=${prefix}/include/nss
 
 Name: NSS

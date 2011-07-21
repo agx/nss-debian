@@ -103,7 +103,7 @@ if test -z "$includedir"; then
     includedir=${prefix}/include/nss
 fi
 if test -z "$libdir"; then
-    libdir=${exec_prefix}/lib
+    libdir=${exec_prefix}/lib/@DEB_HOST_MULTIARCH@
 fi
 
 if test "$echo_prefix" = "yes"; then
