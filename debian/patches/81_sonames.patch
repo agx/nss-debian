@@ -6,7 +6,7 @@
 Index: nss/mozilla/security/coreconf/BSD_OS.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/BSD_OS.mk	2009-09-03 06:56:59.000000000 +0200
-+++ nss/mozilla/security/coreconf/BSD_OS.mk	2010-08-06 13:36:35.517577075 +0200
++++ nss/mozilla/security/coreconf/BSD_OS.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -71,7 +71,7 @@
  ARCH			= bsdos
  
@@ -19,7 +19,7 @@ Index: nss/mozilla/security/coreconf/BSD_OS.mk
 Index: nss/mozilla/security/coreconf/BeOS.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/BeOS.mk	2009-09-03 06:56:59.000000000 +0200
-+++ nss/mozilla/security/coreconf/BeOS.mk	2010-08-06 13:36:35.517577075 +0200
++++ nss/mozilla/security/coreconf/BeOS.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -59,7 +59,7 @@
  	CPU_ARCH	= x86
  endif
@@ -32,7 +32,7 @@ Index: nss/mozilla/security/coreconf/BeOS.mk
 Index: nss/mozilla/security/coreconf/FreeBSD.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/FreeBSD.mk	2009-08-22 07:33:09.000000000 +0200
-+++ nss/mozilla/security/coreconf/FreeBSD.mk	2010-08-06 13:36:35.517577075 +0200
++++ nss/mozilla/security/coreconf/FreeBSD.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -56,7 +56,7 @@
  OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
  
@@ -44,8 +44,8 @@ Index: nss/mozilla/security/coreconf/FreeBSD.mk
  # The default implementation strategy for FreeBSD is pthreads.
 Index: nss/mozilla/security/coreconf/HP-UX.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/HP-UX.mk	2010-08-06 13:34:51.000000000 +0200
-+++ nss/mozilla/security/coreconf/HP-UX.mk	2010-08-06 13:37:34.869553395 +0200
+--- nss.orig/mozilla/security/coreconf/HP-UX.mk	2010-05-01 21:07:17.000000000 +0200
++++ nss/mozilla/security/coreconf/HP-UX.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -94,10 +94,10 @@
           sed -e 's; DATA ;;' -e 's,;;,,' -e 's,;.*,,' -e 's,^,+e ,' > $@
  
@@ -62,7 +62,7 @@ Index: nss/mozilla/security/coreconf/HP-UX.mk
 Index: nss/mozilla/security/coreconf/IRIX.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/IRIX.mk	2007-11-22 05:39:56.000000000 +0100
-+++ nss/mozilla/security/coreconf/IRIX.mk	2010-08-06 13:36:35.517577075 +0200
++++ nss/mozilla/security/coreconf/IRIX.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -102,7 +102,7 @@
  	SHLIB_LD_OPTS	+= -n32 -mips3
  endif
@@ -74,9 +74,9 @@ Index: nss/mozilla/security/coreconf/IRIX.mk
  endif
 Index: nss/mozilla/security/coreconf/Linux.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/Linux.mk	2010-08-06 13:36:19.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux.mk	2010-08-06 13:36:35.517577075 +0200
-@@ -107,7 +107,7 @@
+--- nss.orig/mozilla/security/coreconf/Linux.mk	2011-08-12 12:26:59.000000000 +0200
++++ nss/mozilla/security/coreconf/Linux.mk	2011-08-12 12:28:15.976533604 +0200
+@@ -103,7 +103,7 @@
  
  ifeq ($(KERNEL)-$(OS_RELEASE),linux-2.0)
  	OS_REL_CFLAGS	+= -DLINUX2_0
@@ -85,66 +85,10 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  	ifdef MAPFILE
  		MKSHLIB += -Wl,--version-script,$(MAPFILE)
  	endif
-Index: nss/mozilla/security/coreconf/Linux2.1.mk
-===================================================================
---- nss.orig/mozilla/security/coreconf/Linux2.1.mk	2009-06-11 02:55:32.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux2.1.mk	2010-08-06 13:36:35.517577075 +0200
-@@ -38,7 +38,7 @@
- include $(CORE_DEPTH)/coreconf/Linux.mk
- ifeq ($(OS_RELEASE),2.1)
-         OS_REL_CFLAGS   += -DLINUX2_1
--        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
-+        MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
- 	ifdef MAPFILE
- 		MKSHLIB += -Wl,--version-script,$(MAPFILE)
- 	endif
-Index: nss/mozilla/security/coreconf/Linux2.2.mk
-===================================================================
---- nss.orig/mozilla/security/coreconf/Linux2.2.mk	2009-06-11 02:55:32.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux2.2.mk	2010-08-06 13:36:35.517577075 +0200
-@@ -38,7 +38,7 @@
- include $(CORE_DEPTH)/coreconf/Linux.mk
- 
- OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
- 
- ifdef MAPFILE
- 	MKSHLIB += -Wl,--version-script,$(MAPFILE)
-Index: nss/mozilla/security/coreconf/Linux2.4.mk
-===================================================================
---- nss.orig/mozilla/security/coreconf/Linux2.4.mk	2009-08-26 00:35:11.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux2.4.mk	2010-08-06 13:36:35.517577075 +0200
-@@ -38,7 +38,7 @@
- include $(CORE_DEPTH)/coreconf/Linux.mk
- 
- OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
- 
- ifdef MAPFILE
- 	MKSHLIB += -Wl,--version-script,$(MAPFILE)
-Index: nss/mozilla/security/coreconf/Linux2.5.mk
-===================================================================
---- nss.orig/mozilla/security/coreconf/Linux2.5.mk	2009-06-11 02:55:32.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux2.5.mk	2010-08-06 13:36:35.521569953 +0200
-@@ -38,7 +38,7 @@
- include $(CORE_DEPTH)/coreconf/Linux.mk
- 
- OS_REL_CFLAGS   += -DLINUX2_1
--MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
-+MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
- 
- ifdef MAPFILE
- 	MKSHLIB += -Wl,--version-script,$(MAPFILE)
-Index: nss/mozilla/security/coreconf/Linux2.6.mk
-===================================================================
---- nss.orig/mozilla/security/coreconf/Linux2.6.mk	2010-08-06 13:36:19.000000000 +0200
-+++ nss/mozilla/security/coreconf/Linux2.6.mk	2010-08-06 13:36:35.521569953 +0200
-@@ -41,7 +41,7 @@
+@@ -202,7 +202,7 @@
+ ifeq ($(KERNEL), linux)
  OS_REL_CFLAGS   += -DLINUX2_1
  endif
- 
 -MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
 +MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(SONAME) $(RPATH)
  
@@ -153,7 +97,7 @@ Index: nss/mozilla/security/coreconf/Linux2.6.mk
 Index: nss/mozilla/security/coreconf/NetBSD.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/NetBSD.mk	2009-09-03 06:57:00.000000000 +0200
-+++ nss/mozilla/security/coreconf/NetBSD.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/NetBSD.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -67,7 +67,7 @@
  DSO_CFLAGS		= -fPIC -DPIC
  DSO_LDOPTS		= -shared
@@ -166,7 +110,7 @@ Index: nss/mozilla/security/coreconf/NetBSD.mk
 Index: nss/mozilla/security/coreconf/OSF1.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/OSF1.mk	2009-04-10 00:25:09.000000000 +0200
-+++ nss/mozilla/security/coreconf/OSF1.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/OSF1.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -64,7 +64,7 @@
  endif
  
@@ -179,7 +123,7 @@ Index: nss/mozilla/security/coreconf/OSF1.mk
 Index: nss/mozilla/security/coreconf/OpenBSD.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/OpenBSD.mk	2009-09-03 06:57:00.000000000 +0200
-+++ nss/mozilla/security/coreconf/OpenBSD.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/OpenBSD.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -65,7 +65,7 @@
  ARCH			= openbsd
  
@@ -192,7 +136,7 @@ Index: nss/mozilla/security/coreconf/OpenBSD.mk
 Index: nss/mozilla/security/coreconf/QNX.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/QNX.mk	2009-09-03 06:57:00.000000000 +0200
-+++ nss/mozilla/security/coreconf/QNX.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/QNX.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -54,7 +54,7 @@
  	CPU_ARCH	= x86
  endif
@@ -205,7 +149,7 @@ Index: nss/mozilla/security/coreconf/QNX.mk
 Index: nss/mozilla/security/coreconf/ReliantUNIX.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/ReliantUNIX.mk	2007-11-22 05:39:56.000000000 +0100
-+++ nss/mozilla/security/coreconf/ReliantUNIX.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/ReliantUNIX.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -51,7 +51,7 @@
  		OPTIMIZER += -O6
  	endif
@@ -218,7 +162,7 @@ Index: nss/mozilla/security/coreconf/ReliantUNIX.mk
 Index: nss/mozilla/security/coreconf/SunOS5.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/SunOS5.mk	2009-06-11 02:55:32.000000000 +0200
-+++ nss/mozilla/security/coreconf/SunOS5.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/SunOS5.mk	2011-08-12 12:27:59.060560333 +0200
 @@ -143,7 +143,7 @@
  ifeq ($(USE_64), 1)
  	DSO_LDOPTS += -m64
@@ -239,8 +183,8 @@ Index: nss/mozilla/security/coreconf/SunOS5.mk
  
 Index: nss/mozilla/security/coreconf/rules.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/rules.mk	2010-08-06 13:34:51.000000000 +0200
-+++ nss/mozilla/security/coreconf/rules.mk	2010-08-06 13:36:35.521569953 +0200
+--- nss.orig/mozilla/security/coreconf/rules.mk	2010-04-26 01:37:40.000000000 +0200
++++ nss/mozilla/security/coreconf/rules.mk	2011-08-12 12:27:59.064560319 +0200
 @@ -115,6 +115,7 @@
  	$(INSTALL) -m 644 $(SHARED_LIBRARY:$(DLL_SUFFIX)=pdb) $(SOURCE_LIB_DIR)
  endif
@@ -269,7 +213,7 @@ Index: nss/mozilla/security/coreconf/rules.mk
 Index: nss/mozilla/security/coreconf/ruleset.mk
 ===================================================================
 --- nss.orig/mozilla/security/coreconf/ruleset.mk	2009-07-08 20:15:21.000000000 +0200
-+++ nss/mozilla/security/coreconf/ruleset.mk	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/coreconf/ruleset.mk	2011-08-12 12:27:59.064560319 +0200
 @@ -123,6 +123,25 @@
      ifndef SHARED_LIBRARY
  	SHARED_LIBRARY = $(OBJDIR)/$(DLL_PREFIX)$(LIBRARY_NAME)$(LIBRARY_VERSION)$(JDK_DEBUG_SUFFIX).$(DLL_SUFFIX)
@@ -308,7 +252,7 @@ Index: nss/mozilla/security/coreconf/ruleset.mk
 Index: nss/mozilla/security/nss/lib/nss/manifest.mn
 ===================================================================
 --- nss.orig/mozilla/security/nss/lib/nss/manifest.mn	2007-10-12 03:44:45.000000000 +0200
-+++ nss/mozilla/security/nss/lib/nss/manifest.mn	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/nss/lib/nss/manifest.mn	2011-08-12 12:27:59.064560319 +0200
 @@ -58,6 +58,7 @@
  
  LIBRARY_NAME = nss
@@ -319,9 +263,9 @@ Index: nss/mozilla/security/nss/lib/nss/manifest.mn
  export ALLOW_OPT_CODE_SIZE = 1
 Index: nss/mozilla/security/nss/lib/smime/manifest.mn
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/smime/manifest.mn	2007-08-15 17:30:03.000000000 +0200
-+++ nss/mozilla/security/nss/lib/smime/manifest.mn	2010-08-06 13:36:35.521569953 +0200
-@@ -79,6 +79,7 @@
+--- nss.orig/mozilla/security/nss/lib/smime/manifest.mn	2011-01-29 00:08:27.000000000 +0100
++++ nss/mozilla/security/nss/lib/smime/manifest.mn	2011-08-12 12:27:59.064560319 +0200
+@@ -80,6 +80,7 @@
  
  LIBRARY_NAME = smime
  LIBRARY_VERSION = 3
@@ -332,7 +276,7 @@ Index: nss/mozilla/security/nss/lib/smime/manifest.mn
 Index: nss/mozilla/security/nss/lib/ssl/manifest.mn
 ===================================================================
 --- nss.orig/mozilla/security/nss/lib/ssl/manifest.mn	2008-09-23 01:47:00.000000000 +0200
-+++ nss/mozilla/security/nss/lib/ssl/manifest.mn	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/nss/lib/ssl/manifest.mn	2011-08-12 12:27:59.064560319 +0200
 @@ -78,6 +78,7 @@
  
  LIBRARY_NAME = ssl
@@ -344,7 +288,7 @@ Index: nss/mozilla/security/nss/lib/ssl/manifest.mn
 Index: nss/mozilla/security/nss/lib/util/manifest.mn
 ===================================================================
 --- nss.orig/mozilla/security/nss/lib/util/manifest.mn	2010-02-11 03:39:47.000000000 +0100
-+++ nss/mozilla/security/nss/lib/util/manifest.mn	2010-08-06 13:36:35.521569953 +0200
++++ nss/mozilla/security/nss/lib/util/manifest.mn	2011-08-12 12:27:59.064560319 +0200
 @@ -106,6 +106,7 @@
  
  LIBRARY_NAME = nssutil

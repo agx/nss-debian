@@ -4,11 +4,11 @@
 ## DP: GNU/kFreeBSD support. bz#356011
 ## DP: Added Hurd support.
 
-diff --git a/mozilla/security/coreconf/Linux.mk b/mozilla/security/coreconf/Linux.mk
-index caf05a8..eee395b 100644
---- a/mozilla/security/coreconf/Linux.mk
-+++ b/mozilla/security/coreconf/Linux.mk
-@@ -101,7 +101,7 @@ endif
+Index: nss/mozilla/security/coreconf/Linux.mk
+===================================================================
+--- nss.orig/mozilla/security/coreconf/Linux.mk	2011-08-12 12:25:29.000000000 +0200
++++ nss/mozilla/security/coreconf/Linux.mk	2011-08-12 12:26:59.376656279 +0200
+@@ -101,7 +101,7 @@
  
  LIBC_TAG		= _glibc
  
@@ -17,7 +17,7 @@ index caf05a8..eee395b 100644
  	OS_REL_CFLAGS	+= -DLINUX2_0
  	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
  	ifdef MAPFILE
-@@ -136,14 +136,21 @@ endif
+@@ -136,14 +136,21 @@
  # -ansi on platforms like Android where the system headers are C99 and do
  # not build with -ansi.
  STANDARDS_CFLAGS	= -ansi -D_POSIX_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE
@@ -41,7 +41,7 @@ index caf05a8..eee395b 100644
  
  DSO_CFLAGS		= -fPIC
  DSO_LDOPTS		= -shared $(ARCHFLAG)
-@@ -160,7 +167,7 @@ ifdef _SBOX_DIR
+@@ -160,7 +167,7 @@
  LDFLAGS			+= -Wl,-rpath-link,/usr/lib:/lib
  endif
  
@@ -50,26 +50,21 @@ index caf05a8..eee395b 100644
  G++INCLUDES		= -I/usr/include/g++
  
  #
-diff --git a/mozilla/security/coreconf/Linux2.6.mk b/mozilla/security/coreconf/Linux2.6.mk
-index 4a6cc1e..8d5cf07 100644
---- a/mozilla/security/coreconf/Linux2.6.mk
-+++ b/mozilla/security/coreconf/Linux2.6.mk
-@@ -37,7 +37,10 @@
- 
- include $(CORE_DEPTH)/coreconf/Linux.mk
+@@ -192,7 +199,9 @@
+ endif
+ endif
  
 +ifeq ($(KERNEL), linux)
  OS_REL_CFLAGS   += -DLINUX2_1
 +endif
-+
  MKSHLIB         = $(CC) $(DSO_LDOPTS) -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
  
  ifdef MAPFILE
-diff --git a/mozilla/security/coreconf/arch.mk b/mozilla/security/coreconf/arch.mk
-index bd3c02c..86aca7c 100644
---- a/mozilla/security/coreconf/arch.mk
-+++ b/mozilla/security/coreconf/arch.mk
-@@ -155,6 +155,14 @@ ifeq ($(OS_ARCH),Linux)
+Index: nss/mozilla/security/coreconf/arch.mk
+===================================================================
+--- nss.orig/mozilla/security/coreconf/arch.mk	2009-06-05 04:14:49.000000000 +0200
++++ nss/mozilla/security/coreconf/arch.mk	2011-08-12 12:25:50.856769617 +0200
+@@ -155,6 +155,14 @@
      ifneq ($(words $(OS_RELEASE)),1)
  	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
      endif
@@ -84,24 +79,24 @@ index bd3c02c..86aca7c 100644
  endif
  
  #
-diff --git a/mozilla/security/coreconf/config.mk b/mozilla/security/coreconf/config.mk
-index 5b560fb..b9f7e3d 100644
---- a/mozilla/security/coreconf/config.mk
-+++ b/mozilla/security/coreconf/config.mk
-@@ -63,7 +63,7 @@ endif
+Index: nss/mozilla/security/coreconf/config.mk
+===================================================================
+--- nss.orig/mozilla/security/coreconf/config.mk	2011-08-12 12:25:29.000000000 +0200
++++ nss/mozilla/security/coreconf/config.mk	2011-08-12 12:26:12.960732675 +0200
+@@ -63,7 +63,7 @@
  #######################################################################
  
  TARGET_OSES = FreeBSD BSD_OS NetBSD OpenUNIX OS2 QNX Darwin BeOS OpenBSD \
--              AIX RISCOS WINNT WIN95 WINCE
-+              AIX RISCOS WINNT WIN95 WINCE GNU GNU_%
+-              AIX RISCOS WINNT WIN95 WINCE Linux
++              AIX RISCOS WINNT WIN95 WINCE Linux GNU GNU_%
  
  ifeq (,$(filter-out $(TARGET_OSES),$(OS_TARGET)))
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
-diff --git a/mozilla/security/nss/lib/freebl/unix_rand.c b/mozilla/security/nss/lib/freebl/unix_rand.c
-index 47ff359..5d46f1c 100644
---- a/mozilla/security/nss/lib/freebl/unix_rand.c
-+++ b/mozilla/security/nss/lib/freebl/unix_rand.c
-@@ -188,7 +188,8 @@ static SECStatus RNG_kstat(PRUint32* fed)
+Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2011-08-12 12:25:34.000000000 +0200
++++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2011-08-12 12:25:50.860769617 +0200
+@@ -188,7 +188,8 @@
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
      || defined(NETBSD) || defined(DARWIN) || defined(OPENBSD) \
@@ -111,11 +106,11 @@ index 47ff359..5d46f1c 100644
  #include <sys/times.h>
  
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
-diff --git a/mozilla/security/nss/lib/softoken/softoken.h b/mozilla/security/nss/lib/softoken/softoken.h
-index 6375f9a..a4ba6b0 100644
---- a/mozilla/security/nss/lib/softoken/softoken.h
-+++ b/mozilla/security/nss/lib/softoken/softoken.h
-@@ -303,7 +303,7 @@ extern PRBool sftk_fatalError;
+Index: nss/mozilla/security/nss/lib/softoken/softoken.h
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/softoken/softoken.h	2009-02-26 07:57:15.000000000 +0100
++++ nss/mozilla/security/nss/lib/softoken/softoken.h	2011-08-12 12:25:50.860769617 +0200
+@@ -303,7 +303,7 @@
  
  #define CHECK_FORK_MIXED
  
@@ -124,11 +119,11 @@ index 6375f9a..a4ba6b0 100644
  
  #define CHECK_FORK_PTHREAD
  
-diff --git a/mozilla/security/nss/lib/ssl/sslmutex.c b/mozilla/security/nss/lib/ssl/sslmutex.c
-index 8403365..e7f99b5 100644
---- a/mozilla/security/nss/lib/ssl/sslmutex.c
-+++ b/mozilla/security/nss/lib/ssl/sslmutex.c
-@@ -89,7 +89,7 @@ static SECStatus single_process_sslMutex_Lock(sslMutex* pMutex)
+Index: nss/mozilla/security/nss/lib/ssl/sslmutex.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.c	2010-04-03 20:27:33.000000000 +0200
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.c	2011-08-12 12:25:50.860769617 +0200
+@@ -89,7 +89,7 @@
      return SECSuccess;
  }
  
@@ -137,11 +132,11 @@ index 8403365..e7f99b5 100644
  
  #include <unistd.h>
  #include <fcntl.h>
-diff --git a/mozilla/security/nss/lib/ssl/sslmutex.h b/mozilla/security/nss/lib/ssl/sslmutex.h
-index 0fdb685..87cd0a9 100644
---- a/mozilla/security/nss/lib/ssl/sslmutex.h
-+++ b/mozilla/security/nss/lib/ssl/sslmutex.h
-@@ -83,7 +83,7 @@ typedef struct
+Index: nss/mozilla/security/nss/lib/ssl/sslmutex.h
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.h	2009-06-05 04:34:15.000000000 +0200
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.h	2011-08-12 12:25:50.860769617 +0200
+@@ -83,7 +83,7 @@
  
  typedef int    sslPID;
  
