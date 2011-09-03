@@ -1,3 +1,16 @@
+nss (3.12.11-3) unstable; urgency=high
+
+  * mozilla/security/nss/lib/ckfw/builtins/certdata.*:
+    Explicitely distrust various DigiNotar CAs:
+    - DigiNotar Root CA
+    - DigiNotar Services 1024 CA
+    - DigiNotar Cyber CA
+    - DigiNotar Cyber CA 2nd
+    - DigiNotar PKIoverheid
+    - DigiNotar PKIoverheid G2
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 03 Sep 2011 09:33:28 +0200
+
 nss (3.12.11-2) unstable; urgency=high
 
   * mozilla/security/nss/lib/ckfw/builtins/certdata.*:
