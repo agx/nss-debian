@@ -19,6 +19,7 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
+ *   Kai Engert <kengert@redhat.com>
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -33,78 +34,43 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-#include "nspr.h"
 
-struct tuple_str {
-    PRErrorCode	 errNum;
-    const char * errString;
-};
+#include <stdio.h>
+#include <stdlib.h>
 
-typedef struct tuple_str tuple_str;
+#include "blapi.h"
+#include "secutil.h"
 
-#define ER2(a,b)   {a, b},
-#define ER3(a,b,c) {a, c},
+static int Usage()
+{
+    fprintf(stderr, "Usage:  chktest <full-path-to-shared-library>\n");
+    fprintf(stderr, "        Will test for valid chk file.\n");
+    fprintf(stderr, "        Will print SUCCESS or FAILURE.\n");
+    exit(1);
+}
 
-#include "secerr.h"
-#include "sslerr.h"
+int main(int argc, char **argv)
+{
+    SECStatus rv = SECFailure;
+    PRBool good_result = PR_FALSE;
 
-const tuple_str errStrings[] = {
-
-/* keep this list in asceding order of error numbers */
-#include "SSLerrs.h"
-#include "SECerrs.h"
-#include "NSPRerrs.h"
-
-};
-
-const PRInt32 numStrings = sizeof(errStrings) / sizeof(tuple_str);
-
-/* Returns a UTF-8 encoded constant error string for "errNum".
- * Returns NULL of errNum is unknown.
- */
-const char *
-SECU_Strerror(PRErrorCode errNum) {
-    PRInt32 low  = 0;
-    PRInt32 high = numStrings - 1;
-    PRInt32 i;
-    PRErrorCode num;
-    static int initDone;
-
-    /* make sure table is in ascending order.
-     * binary search depends on it.
-     */
-    if (!initDone) {
-	PRErrorCode lastNum = ((PRInt32)0x80000000);
-    	for (i = low; i <= high; ++i) {
-	    num = errStrings[i].errNum;
-	    if (num <= lastNum) {
-	    	fprintf(stderr, 
-"sequence error in error strings at item %d\n"
-"error %d (%s)\n"
-"should come after \n"
-"error %d (%s)\n",
-		        i, lastNum, errStrings[i-1].errString, 
-			num, errStrings[i].errString);
-	    }
-	    lastNum = num;
-	}
-	initDone = 1;
+    if (argc != 2)
+      return Usage();
+    
+    rv = RNG_RNGInit();
+    if (rv != SECSuccess) {
+        SECU_PrintPRandOSError("");
+        return -1;
     }
-
-    /* Do binary search of table. */
-    while (low + 1 < high) {
-    	i = (low + high) / 2;
-	num = errStrings[i].errNum;
-	if (errNum == num) 
-	    return errStrings[i].errString;
-        if (errNum < num)
-	    high = i;
-	else 
-	    low = i;
+    rv = BL_Init();
+    if (rv != SECSuccess) {
+        SECU_PrintPRandOSError("");
+        return -1;
     }
-    if (errNum == errStrings[low].errNum)
-    	return errStrings[low].errString;
-    if (errNum == errStrings[high].errNum)
-    	return errStrings[high].errString;
-    return NULL;
+    RNG_SystemInfoForRNG();
+
+    good_result = BLAPI_SHVerifyFile(argv[1]);
+    printf("%s\n", 
+      (good_result ? "SUCCESS" : "FAILURE"));
+    return (good_result) ? SECSuccess : SECFailure;
 }
