@@ -6,11 +6,11 @@ to continue to renegotiate with vulnerable servers.
 This value should only be used during the transition period when few
 servers have been upgraded.
 
-diff --git a/mozilla/security/nss/lib/ssl/sslsock.c b/mozilla/security/nss/lib/ssl/sslsock.c
-index bc770a1..662c794 100644
---- a/mozilla/security/nss/lib/ssl/sslsock.c
-+++ b/mozilla/security/nss/lib/ssl/sslsock.c
-@@ -181,7 +181,7 @@ static sslOptions ssl_defaults = {
+Index: nss/mozilla/security/nss/lib/ssl/sslsock.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/ssl/sslsock.c	2011-11-05 17:03:08.310362935 +0100
++++ nss/mozilla/security/nss/lib/ssl/sslsock.c	2011-11-05 17:03:31.586396565 +0100
+@@ -181,7 +181,7 @@
      PR_FALSE,   /* noLocks            */
      PR_FALSE,   /* enableSessionTickets */
      PR_FALSE,   /* enableDeflate      */
@@ -18,4 +18,4 @@ index bc770a1..662c794 100644
 +    3,          /* enableRenegotiation (default: transitional) */
      PR_FALSE,   /* requireSafeNegotiation */
      PR_FALSE,   /* enableFalseStart   */
- };
+     PR_TRUE     /* cbcRandomIV        */

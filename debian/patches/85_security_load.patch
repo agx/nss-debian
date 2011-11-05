@@ -3,11 +3,11 @@
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: Load modules from $ORIGIN/nss.
 
-diff --git a/mozilla/security/nss/cmd/shlibsign/shlibsign.c b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-index e486f7f..ae050f9 100644
---- a/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-+++ b/mozilla/security/nss/cmd/shlibsign/shlibsign.c
-@@ -768,6 +768,8 @@ int main(int argc, char **argv)
+Index: nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
+===================================================================
+--- nss.orig/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:13.918372138 +0100
++++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:23.374386055 +0100
+@@ -768,6 +768,8 @@
      libname = PR_GetLibraryName(NULL, "softokn3");
      assert(libname != NULL);
      lib = PR_LoadLibrary(libname);
@@ -16,28 +16,29 @@ index e486f7f..ae050f9 100644
      assert(lib != NULL);
      PR_FreeLibraryName(libname);
  
-diff --git a/mozilla/security/nss/lib/pk11wrap/pk11load.c b/mozilla/security/nss/lib/pk11wrap/pk11load.c
-index 1929993..2d4f91b 100644
---- a/mozilla/security/nss/lib/pk11wrap/pk11load.c
-+++ b/mozilla/security/nss/lib/pk11wrap/pk11load.c
-@@ -440,6 +440,12 @@ secmod_LoadPKCS11Module(SECMODModule *mod, SECMODModule **oldModule) {
+Index: nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/pk11wrap/pk11load.c	2011-11-05 17:03:08.550363345 +0100
++++ nss/mozilla/security/nss/lib/pk11wrap/pk11load.c	2011-11-05 17:03:23.374386055 +0100
+@@ -437,6 +437,13 @@
  	 * unload the library if anything goes wrong from here on out...
  	 */
- 	library = PR_LoadLibrary(full_name);
+ 	library = PR_LoadLibrary(mod->dllName);
 +	if ((library == NULL) &&
-+	    !rindex(full_name, PR_GetDirectorySeparator())) {
++	    !rindex(mod->dllName, PR_GetDirectorySeparator())) {
 +            library = PORT_LoadLibraryFromOrigin(my_shlib_name,
 +                                      (PRFuncPtr) &softoken_LoadDSO,
-+                                      full_name);
++                                      mod->dllName);
 +	}
++
  	mod->library = (void *)library;
- 	PORT_Free(full_name);
  
-diff --git a/mozilla/security/nss/lib/util/secload.c b/mozilla/security/nss/lib/util/secload.c
-index 6f9b527..7d6fc22 100644
---- a/mozilla/security/nss/lib/util/secload.c
-+++ b/mozilla/security/nss/lib/util/secload.c
-@@ -104,9 +104,14 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+ 	if (library == NULL) {
+Index: nss/mozilla/security/nss/lib/util/secload.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/util/secload.c	2011-11-05 17:03:08.534363321 +0100
++++ nss/mozilla/security/nss/lib/util/secload.c	2011-11-05 17:03:23.374386055 +0100
+@@ -104,9 +104,14 @@
  
      /* Remove the trailing filename from referencePath and add the new one */
      c = strrchr(referencePath, PR_GetDirectorySeparator());
@@ -53,7 +54,7 @@ index 6f9b527..7d6fc22 100644
          if (fullName) {
              memcpy(fullName, referencePath, referencePathSize);
              strcpy(fullName + referencePathSize, name); 
-@@ -116,6 +121,12 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+@@ -116,6 +121,12 @@
  #endif
              libSpec.type = PR_LibSpec_Pathname;
              libSpec.value.pathname = fullName;
@@ -66,7 +67,7 @@ index 6f9b527..7d6fc22 100644
              dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL
  #ifdef PR_LD_ALT_SEARCH_PATH
              /* allow library's dependencies to be found in the same directory
-@@ -123,6 +134,10 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
+@@ -123,6 +134,10 @@
                                            | PR_LD_ALT_SEARCH_PATH 
  #endif
                                            );

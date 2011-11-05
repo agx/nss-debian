@@ -3,11 +3,11 @@ List TLS_DHE_RSA_WITH_AES_256_CBC_SHA after TLS_RSA_WITH_AES_256_CBC_SHA
 in SSL ClientHello to communicate securely with some servers that use
 256-bit DH keys.
 
-diff --git a/mozilla/security/nss/lib/ssl/ssl3con.c b/mozilla/security/nss/lib/ssl/ssl3con.c
-index 8048913..cbd1d66 100644
---- a/mozilla/security/nss/lib/ssl/ssl3con.c
-+++ b/mozilla/security/nss/lib/ssl/ssl3con.c
-@@ -111,7 +111,6 @@ static ssl3CipherSuiteCfg cipherSuites[ssl_V3_SUITES_IMPLEMENTED] = {
+Index: nss/mozilla/security/nss/lib/ssl/ssl3con.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/ssl/ssl3con.c	2011-11-05 17:03:08.258362851 +0100
++++ nss/mozilla/security/nss/lib/ssl/ssl3con.c	2011-11-05 17:03:33.622398946 +0100
+@@ -112,7 +112,6 @@
  #endif /* NSS_ENABLE_ECC */
   { TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,  SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
   { TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA,  SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
@@ -15,7 +15,7 @@ index 8048913..cbd1d66 100644
   { TLS_DHE_DSS_WITH_AES_256_CBC_SHA, 	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
  #ifdef NSS_ENABLE_ECC
   { TLS_ECDH_RSA_WITH_AES_256_CBC_SHA,      SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
-@@ -119,6 +118,7 @@ static ssl3CipherSuiteCfg cipherSuites[ssl_V3_SUITES_IMPLEMENTED] = {
+@@ -120,6 +119,7 @@
  #endif /* NSS_ENABLE_ECC */
   { TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,  	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
   { TLS_RSA_WITH_AES_256_CBC_SHA,     	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
@@ -23,11 +23,11 @@ index 8048913..cbd1d66 100644
  
  #ifdef NSS_ENABLE_ECC
   { TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,       SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
-diff --git a/mozilla/security/nss/lib/ssl/sslenum.c b/mozilla/security/nss/lib/ssl/sslenum.c
-index b8aa8cc..a70a728 100644
---- a/mozilla/security/nss/lib/ssl/sslenum.c
-+++ b/mozilla/security/nss/lib/ssl/sslenum.c
-@@ -66,7 +66,6 @@ const PRUint16 SSL_ImplementedCiphers[] = {
+Index: nss/mozilla/security/nss/lib/ssl/sslenum.c
+===================================================================
+--- nss.orig/mozilla/security/nss/lib/ssl/sslenum.c	2011-11-05 17:03:08.274362876 +0100
++++ nss/mozilla/security/nss/lib/ssl/sslenum.c	2011-11-05 17:03:33.622398946 +0100
+@@ -66,7 +66,6 @@
  #endif /* NSS_ENABLE_ECC */
      TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,
      TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA,
@@ -35,7 +35,7 @@ index b8aa8cc..a70a728 100644
      TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
  #ifdef NSS_ENABLE_ECC
      TLS_ECDH_RSA_WITH_AES_256_CBC_SHA,
-@@ -74,6 +73,7 @@ const PRUint16 SSL_ImplementedCiphers[] = {
+@@ -74,6 +73,7 @@
  #endif /* NSS_ENABLE_ECC */
      TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,
      TLS_RSA_WITH_AES_256_CBC_SHA,

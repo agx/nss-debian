@@ -5,8 +5,8 @@
 
 Index: nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 ===================================================================
---- nss.orig/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2010-08-06 13:39:24.949552162 +0200
-+++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2010-08-06 13:39:29.413572173 +0200
+--- nss.orig/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:09.054364199 +0100
++++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:13.918372138 +0100
 @@ -594,7 +594,6 @@
  #ifdef USES_LINKS
      int ret;
@@ -44,9 +44,9 @@ Index: nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
          link_file = mkoutput(input_file);
 Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2010-08-06 13:39:28.286546598 +0200
-+++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2010-08-06 13:39:29.413572173 +0200
-@@ -1055,6 +1055,10 @@
+--- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2011-11-05 17:03:09.066364220 +0100
++++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2011-11-05 17:03:13.918372138 +0100
+@@ -1059,6 +1059,10 @@
  #define _POSIX_PTHREAD_SEMANTICS
  #include <dirent.h>
  
