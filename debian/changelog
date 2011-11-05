@@ -1,3 +1,14 @@
+nss (3.13.1.with.ckbi.1.88-1) unstable; urgency=low
+
+  * New upstream release.
+    - Distrusts malaysian Digicert Sdn. Bhd CA certificate.
+    - Addresses CVE-2011-3640 (Untrusted search path vulnerability).
+      Closes: #647614.
+  * debian/patches/*: Refreshed patches.
+  * debian/libnss3-1d.symbols: Add NSS 3.13 symbols.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 05 Nov 2011 17:05:26 +0100
+
 nss (3.12.11-3) unstable; urgency=high
 
   * mozilla/security/nss/lib/ckfw/builtins/certdata.*:
