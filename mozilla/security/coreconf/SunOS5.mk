@@ -134,7 +134,7 @@ ifdef NS_USE_GCC
 ifeq ($(USE_64), 1)
 	DSO_LDOPTS += -m64
 endif
-	DSO_LDOPTS += -shared -h $(notdir $@)
+	DSO_LDOPTS += -shared -h $(SONAME)
 else
 ifeq ($(USE_64), 1)
 	ifeq ($(OS_TEST),i86pc)
@@ -143,7 +143,7 @@ ifeq ($(USE_64), 1)
 	    DSO_LDOPTS +=-xarch=v9
 	endif
 endif
-	DSO_LDOPTS += -G -h $(notdir $@)
+	DSO_LDOPTS += -G -h $(SONAME)
 endif
 DSO_LDOPTS += -z combreloc -z defs -z ignore
 

@@ -38,6 +38,7 @@
 # set RPATH-type linker instructions here so they can be used in the shared
 # version and in the mixed (static nss libs/shared NSPR libs) version.
 
+ifdef ENABLE_RPATH
 ifeq ($(OS_ARCH), SunOS) 
 ifeq ($(BUILD_SUN_PKG), 1)
 ifeq ($(USE_64), 1)
@@ -62,6 +63,7 @@ ifeq ($(USE_64), 1)
 EXTRA_SHARED_LIBS += -Wl,-rpath,'$$ORIGIN/../lib64:$$ORIGIN/../lib'
 else
 EXTRA_SHARED_LIBS += -Wl,-rpath,'$$ORIGIN/../lib'
+endif
 endif
 endif
 endif

@@ -71,7 +71,7 @@ OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) -Wall -Wno-switch -DBSD_OS -DBSDI -D
 ARCH			= bsdos
 
 DSO_CFLAGS		= -fPIC -DPIC
-DSO_LDOPTS		= -shared -Wl,-soname,lib$(LIBRARY_NAME)$(LIBRARY_VERSION).$(DLL_SUFFIX)
+DSO_LDOPTS		= -shared -Wl,-soname,$(SONAME)
 
 ifdef LIBRUNPATH
 DSO_LDOPTS		+= -Wl,-R$(LIBRUNPATH)

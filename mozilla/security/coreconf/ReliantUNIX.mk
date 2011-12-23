@@ -51,7 +51,7 @@ ifdef NS_USE_GCC
 		OPTIMIZER += -O6
 	endif
 	MKSHLIB     = $(LD)
-	MKSHLIB    += -G -h $(@:$(OBJDIR)/%.so=%.so)
+	MKSHLIB    += -G -h $(SONAME)
 	DSO_LDOPTS += -G -Xlinker -Blargedynsym
 else
 	## native compiler (CDS++ 1.0)

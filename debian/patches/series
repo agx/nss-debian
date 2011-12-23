@@ -9,3 +9,4 @@
 96_NSS_VersionCheck.patch
 97_SSL_RENEGOTIATE_TRANSITIONAL.patch
 lower-dhe-priority.patch
+bz542832

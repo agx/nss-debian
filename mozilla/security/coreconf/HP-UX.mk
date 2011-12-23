@@ -94,10 +94,10 @@ PROCESS_MAP_FILE = grep -v ';+' $< | grep -v ';-' | \
          sed -e 's; DATA ;;' -e 's,;;,,' -e 's,;.*,,' -e 's,^,+e ,' > $@
 
 ifndef NS_USE_GCC
-DSO_LDOPTS		= -b +h $(notdir $@)
+DSO_LDOPTS		= -b +h $(SONAME)
 RPATH			= +b '$$ORIGIN'
 else
-DSO_LDOPTS		= -shared -Wl,+h,$(notdir $@)
+DSO_LDOPTS		= -shared -Wl,+h,$(SONAME)
 RPATH			= -Wl,+b,'$$ORIGIN'
 endif
 ifneq ($(OS_TEST),ia64)

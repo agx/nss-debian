@@ -64,7 +64,7 @@ ifeq ($(USE_PTHREADS),1)
 endif
 
 # The command to build a shared library on OSF1.
-MKSHLIB    += ld -shared -expect_unresolved "*" -soname $(notdir $@)
+MKSHLIB    += ld -shared -expect_unresolved "*" -soname $(SONAME)
 ifdef MAPFILE
 MKSHLIB += -hidden -input $(MAPFILE)
 endif

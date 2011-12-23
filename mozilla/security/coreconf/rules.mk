@@ -115,6 +115,7 @@ ifeq (,$(filter-out _WIN%,$(NS_USE_GCC)_$(OS_TARGET)))
 	$(INSTALL) -m 644 $(SHARED_LIBRARY:$(DLL_SUFFIX)=pdb) $(SOURCE_LIB_DIR)
 endif
 endif
+	$(call MKSHLINKS,$(SOURCE_LIB_DIR))
 endif
 ifdef IMPORT_LIBRARY
 	$(INSTALL) -m 775 $(IMPORT_LIBRARY) $(SOURCE_LIB_DIR)
@@ -258,6 +259,7 @@ endif
 release_md::
 ifneq ($(MD_LIB_RELEASE_FILES),)
 	$(INSTALL) -m 444 $(MD_LIB_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_LIB_DIR)
+	$(call MKSHLINKS,$(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_LIB_DIR))
 endif
 ifneq ($(MD_BIN_RELEASE_FILES),)
 	$(INSTALL) -m 555 $(MD_BIN_RELEASE_FILES) $(SOURCE_RELEASE_PREFIX)/$(SOURCE_RELEASE_BIN_DIR)
@@ -312,6 +314,8 @@ else
 SUB_SHLOBJS = $(foreach dir,$(SHARED_LIBRARY_DIRS),$(addprefix $(dir)/,$(shell $(MAKE) -C $(dir) --no-print-directory get_objs)))
 endif
 endif
+
+$(SHARED_LIBRARY_LINKS): %: $(SHARED_LIBRARY)
 
 $(SHARED_LIBRARY): $(OBJS) $(RES) $(MAPFILE) $(SUB_SHLOBJS)
 	@$(MAKE_OBJDIR)

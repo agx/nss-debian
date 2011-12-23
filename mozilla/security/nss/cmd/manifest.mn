@@ -66,6 +66,7 @@ DIRS = lib  \
  pk12util \
  pk11mode \
  pp  \
+ pwdecrypt \
  rsaperf \
  sdrtest \
  selfserv  \

@@ -182,7 +182,7 @@ static sslOptions ssl_defaults = {
     PR_FALSE,   /* noLocks            */
     PR_FALSE,   /* enableSessionTickets */
     PR_FALSE,   /* enableDeflate      */
-    2,          /* enableRenegotiation (default: requires extension) */
+    3,          /* enableRenegotiation (default: transitional) */
     PR_FALSE,   /* requireSafeNegotiation */
     PR_FALSE,   /* enableFalseStart   */
     PR_TRUE     /* cbcRandomIV        */

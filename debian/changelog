@@ -1,3 +1,13 @@
+nss (3.13.2~beta1-2) experimental; urgency=low
+
+  * mozilla/security/nss/lib/ssl/*,
+    mozilla/security/nss/cmd/tstclnt/tstclnt.c,
+    mozilla/security/nss/tests/ssl/ssl.sh: Apply patches from bz#542832,
+    required for Iceweasel 11.
+  * debian/libnss3-1d.symbols: Add corresponding symbol.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 23 Dec 2011 17:54:03 +0100
+
 nss (3.13.2~beta1-1) experimental; urgency=low
 
   * New upstream snapshot, picked from NSS_3_13_2_BETA1 cvs tag.

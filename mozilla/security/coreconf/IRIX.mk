@@ -102,7 +102,7 @@ ifeq ($(USE_N32),1)
 	SHLIB_LD_OPTS	+= -n32 -mips3
 endif
 
-MKSHLIB     += $(LD) $(SHLIB_LD_OPTS) -shared -soname $(@:$(OBJDIR)/%.so=%.so)
+MKSHLIB     += $(LD) $(SHLIB_LD_OPTS) -shared -soname $(SONAME)
 ifdef MAPFILE
 # Add LD options to restrict exported symbols to those in the map file
 endif

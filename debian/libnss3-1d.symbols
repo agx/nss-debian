@@ -84,3 +84,4 @@ libssl3.so.1d libnss3-1d #MINVER#
  *@NSS_3.2 3.12.0~1.9b1
  *@NSS_3.4 3.12.0~1.9b1
  *@NSS_3.7.4 3.12.0~1.9b1
+ SSL_RestartHandshakeAfterAuthCertificate@NSS_3_13_2 3.13.2~beta1-2~

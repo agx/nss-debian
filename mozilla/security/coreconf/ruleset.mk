@@ -123,6 +123,25 @@ ifdef LIBRARY_NAME
     ifndef SHARED_LIBRARY
 	SHARED_LIBRARY = $(OBJDIR)/$(DLL_PREFIX)$(LIBRARY_NAME)$(LIBRARY_VERSION)$(JDK_DEBUG_SUFFIX).$(DLL_SUFFIX)
     endif
+    SONAME = $(notdir $(SHARED_LIBRARY))
+    ifdef SO_VERSION
+    ifneq (,$(findstring $(SONAME),$(MKSHLIB)))
+        SO_VERSION_MAJOR	:= $(shell echo $(SO_VERSION) | sed 's/^\([^.]*\)\(\.[^.]*\)\?\(\.[^.]*\)\?/\1/')
+        SO_VERSION_MINOR	:= $(shell echo $(SO_VERSION) | sed 's/^\([^.]*\)\(\.[^.]*\)\?\(\.[^.]*\)\?/\2/')
+        SO_VERSION_MICRO	:= $(shell echo $(SO_VERSION) | sed 's/^\([^.]*\)\(\.[^.]*\)\?\(\.[^.]*\)\?/\3/')
+
+        SHARED_LIBRARY_LINKS	:= $(SONAME)
+        ifdef SO_VERSION_MINOR
+            SHARED_LIBRARY_LINKS	+= $(SONAME).$(SO_VERSION_MAJOR)
+        endif
+
+        SONAME			:= $(SONAME).$(SO_VERSION_MAJOR)
+        SHARED_LIBRARY		:= $(SHARED_LIBRARY).$(SO_VERSION)
+
+        MKSHLINKS		= (cd $(1) && for link in $(SHARED_LIBRARY_LINKS); do rm -f $$link; ln -s $(notdir $(SHARED_LIBRARY)) $$link; done)
+    endif
+    endif
+
     ifndef MAPFILE_SOURCE
 	MAPFILE_SOURCE = $(LIBRARY_NAME).def
     endif
@@ -189,7 +208,7 @@ else
 endif
 
 ALL_TRASH =	$(TARGETS) $(OBJS) $(OBJDIR) LOGS TAGS $(GARBAGE) \
-		so_locations $(BUILT_SRCS) $(NOSUCHFILE)
+		so_locations $(BUILT_SRCS) $(NOSUCHFILE) $(SHARED_LIBRARY_LINKS)
 
 ifdef NS_USE_JDK
     ALL_TRASH += $(JDK_HEADER_CFILES) $(JDK_STUB_CFILES) \

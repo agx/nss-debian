@@ -104,9 +104,14 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
 
     /* Remove the trailing filename from referencePath and add the new one */
     c = strrchr(referencePath, PR_GetDirectorySeparator());
+    if (!c) { /* referencePath doesn't contain a / means that dladdr gave us argv[0]
+               * and program was called from $PATH. Hack to get libs from /usr/lib */
+        referencePath = "/usr/lib/";
+        c = &referencePath[8]; /* last / */
+    }
     if (c) {
         size_t referencePathSize = 1 + c - referencePath;
-        fullName = (char*) PORT_Alloc(strlen(name) + referencePathSize + 1);
+        fullName = (char*) PORT_Alloc(strlen(name) + referencePathSize + 5);
         if (fullName) {
             memcpy(fullName, referencePath, referencePathSize);
             strcpy(fullName + referencePathSize, name); 
@@ -116,6 +121,12 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
 #endif
             libSpec.type = PR_LibSpec_Pathname;
             libSpec.value.pathname = fullName;
+            if ((referencePathSize >= 4) &&
+                (strncmp(fullName + referencePathSize - 4, "bin", 3) == 0)) {
+                memcpy(fullName + referencePathSize -4, "lib", 3);
+            }
+            strcpy(fullName + referencePathSize, "nss/");
+            strcpy(fullName + referencePathSize + 4, name);
             dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL
 #ifdef PR_LD_ALT_SEARCH_PATH
             /* allow library's dependencies to be found in the same directory
@@ -123,6 +134,10 @@ loader_LoadLibInReferenceDir(const char *referencePath, const char *name)
                                           | PR_LD_ALT_SEARCH_PATH 
 #endif
                                           );
+            if (! dlh) {
+                strcpy(fullName + referencePathSize, name);
+                dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL);
+            }
             PORT_Free(fullName);
         }
     }
