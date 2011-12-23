@@ -1,3 +1,10 @@
+nss (3.13.2~beta1-1) experimental; urgency=low
+
+  * New upstream snapshot, picked from NSS_3_13_2_BETA1 cvs tag.
+  * debian/libnss3-1d.symbols: Add NSS 3.13.2 symbols.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 23 Dec 2011 16:22:05 +0100
+
 nss (3.13.1.with.ckbi.1.88-1) unstable; urgency=low
 
   * New upstream release.
