@@ -6,8 +6,8 @@
 
 Index: nss/mozilla/security/coreconf/Linux.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/Linux.mk	2011-11-05 17:03:08.934363997 +0100
-+++ nss/mozilla/security/coreconf/Linux.mk	2011-11-05 17:03:17.194377180 +0100
+--- nss.orig/mozilla/security/coreconf/Linux.mk	2012-02-24 09:32:14.034366237 +0100
++++ nss/mozilla/security/coreconf/Linux.mk	2012-02-24 09:32:27.738010484 +0100
 @@ -101,7 +101,7 @@
  
  LIBC_TAG		= _glibc
@@ -50,7 +50,7 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  G++INCLUDES		= -I/usr/include/g++
  
  #
-@@ -192,7 +199,9 @@
+@@ -193,7 +200,9 @@
  endif
  endif
  
@@ -62,8 +62,8 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  ifdef MAPFILE
 Index: nss/mozilla/security/coreconf/arch.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/arch.mk	2011-11-05 17:03:08.926363987 +0100
-+++ nss/mozilla/security/coreconf/arch.mk	2011-11-05 17:03:17.194377180 +0100
+--- nss.orig/mozilla/security/coreconf/arch.mk	2012-02-24 09:31:32.487444860 +0100
++++ nss/mozilla/security/coreconf/arch.mk	2012-02-24 09:32:27.738010484 +0100
 @@ -155,6 +155,14 @@
      ifneq ($(words $(OS_RELEASE)),1)
  	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
@@ -81,8 +81,8 @@ Index: nss/mozilla/security/coreconf/arch.mk
  #
 Index: nss/mozilla/security/coreconf/config.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/config.mk	2011-11-05 17:03:08.914363967 +0100
-+++ nss/mozilla/security/coreconf/config.mk	2011-11-05 17:03:17.194377180 +0100
+--- nss.orig/mozilla/security/coreconf/config.mk	2012-02-24 09:31:32.487444860 +0100
++++ nss/mozilla/security/coreconf/config.mk	2012-02-24 09:32:27.738010484 +0100
 @@ -63,7 +63,7 @@
  #######################################################################
  
@@ -94,8 +94,8 @@ Index: nss/mozilla/security/coreconf/config.mk
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2011-11-05 17:03:13.918372138 +0100
-+++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2011-11-05 17:03:17.194377180 +0100
+--- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2012-02-24 09:32:26.342046723 +0100
++++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2012-02-24 09:32:27.738010484 +0100
 @@ -188,7 +188,8 @@
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
@@ -108,8 +108,8 @@ Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
 Index: nss/mozilla/security/nss/lib/softoken/softoken.h
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/softoken/softoken.h	2011-11-05 17:03:08.990364090 +0100
-+++ nss/mozilla/security/nss/lib/softoken/softoken.h	2011-11-05 17:03:17.198377191 +0100
+--- nss.orig/mozilla/security/nss/lib/softoken/softoken.h	2012-02-24 09:31:32.495444652 +0100
++++ nss/mozilla/security/nss/lib/softoken/softoken.h	2012-02-24 09:32:27.738010484 +0100
 @@ -314,7 +314,7 @@
  
  #define CHECK_FORK_MIXED
@@ -121,8 +121,8 @@ Index: nss/mozilla/security/nss/lib/softoken/softoken.h
  
 Index: nss/mozilla/security/nss/lib/ssl/sslmutex.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.c	2011-11-05 17:03:08.954364029 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.c	2011-11-05 17:03:17.198377191 +0100
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.c	2012-02-24 09:31:32.499444548 +0100
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.c	2012-02-24 09:32:27.738010484 +0100
 @@ -89,7 +89,7 @@
      return SECSuccess;
  }
@@ -134,8 +134,8 @@ Index: nss/mozilla/security/nss/lib/ssl/sslmutex.c
  #include <fcntl.h>
 Index: nss/mozilla/security/nss/lib/ssl/sslmutex.h
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.h	2011-11-05 17:03:08.966364050 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.h	2011-11-05 17:03:17.198377191 +0100
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.h	2012-02-24 09:31:32.499444548 +0100
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.h	2012-02-24 09:32:27.742010380 +0100
 @@ -83,7 +83,7 @@
  
  typedef int    sslPID;

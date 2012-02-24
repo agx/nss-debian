@@ -8,9 +8,9 @@ servers have been upgraded.
 
 Index: nss/mozilla/security/nss/lib/ssl/sslsock.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslsock.c	2011-11-05 17:03:08.310362935 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslsock.c	2011-11-05 17:03:31.586396565 +0100
-@@ -181,7 +181,7 @@
+--- nss.orig/mozilla/security/nss/lib/ssl/sslsock.c	2012-02-24 09:32:14.050365823 +0100
++++ nss/mozilla/security/nss/lib/ssl/sslsock.c	2012-02-24 09:35:31.729234640 +0100
+@@ -182,7 +182,7 @@
      PR_FALSE,   /* noLocks            */
      PR_FALSE,   /* enableSessionTickets */
      PR_FALSE,   /* enableDeflate      */
