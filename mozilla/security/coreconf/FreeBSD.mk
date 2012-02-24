@@ -56,7 +56,7 @@ endif
 OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
 
 DSO_CFLAGS		= -fPIC
-DSO_LDOPTS		= -shared -Wl,-soname -Wl,$(SONAME)
+DSO_LDOPTS		= -shared -Wl,-soname -Wl,$(notdir $@)
 
 #
 # The default implementation strategy for FreeBSD is pthreads.

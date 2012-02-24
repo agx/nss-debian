@@ -437,13 +437,6 @@ secmod_LoadPKCS11Module(SECMODModule *mod, SECMODModule **oldModule) {
 	 * unload the library if anything goes wrong from here on out...
 	 */
 	library = PR_LoadLibrary(mod->dllName);
-	if ((library == NULL) &&
-	    !rindex(mod->dllName, PR_GetDirectorySeparator())) {
-            library = PORT_LoadLibraryFromOrigin(my_shlib_name,
-                                      (PRFuncPtr) &softoken_LoadDSO,
-                                      mod->dllName);
-	}
-
 	mod->library = (void *)library;
 
 	if (library == NULL) {

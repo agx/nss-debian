@@ -59,7 +59,7 @@ else
 	CPU_ARCH	= x86
 endif
 
-MKSHLIB		= $(CC) -nostart -Wl,-soname -Wl,$(SONAME)
+MKSHLIB		= $(CC) -nostart -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so)
 ifdef BUILD_OPT
 	OPTIMIZER	= -O2
 endif
