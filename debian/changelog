@@ -1,3 +1,10 @@
+nss (3.13.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/libnss3-1d.symbols: Updated to fit new upstream.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 24 Feb 2012 09:56:10 +0100
+
 nss (3.13.2~beta1-3) experimental; urgency=low
 
   * debian/libnss3-1d.symbols: Fix symbol version for the symbol added in
