@@ -5,9 +5,9 @@ in SSL ClientHello to communicate securely with some servers that use
 
 Index: nss/mozilla/security/nss/lib/ssl/ssl3con.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/ssl3con.c	2012-02-24 09:32:14.050365823 +0100
-+++ nss/mozilla/security/nss/lib/ssl/ssl3con.c	2012-02-24 09:35:35.517136331 +0100
-@@ -113,7 +113,6 @@
+--- nss.orig/mozilla/security/nss/lib/ssl/ssl3con.c	2012-04-29 08:29:05.823786801 +0200
++++ nss/mozilla/security/nss/lib/ssl/ssl3con.c	2012-04-29 08:29:34.707059332 +0200
+@@ -114,7 +114,6 @@
  #endif /* NSS_ENABLE_ECC */
   { TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,  SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
   { TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA,  SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
@@ -15,7 +15,7 @@ Index: nss/mozilla/security/nss/lib/ssl/ssl3con.c
   { TLS_DHE_DSS_WITH_AES_256_CBC_SHA, 	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
  #ifdef NSS_ENABLE_ECC
   { TLS_ECDH_RSA_WITH_AES_256_CBC_SHA,      SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
-@@ -121,6 +120,7 @@
+@@ -122,6 +121,7 @@
  #endif /* NSS_ENABLE_ECC */
   { TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,  	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
   { TLS_RSA_WITH_AES_256_CBC_SHA,     	   SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
@@ -25,9 +25,9 @@ Index: nss/mozilla/security/nss/lib/ssl/ssl3con.c
   { TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,       SSL_NOT_ALLOWED, PR_FALSE,PR_FALSE},
 Index: nss/mozilla/security/nss/lib/ssl/sslenum.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslenum.c	2012-02-24 09:31:32.499444548 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslenum.c	2012-02-24 09:35:35.517136331 +0100
-@@ -66,7 +66,6 @@
+--- nss.orig/mozilla/security/nss/lib/ssl/sslenum.c	2012-04-29 08:29:05.823786801 +0200
++++ nss/mozilla/security/nss/lib/ssl/sslenum.c	2012-04-29 08:29:34.707059332 +0200
+@@ -69,7 +69,6 @@
  #endif /* NSS_ENABLE_ECC */
      TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,
      TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA,
@@ -35,7 +35,7 @@ Index: nss/mozilla/security/nss/lib/ssl/sslenum.c
      TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
  #ifdef NSS_ENABLE_ECC
      TLS_ECDH_RSA_WITH_AES_256_CBC_SHA,
-@@ -74,6 +73,7 @@
+@@ -77,6 +76,7 @@
  #endif /* NSS_ENABLE_ECC */
      TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,
      TLS_RSA_WITH_AES_256_CBC_SHA,
