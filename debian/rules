@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
+include debian/make.mk
 
-DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+$(call lazy,DEB_HOST_MULTIARCH,$$(shell dpkg-architecture -qDEB_HOST_MULTIARCH))
+$(call lazy,CFLAGS,$$(shell dpkg-buildflags --get CFLAGS))
+$(call lazy,CPPFLAGS,$$(shell dpkg-buildflags --get CPPFLAGS))
+$(call lazy,LDFLAGS,$$(shell dpkg-buildflags --get LDFLAGS))
 
 PREPROCESS_FILES := $(wildcard debian/*.in)
 
@@ -21,15 +25,7 @@ else
 USE_64 :=
 endif
 
-CFLAGS := -Wall -pipe
-
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -Os
-endif
-
-CFLAGS += -g
+CFLAGS += -Wall -pipe
 
 DISTDIR := $(CURDIR)/mozilla/dist
 
@@ -45,7 +41,9 @@ override_dh_auto_build:
 		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
 		NS_USE_GCC=1 \
-		OPTIMIZER="$(CFLAGS)" \
+		OPTIMIZER="$(CFLAGS) $(CPPFLAGS)" \
+		LDFLAGS='$(LDFLAGS) $$(ARCHFLAG) $$(ZDEFS_FLAG)' \
+		DSO_LDOPTS='-shared $$(LDFLAGS)' \
 		NSS_USE_SYSTEM_SQLITE=1 \
 		NSS_ENABLE_ECC=1 \
 		CHECKLOC= \
