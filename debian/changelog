@@ -1,3 +1,21 @@
+nss (3.13.4-1) unstable; urgency=low
+
+  * New upstream release.
+    - Changed __GNUC_MINOR__ use in pkcs11n.h. Closes: #650319.
+  * mozilla/security/nss/cmd/certcgi/certcgi.c,
+    mozilla/security/nss/cmd/digest/digest.c,
+    mozilla/security/nss/cmd/signver/pk7print.c: Import patch from Moritz
+    Muehlenhoff for hardened format strings.
+  * debian/make.mk, debian/rules, debian/control: Enable hardening.
+    Closes: #657325.
+  * debian/libnss3-1d.lintian-overrides.in, debian/rules: Use wildcards in
+    lintian override. Closes: #670013.
+  * debian/compat, debian/control: Bump debian/compat to 9. This has the
+    effect of using build-id for debug files, thus Closes: #670015.
+  * debian/libnss3-1d.symbols: Add symbols for /usr/lib/nss/ libraries.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 29 Apr 2012 09:48:58 +0200
+
 nss (3.13.3-1) unstable; urgency=low
 
   * New upstream release.
