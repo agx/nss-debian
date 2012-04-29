@@ -84,3 +84,12 @@ libssl3.so.1d libnss3-1d #MINVER#
  *@NSS_3.2 3.12.0~1.9b1
  *@NSS_3.4 3.12.0~1.9b1
  *@NSS_3.7.4 3.12.0~1.9b1
+libfreebl3.so libnss3-1d #MINVER#
+ *@NSSprivate_3.11 3.12.0~1.9b1
+ *@NSSRAWHASH_3.12.3 3.12.3
+libnssckbi.so libnss3-1d #MINVER#
+ *@NSS_3.1 3.12.0~1.9b1
+libnssdbm3.so libnss3-1d #MINVER#
+ *@NSSDBM_3.12 3.12.0
+libsoftokn3.so libnss3-1d #MINVER#
+ *@NSS_3.4 3.12.0~1.9b1
