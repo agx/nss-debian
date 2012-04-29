@@ -1,8 +1,8 @@
 # These .so symlinks are here for compatibility with other distros and external
 # binaries depending on nspr.
-libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH@/libnss3.so.1d usr/lib/@DEB_HOST_MULTIARCH@/libnss3.so
-libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH@/libssl3.so.1d usr/lib/@DEB_HOST_MULTIARCH@/libssl3.so
-libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH@/libnssutil3.so.1d usr/lib/@DEB_HOST_MULTIARCH@/libnssutil3.so
-libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH@/libsmime3.so.1d usr/lib/@DEB_HOST_MULTIARCH@/libsmime3.so
+libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH_WC@/libnss3.so.1d usr/lib/@DEB_HOST_MULTIARCH_WC@/libnss3.so
+libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH_WC@/libssl3.so.1d usr/lib/@DEB_HOST_MULTIARCH_WC@/libssl3.so
+libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH_WC@/libnssutil3.so.1d usr/lib/@DEB_HOST_MULTIARCH_WC@/libnssutil3.so
+libnss3-1d: non-dev-pkg-with-shlib-symlink usr/lib/@DEB_HOST_MULTIARCH_WC@/libsmime3.so.1d usr/lib/@DEB_HOST_MULTIARCH_WC@/libsmime3.so
 # License says GPL 2 or subsequent, so pointing to the latest version is fine
 libnss3-1d: copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL

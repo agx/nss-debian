@@ -18,6 +18,7 @@ MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
 
 debian/nss.pc: EXTRA_REPLACES := s/@VERSION@/$(UPSTREAM_VERSION)/
 debian/nss-config: EXTRA_REPLACES := s/@MOD_MAJOR_VERSION@/$(MOD_MAJOR_VERSION)/;s/@MOD_MINOR_VERSION@/$(MOD_MINOR_VERSION)/;s/@MOD_PATCH_VERSION@/$(MOD_PATCH_VERSION)/
+debian/libnss3-1d.lintian-overrides: EXTRA_REPLACES := s,/@DEB_HOST_MULTIARCH_WC@,$(DEB_HOST_MULTIARCH:%=/*),g
 
 ifneq (,$(filter 64 alpha amd64 ia64 s390x,$(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS 2> /dev/null || dpkg-architecture -qDEB_BUILD_ARCH)))
 USE_64 := USE_64=1
