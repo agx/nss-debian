@@ -9,16 +9,28 @@ Homepage: http://www.mozilla.org/projects/security/pki/nss/
 Vcs-Git: git://git.debian.org/git/pkg-mozilla/nss.git
 Vcs-Browser: http://git.debian.org/?p=pkg-mozilla/nss.git
 
-Package: libnss3-1d
+Package: libnss3
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libnss3-1d (<< 2:3.13.4-2)
 Multi-Arch: ${misc:Multi-Arch}
 Description: Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
  and  v4, TLS, PKCS #5, #7, #11, #12, S/MIME, X.509 v3 certificates and
  other security standards.
+
+Package: libnss3-1d
+Section: oldlibs
+Priority: extra
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Depends: libnss3 (= ${binary:Version}), ${misc:Depends}
+Multi-Arch: ${misc:Multi-Arch}
+Description: Network Security Service libraries - transitional package
+ This is a transitional package to ensure smooth transition of all packages
+ to libnss3.
 
 Package: libnss3-tools
 Section: admin
@@ -41,7 +53,7 @@ Homepage: http://www.mozilla.org/projects/security/pki/nss/tools/
 Package: libnss3-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libnss3-1d (= ${binary:Version}), libnspr4-dev (>= 4.6.6-1)
+Depends: ${misc:Depends}, libnss3 (= ${binary:Version}), libnspr4-dev (>= 4.6.6-1)
 Description: Development files for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
@@ -51,12 +63,13 @@ Description: Development files for the Network Security Service libraries
  Install this package if you wish to develop your own programs using the
  Network Security Service Libraries.
 
-Package: libnss3-1d-dbg
+Package: libnss3-dbg
 Section: debug
 Priority: extra
 Architecture: any
-Depends: ${misc:Depends}, libnss3-1d (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
-Conflicts: libnss3-1d (<< ${binary:Version}), libnss3-1d (>> ${binary:Version}), libnss3-tools (<< ${binary:Version}), libnss3-tools (>> ${binary:Version})
+Depends: ${misc:Depends}, libnss3 (= ${binary:Version}) | libnss3-tools (= ${binary:Version})
+Conflicts: libnss3 (<< ${binary:Version}), libnss3 (>> ${binary:Version}), libnss3-tools (<< ${binary:Version}), libnss3-tools (>> ${binary:Version})
+Provides: libnss3-1d-dbg
 Multi-Arch: ${misc:Multi-Arch}
 Description: Debugging symbols for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development

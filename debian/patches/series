@@ -1,7 +1,6 @@
 38_hurd.patch
 38_kbsd.patch
 80_security_tools.patch
-81_sonames.patch
 85_security_load.patch
 90_realpath.patch
 91_build_pwdecrypt.patch
