@@ -1,3 +1,22 @@
+nss (2:3.13.4-2) unstable; urgency=low
+
+  * debian/control, debian/libnss3*, debian/rules,
+    mozilla/security/coreconf/*, mozilla/security/nss/lib/*/manifest.mn:
+    Move to unversioned library. ABI compatibility is ensured upstream, and
+    the SO version, if it needed a change at any time, would be a change in
+    the library name. There is no reason to keep making compatibility more
+    difficult with other distros and upstream binary releases. While previous
+    versions were one-way compatible (binaries built against other distros or
+    upstream nspr could work on Debian), this approach works both ways.
+  * debian/control:
+    - Bump Standards-Version to 3.9.3.0. No changes required.
+    - Force to build against libnspr4-dev >= 2:4.9
+  * Removed unapplied patches.
+  * Adding an epoch to match the old libnss3 package that used to be in
+    the Debian archive.
+
+ -- Mike Hommey <glandium@debian.org>  Thu, 17 May 2012 09:45:36 +0200
+
 nss (3.13.4-1) unstable; urgency=low
 
   * New upstream release.
