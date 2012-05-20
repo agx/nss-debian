@@ -1,3 +1,9 @@
+nss (2:3.13.4-3) unstable; urgency=low
+
+  * debian/rules: Skip epoch when getting upstream version number.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 20 May 2012 07:36:11 +0200
+
 nss (2:3.13.4-2) unstable; urgency=low
 
   * debian/control, debian/libnss3*, debian/rules,
