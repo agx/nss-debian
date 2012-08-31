@@ -1,3 +1,11 @@
+nss (2:3.13.6-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/rules: Use xz compression for binary packages.
+    Thanks Ansgar Burchardt. Closes: #683835.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 31 Aug 2012 09:56:53 +0200
+
 nss (2:3.13.5-1) unstable; urgency=low
 
   * New upstream release.
