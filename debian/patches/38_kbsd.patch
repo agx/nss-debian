@@ -6,9 +6,9 @@
 
 Index: nss/mozilla/security/coreconf/Linux.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/Linux.mk	2012-02-24 09:32:14.034366237 +0100
-+++ nss/mozilla/security/coreconf/Linux.mk	2012-02-24 09:32:27.738010484 +0100
-@@ -101,7 +101,7 @@
+--- nss.orig/mozilla/security/coreconf/Linux.mk	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/coreconf/Linux.mk	2012-10-05 14:46:35.163164107 +0200
+@@ -69,7 +69,7 @@
  
  LIBC_TAG		= _glibc
  
@@ -17,7 +17,7 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  	OS_REL_CFLAGS	+= -DLINUX2_0
  	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
  	ifdef MAPFILE
-@@ -136,14 +136,21 @@
+@@ -104,14 +104,21 @@
  # -ansi on platforms like Android where the system headers are C99 and do
  # not build with -ansi.
  STANDARDS_CFLAGS	= -ansi -D_POSIX_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE
@@ -41,7 +41,7 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  
  DSO_CFLAGS		= -fPIC
  DSO_LDOPTS		= -shared $(ARCHFLAG)
-@@ -160,7 +167,7 @@
+@@ -128,7 +135,7 @@
  LDFLAGS			+= -Wl,-rpath-link,/usr/lib:/lib
  endif
  
@@ -50,7 +50,7 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  G++INCLUDES		= -I/usr/include/g++
  
  #
-@@ -193,7 +200,9 @@
+@@ -161,7 +168,9 @@
  endif
  endif
  
@@ -62,9 +62,9 @@ Index: nss/mozilla/security/coreconf/Linux.mk
  ifdef MAPFILE
 Index: nss/mozilla/security/coreconf/arch.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/arch.mk	2012-02-24 09:31:32.487444860 +0100
-+++ nss/mozilla/security/coreconf/arch.mk	2012-02-24 09:32:27.738010484 +0100
-@@ -155,6 +155,14 @@
+--- nss.orig/mozilla/security/coreconf/arch.mk	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/coreconf/arch.mk	2012-10-05 14:46:35.163164107 +0200
+@@ -122,6 +122,14 @@
      ifneq ($(words $(OS_RELEASE)),1)
  	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
      endif
@@ -81,9 +81,9 @@ Index: nss/mozilla/security/coreconf/arch.mk
  #
 Index: nss/mozilla/security/coreconf/config.mk
 ===================================================================
---- nss.orig/mozilla/security/coreconf/config.mk	2012-02-24 09:31:32.487444860 +0100
-+++ nss/mozilla/security/coreconf/config.mk	2012-02-24 09:32:27.738010484 +0100
-@@ -63,7 +63,7 @@
+--- nss.orig/mozilla/security/coreconf/config.mk	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/coreconf/config.mk	2012-10-05 14:46:35.167164069 +0200
+@@ -31,7 +31,7 @@
  #######################################################################
  
  TARGET_OSES = FreeBSD BSD_OS NetBSD OpenUNIX OS2 QNX Darwin BeOS OpenBSD \
@@ -94,9 +94,9 @@ Index: nss/mozilla/security/coreconf/config.mk
  include $(CORE_DEPTH)/coreconf/$(OS_TARGET).mk
 Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2012-02-24 09:32:26.342046723 +0100
-+++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2012-02-24 09:32:27.738010484 +0100
-@@ -188,7 +188,8 @@
+--- nss.orig/mozilla/security/nss/lib/freebl/unix_rand.c	2012-10-05 14:46:30.599206535 +0200
++++ nss/mozilla/security/nss/lib/freebl/unix_rand.c	2012-10-05 14:46:35.167164069 +0200
+@@ -156,7 +156,8 @@
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
      || defined(NETBSD) || defined(DARWIN) || defined(OPENBSD) \
@@ -108,9 +108,9 @@ Index: nss/mozilla/security/nss/lib/freebl/unix_rand.c
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
 Index: nss/mozilla/security/nss/lib/softoken/softoken.h
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/softoken/softoken.h	2012-02-24 09:31:32.495444652 +0100
-+++ nss/mozilla/security/nss/lib/softoken/softoken.h	2012-02-24 09:32:27.738010484 +0100
-@@ -314,7 +314,7 @@
+--- nss.orig/mozilla/security/nss/lib/softoken/softoken.h	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/nss/lib/softoken/softoken.h	2012-10-05 14:46:35.167164069 +0200
+@@ -282,7 +282,7 @@
  
  #define CHECK_FORK_MIXED
  
@@ -121,9 +121,9 @@ Index: nss/mozilla/security/nss/lib/softoken/softoken.h
  
 Index: nss/mozilla/security/nss/lib/ssl/sslmutex.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.c	2012-02-24 09:31:32.499444548 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.c	2012-02-24 09:32:27.738010484 +0100
-@@ -89,7 +89,7 @@
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.c	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.c	2012-10-05 14:46:35.167164069 +0200
+@@ -57,7 +57,7 @@
      return SECSuccess;
  }
  
@@ -134,9 +134,9 @@ Index: nss/mozilla/security/nss/lib/ssl/sslmutex.c
  #include <fcntl.h>
 Index: nss/mozilla/security/nss/lib/ssl/sslmutex.h
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.h	2012-02-24 09:31:32.499444548 +0100
-+++ nss/mozilla/security/nss/lib/ssl/sslmutex.h	2012-02-24 09:32:27.742010380 +0100
-@@ -83,7 +83,7 @@
+--- nss.orig/mozilla/security/nss/lib/ssl/sslmutex.h	2012-10-05 14:46:28.447226283 +0200
++++ nss/mozilla/security/nss/lib/ssl/sslmutex.h	2012-10-05 14:46:35.167164069 +0200
+@@ -51,7 +51,7 @@
  
  typedef int    sslPID;
  

@@ -6,9 +6,9 @@
 
 Index: nss/mozilla/security/nss/lib/freebl/genload.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/freebl/genload.c	2011-11-05 17:03:08.482363227 +0100
-+++ nss/mozilla/security/nss/lib/freebl/genload.c	2011-11-05 17:03:24.934388168 +0100
-@@ -62,6 +62,16 @@
+--- nss.orig/mozilla/security/nss/lib/freebl/genload.c	2012-10-05 14:46:28.267227928 +0200
++++ nss/mozilla/security/nss/lib/freebl/genload.c	2012-10-05 14:46:44.047079362 +0200
+@@ -27,6 +27,16 @@
   */
  static char* loader_GetOriginalPathname(const char* link)
  {
@@ -25,7 +25,7 @@ Index: nss/mozilla/security/nss/lib/freebl/genload.c
      char* resolved = NULL;
      char* input = NULL;
      PRUint32 iterations = 0;
-@@ -96,6 +106,7 @@
+@@ -61,6 +71,7 @@
          input = NULL;
      }
      return input;

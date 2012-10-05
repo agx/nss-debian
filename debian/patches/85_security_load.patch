@@ -5,9 +5,9 @@
 
 Index: nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
 ===================================================================
---- nss.orig/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:13.918372138 +0100
-+++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2011-11-05 17:03:23.374386055 +0100
-@@ -768,6 +768,8 @@
+--- nss.orig/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2012-10-05 14:46:30.599206535 +0200
++++ nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c	2012-10-05 14:46:41.883100266 +0200
+@@ -852,6 +852,8 @@
      libname = PR_GetLibraryName(NULL, "softokn3");
      assert(libname != NULL);
      lib = PR_LoadLibrary(libname);
@@ -18,9 +18,9 @@ Index: nss/mozilla/security/nss/cmd/shlibsign/shlibsign.c
  
 Index: nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/pk11wrap/pk11load.c	2011-11-05 17:03:08.550363345 +0100
-+++ nss/mozilla/security/nss/lib/pk11wrap/pk11load.c	2011-11-05 17:03:23.374386055 +0100
-@@ -437,6 +437,13 @@
+--- nss.orig/mozilla/security/nss/lib/pk11wrap/pk11load.c	2012-10-05 14:46:28.331227343 +0200
++++ nss/mozilla/security/nss/lib/pk11wrap/pk11load.c	2012-10-05 14:46:41.883100266 +0200
+@@ -406,6 +406,13 @@
  	 * unload the library if anything goes wrong from here on out...
  	 */
  	library = PR_LoadLibrary(mod->dllName);
@@ -36,9 +36,9 @@ Index: nss/mozilla/security/nss/lib/pk11wrap/pk11load.c
  	if (library == NULL) {
 Index: nss/mozilla/security/nss/lib/util/secload.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/util/secload.c	2011-11-05 17:03:08.534363321 +0100
-+++ nss/mozilla/security/nss/lib/util/secload.c	2011-11-05 17:03:23.374386055 +0100
-@@ -104,9 +104,14 @@
+--- nss.orig/mozilla/security/nss/lib/util/secload.c	2012-10-05 14:46:28.331227343 +0200
++++ nss/mozilla/security/nss/lib/util/secload.c	2012-10-05 14:46:41.883100266 +0200
+@@ -69,9 +69,14 @@
  
      /* Remove the trailing filename from referencePath and add the new one */
      c = strrchr(referencePath, PR_GetDirectorySeparator());
@@ -54,7 +54,7 @@ Index: nss/mozilla/security/nss/lib/util/secload.c
          if (fullName) {
              memcpy(fullName, referencePath, referencePathSize);
              strcpy(fullName + referencePathSize, name); 
-@@ -116,6 +121,12 @@
+@@ -81,6 +86,12 @@
  #endif
              libSpec.type = PR_LibSpec_Pathname;
              libSpec.value.pathname = fullName;
@@ -67,7 +67,7 @@ Index: nss/mozilla/security/nss/lib/util/secload.c
              dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL
  #ifdef PR_LD_ALT_SEARCH_PATH
              /* allow library's dependencies to be found in the same directory
-@@ -123,6 +134,10 @@
+@@ -88,6 +99,10 @@
                                            | PR_LD_ALT_SEARCH_PATH 
  #endif
                                            );
