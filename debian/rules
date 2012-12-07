@@ -14,7 +14,7 @@ $(PREPROCESS_FILES:.in=): %: %.in
 UPSTREAM_VERSION := $(shell dpkg-parsechangelog | sed -n 's/^Version: *\([0-9]*:\)\?\([^~]*\)\(~.*\)\?-.*$$/\2/ p')
 MOD_MAJOR_VERSION := $(word 1, $(subst ., ,$(UPSTREAM_VERSION)))
 MOD_MINOR_VERSION := $(word 2, $(subst ., ,$(UPSTREAM_VERSION)))
-MOD_PATCH_VERSION := $(word 3, $(subst ., ,$(UPSTREAM_VERSION)))
+MOD_PATCH_VERSION := $(or $(word 3, $(subst ., ,$(UPSTREAM_VERSION))),0)
 
 debian/nss.pc: EXTRA_REPLACES := s/@VERSION@/$(UPSTREAM_VERSION)/
 debian/nss-config: EXTRA_REPLACES := s/@MOD_MAJOR_VERSION@/$(MOD_MAJOR_VERSION)/;s/@MOD_MINOR_VERSION@/$(MOD_MINOR_VERSION)/;s/@MOD_PATCH_VERSION@/$(MOD_PATCH_VERSION)/
