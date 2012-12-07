@@ -1,3 +1,10 @@
+nss (2:3.14-2) unstable; urgency=low
+
+  * debian/nss-config.in: Fix nss-config when version is in the x.y form
+    instead of x.y.z.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 07 Dec 2012 17:07:05 +0100
+
 nss (2:3.14-1) unstable; urgency=low
 
   * New upstream release.
