@@ -5,11 +5,11 @@
 
 Index: nss/mozilla/security/nss/lib/ckfw/builtins/certdata.txt
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/ckfw/builtins/certdata.txt	2012-12-07 17:39:34.000000000 +0100
-+++ nss/mozilla/security/nss/lib/ckfw/builtins/certdata.txt	2012-12-07 17:42:11.057326406 +0100
-@@ -24880,3 +24880,558 @@
- CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NSS_MUST_VERIFY_TRUST
- CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_TRUSTED_DELEGATOR
+--- nss.orig/mozilla/security/nss/lib/ckfw/builtins/certdata.txt	2013-01-04 11:14:44.704055110 +0100
++++ nss/mozilla/security/nss/lib/ckfw/builtins/certdata.txt	2013-01-04 11:14:44.700055209 +0100
+@@ -24783,3 +24783,558 @@
+ CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NSS_NOT_TRUSTED
+ CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_NOT_TRUSTED
  CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE
 + 
 +#
