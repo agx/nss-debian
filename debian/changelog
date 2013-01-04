@@ -1,3 +1,12 @@
+nss (2:3.14.1.with.ckbi.1.93-1) unstable; urgency=low
+
+  * New upstream release.
+    - Explicitly distrust two intermediate CA certificates mis-issued by
+      TURKTRUST.
+  * debian/patches/95_add_spi+cacert_ca_certs.patch: Refreshed.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 04 Jan 2013 11:16:33 +0100
+
 nss (2:3.14.1-1) unstable; urgency=low
 
   * New upstream release.
