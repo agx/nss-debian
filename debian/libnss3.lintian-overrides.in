@@ -7,4 +7,4 @@ libnss3: shlib-without-versioned-soname usr/lib/@DEB_HOST_MULTIARCH_WC@/libssl3.
 libnss3: shlib-without-versioned-soname usr/lib/@DEB_HOST_MULTIARCH_WC@/libnssutil3.so libnssutil3.so
 libnss3: shlib-without-versioned-soname usr/lib/@DEB_HOST_MULTIARCH_WC@/libsmime3.so libsmime3.so
 # License says GPL 2 or subsequent, so pointing to the latest version is fine
-libnss3-1d: copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL
+libnss3: copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL
