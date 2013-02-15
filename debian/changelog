@@ -1,3 +1,16 @@
+nss (2:3.14.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control: Bump sqlite3 build dependency.
+  * debian/rules: Avoid installing freebl, softokn, nssckbi and nssdbm in two
+    places.
+  * debian/libnss3-1d.lintian-overrides.in: Stop preprocessing, it has nothing
+    to preprocess anymore.
+  * debian/libnss3.lintian-overrides.in: Fix not to contain a reference to the
+    libnss3-1d package.
+
+ -- Mike Hommey <glandium@debian.org>  Fri, 15 Feb 2013 10:06:59 +0100
+
 nss (2:3.14.1.with.ckbi.1.93-1) unstable; urgency=low
 
   * New upstream release.
