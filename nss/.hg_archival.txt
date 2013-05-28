@@ -1,0 +1,5 @@
+repo: 9949429068caa6bb8827a8ceeaa7c605d722f47f
+node: 7d7cdec3e0c01d2b20ae1021b0d23a00c1aac147
+branch: default
+latesttag: NSS_3_15_RTM
+latesttagdistance: 1
