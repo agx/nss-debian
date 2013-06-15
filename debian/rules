@@ -28,16 +28,15 @@ endif
 
 CFLAGS += -Wall -pipe
 
-DISTDIR := $(CURDIR)/mozilla/dist
+DISTDIR := $(CURDIR)/dist
 
 override_dh_auto_build:
-	$(MAKE) -C mozilla/security/nss \
-		build_coreconf \
-		build_dbm \
+	$(MAKE) -C nss \
 		all \
 		MOZILLA_CLIENT=1 \
 		NSPR_INCLUDE_DIR=/usr/include/nspr \
 		NSPR_LIB_DIR=/usr/lib \
+		SOURCE_PREFIX=$(DISTDIR) \
 		SOURCE_MD_DIR=$(DISTDIR) \
 		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
@@ -51,10 +50,9 @@ override_dh_auto_build:
 		$(USE_64)
 
 override_dh_auto_clean:
-	-$(MAKE) -C mozilla/security/nss \
+	-$(MAKE) -C nss \
 		clobber \
-		clobber_dbm \
-		clobber_coreconf \
+		SOURCE_PREFIX=$(DISTDIR) \
 		SOURCE_MD_DIR=$(DISTDIR) \
 		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
