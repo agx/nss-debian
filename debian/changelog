@@ -1,3 +1,13 @@
+nss (2:3.15-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/*: Refresh patches and removed unused ones.
+  * debian/rules: Adjusted to the new source layout.
+  * debian/libnss3.symbols: Add NSS*_3.15 symbol versions.
+  * debian/control: Bump nspr build dependency.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 15 Jun 2013 19:23:12 +0900
+
 nss (2:3.14.3-1) unstable; urgency=high
 
   * New upstream release.
