@@ -4,10 +4,10 @@
 ## DP: Use realpath() for loader_GetOriginalPathname, so that symlinks are
 ## DP: properly followed when determining where the current library lives.
 
-Index: nss/mozilla/security/nss/lib/freebl/genload.c
+Index: nss/nss/lib/freebl/genload.c
 ===================================================================
---- nss.orig/mozilla/security/nss/lib/freebl/genload.c	2012-10-05 14:46:28.267227928 +0200
-+++ nss/mozilla/security/nss/lib/freebl/genload.c	2012-10-05 14:46:44.047079362 +0200
+--- nss.orig/nss/lib/freebl/genload.c	2012-10-05 14:46:28.267227928 +0200
++++ nss/nss/lib/freebl/genload.c	2012-10-05 14:46:44.047079362 +0200
 @@ -27,6 +27,16 @@
   */
  static char* loader_GetOriginalPathname(const char* link)

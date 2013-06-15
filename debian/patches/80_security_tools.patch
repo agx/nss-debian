@@ -4,10 +4,10 @@
 ## DP: Enable building of some NSS tools.
 ## DP: Disable rpath.
 
-Index: nss/mozilla/security/nss/cmd/platlibs.mk
+Index: nss/nss/cmd/platlibs.mk
 ===================================================================
---- nss.orig/mozilla/security/nss/cmd/platlibs.mk	2012-10-05 14:46:28.387226831 +0200
-+++ nss/mozilla/security/nss/cmd/platlibs.mk	2012-10-05 14:46:39.931118977 +0200
+--- nss.orig/nss/cmd/platlibs.mk	2013-06-15 19:11:44.412435015 +0900
++++ nss/nss/cmd/platlibs.mk	2013-06-15 19:11:44.408435138 +0900
 @@ -8,6 +8,7 @@
  # set RPATH-type linker instructions here so they can be used in the shared
  # version and in the mixed (static nss libs/shared NSPR libs) version.
