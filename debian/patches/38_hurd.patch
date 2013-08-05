@@ -5,9 +5,9 @@
 
 Index: nss/nss/cmd/shlibsign/shlibsign.c
 ===================================================================
---- nss.orig/nss/cmd/shlibsign/shlibsign.c	2013-06-15 19:09:36.656341196 +0900
-+++ nss/nss/cmd/shlibsign/shlibsign.c	2013-06-15 19:09:36.648341440 +0900
-@@ -705,7 +705,6 @@
+--- nss.orig/nss/cmd/shlibsign/shlibsign.c	2013-08-05 14:40:16.973982571 +0900
++++ nss/nss/cmd/shlibsign/shlibsign.c	2013-08-05 14:40:16.961982848 +0900
+@@ -706,7 +706,6 @@
  #ifdef USES_LINKS
      int ret;
      struct stat stat_buf;
@@ -15,7 +15,7 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
      char *link_file = NULL;
  #endif
  
-@@ -1033,10 +1032,22 @@
+@@ -1034,10 +1033,22 @@
      }
      if (S_ISLNK(stat_buf.st_mode)) {
          char *dirpath,*dirend;
@@ -44,8 +44,8 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
          link_file = mkoutput(input_file);
 Index: nss/nss/lib/freebl/unix_rand.c
 ===================================================================
---- nss.orig/nss/lib/freebl/unix_rand.c	2013-06-15 19:09:36.656341196 +0900
-+++ nss/nss/lib/freebl/unix_rand.c	2013-06-15 19:09:36.648341440 +0900
+--- nss.orig/nss/lib/freebl/unix_rand.c	2013-08-05 14:40:16.973982571 +0900
++++ nss/nss/lib/freebl/unix_rand.c	2013-08-05 14:40:16.965982756 +0900
 @@ -1020,6 +1020,10 @@
  #define _POSIX_PTHREAD_SEMANTICS
  #include <dirent.h>
