@@ -1,5 +1,4 @@
 repo: 9949429068caa6bb8827a8ceeaa7c605d722f47f
-node: 7d7cdec3e0c01d2b20ae1021b0d23a00c1aac147
+node: 05ffc38de8b4a1f0248fa41da52c6aed3a8c5b75
 branch: default
-latesttag: NSS_3_15_RTM
-latesttagdistance: 1
+tag: NSS_3_15_1_RTM
