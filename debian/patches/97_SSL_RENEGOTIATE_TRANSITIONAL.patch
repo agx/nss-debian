@@ -8,9 +8,9 @@ servers have been upgraded.
 
 Index: nss/nss/lib/ssl/sslsock.c
 ===================================================================
---- nss.orig/nss/lib/ssl/sslsock.c	2013-08-05 14:40:35.173562088 +0900
-+++ nss/nss/lib/ssl/sslsock.c	2013-08-05 14:40:35.165562273 +0900
-@@ -156,7 +156,7 @@
+--- nss.orig/nss/lib/ssl/sslsock.c	2013-10-21 08:03:16.836020806 +0900
++++ nss/nss/lib/ssl/sslsock.c	2013-10-21 08:03:16.832020901 +0900
+@@ -74,7 +74,7 @@
      PR_FALSE,   /* noLocks            */
      PR_FALSE,   /* enableSessionTickets */
      PR_FALSE,   /* enableDeflate      */
