@@ -12,7 +12,7 @@ Vcs-Browser: http://git.debian.org/?p=pkg-mozilla/nss.git
 Package: libnss3
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libnss3-nssdb
 Conflicts: libnss3-1d (<< 2:3.13.4-2)
 Multi-Arch: ${misc:Multi-Arch}
 Description: Network Security Service libraries
@@ -31,6 +31,14 @@ Multi-Arch: ${misc:Multi-Arch}
 Description: Network Security Service libraries - transitional package
  This is a transitional package to ensure smooth transition of all packages
  to libnss3.
+
+Package: libnss3-nssdb
+Section: admin
+Architecture: all
+Pre-Depends: ${misc:Pre-Depends}
+Depends: libnss3 (= ${binary:Version}), ${misc:Depends}
+Description: Network Security Security libraries - shared databases
+ This package includes shared certificate and key databases.
 
 Package: libnss3-tools
 Section: admin

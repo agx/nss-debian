@@ -107,6 +107,8 @@ libnssckbi.so libnss3 (>= 2:3.13.4-2~) | libnss3-1d #MINVER#
 libnssdbm3.so libnss3 (>= 2:3.13.4-2~) | libnss3-1d #MINVER#
 |libnss3 #MINVER#
  *@NSSDBM_3.12 3.12.0
+libnsssysinit.so libnss3 #MINVER#
+ NSS_ReturnModuleSpecData@Base 3.14.2
 libsoftokn3.so libnss3 (>= 2:3.13.4-2~) | libnss3-1d #MINVER#
 |libnss3 #MINVER#
  *@NSS_3.4 3.12.0~1.9b1

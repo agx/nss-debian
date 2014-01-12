@@ -43,7 +43,6 @@ DISTDIR := $(CURDIR)/dist
 override_dh_auto_build:
 	$(MAKE) -C nss \
 		all \
-		MOZILLA_CLIENT=1 \
 		NSPR_INCLUDE_DIR=/usr/include/nspr \
 		NSPR_LIB_DIR=/usr/lib \
 		SOURCE_PREFIX=$(DISTDIR) \
@@ -81,6 +80,7 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		$(DISTDIR)/lib/libfreebl3.so \
 		$(DISTDIR)/lib/libsoftokn3.so \
 		$(DISTDIR)/lib/libnssdbm3.so \
+		$(DISTDIR)/lib/libnsssysinit.so \
 		$(DISTDIR)/lib/libnssckbi.so
 
 	install -m 644 -t debian/libnss3-dev/usr/include/nss \
@@ -125,6 +125,17 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		dbtest \
 		pp \
 		, $(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)))
+
+	# Create the empty certificate databases, with empty passphrase
+	echo "\n" > /tmp/password
+	install -m 755 -d debian/libnss3-nssdb/etc/pki
+	install -m 755 -d debian/libnss3-nssdb/var/lib/nssdb
+	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d debian/libnss3-nssdb/var/lib/nssdb \
+		-f /tmp/password
+	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d sql:debian/libnss3-nssdb/var/lib/nssdb \
+		-f /tmp/password
+	chmod 644 debian/libnss3-nssdb/var/lib/nssdb/*
+	install -m 644 -t debian/libnss3-nssdb/var/lib/nssdb debian/pkcs11.txt
 
 override_dh_strip:
 	dh_strip -a --dbg-package=libnss3-dbg
