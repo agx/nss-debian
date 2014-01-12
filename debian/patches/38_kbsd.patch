@@ -6,8 +6,8 @@
 
 Index: nss/nss/lib/freebl/unix_rand.c
 ===================================================================
---- nss.orig/nss/lib/freebl/unix_rand.c	2013-06-15 19:17:07.382594525 +0900
-+++ nss/nss/lib/freebl/unix_rand.c	2013-06-15 19:17:34.501768732 +0900
+--- nss.orig/nss/lib/freebl/unix_rand.c	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/lib/freebl/unix_rand.c	2014-01-13 07:31:45.935967956 +0900
 @@ -156,7 +156,8 @@
  
  #if defined(SCO) || defined(UNIXWARE) || defined(BSDI) || defined(FREEBSD) \
@@ -20,9 +20,9 @@ Index: nss/nss/lib/freebl/unix_rand.c
  #define getdtablesize() sysconf(_SC_OPEN_MAX)
 Index: nss/nss/lib/softoken/softoken.h
 ===================================================================
---- nss.orig/nss/lib/softoken/softoken.h	2013-06-15 19:17:07.382594525 +0900
-+++ nss/nss/lib/softoken/softoken.h	2013-06-15 19:17:34.505768610 +0900
-@@ -295,7 +295,7 @@
+--- nss.orig/nss/lib/softoken/softoken.h	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/lib/softoken/softoken.h	2014-01-13 07:31:45.935967956 +0900
+@@ -197,7 +197,7 @@
  
  #define CHECK_FORK_MIXED
  
@@ -33,8 +33,8 @@ Index: nss/nss/lib/softoken/softoken.h
  
 Index: nss/nss/lib/ssl/sslmutex.c
 ===================================================================
---- nss.orig/nss/lib/ssl/sslmutex.c	2013-06-15 19:17:07.382594525 +0900
-+++ nss/nss/lib/ssl/sslmutex.c	2013-06-15 19:17:34.505768610 +0900
+--- nss.orig/nss/lib/ssl/sslmutex.c	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/lib/ssl/sslmutex.c	2014-01-13 07:31:45.935967956 +0900
 @@ -56,7 +56,7 @@
      return SECSuccess;
  }
@@ -46,8 +46,8 @@ Index: nss/nss/lib/ssl/sslmutex.c
  #include <fcntl.h>
 Index: nss/nss/lib/ssl/sslmutex.h
 ===================================================================
---- nss.orig/nss/lib/ssl/sslmutex.h	2013-06-15 19:17:07.382594525 +0900
-+++ nss/nss/lib/ssl/sslmutex.h	2013-06-15 19:17:34.505768610 +0900
+--- nss.orig/nss/lib/ssl/sslmutex.h	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/lib/ssl/sslmutex.h	2014-01-13 07:31:45.935967956 +0900
 @@ -50,7 +50,7 @@
  
  typedef int    sslPID;
@@ -59,8 +59,8 @@ Index: nss/nss/lib/ssl/sslmutex.h
  #include "prtypes.h"
 Index: nss/nss/coreconf/arch.mk
 ===================================================================
---- nss.orig/nss/coreconf/arch.mk	2013-06-15 19:17:07.382594525 +0900
-+++ nss/nss/coreconf/arch.mk	2013-06-15 19:17:34.501768732 +0900
+--- nss.orig/nss/coreconf/arch.mk	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/coreconf/arch.mk	2014-01-13 07:31:45.935967956 +0900
 @@ -122,6 +122,14 @@
      ifneq ($(words $(OS_RELEASE)),1)
  	OS_RELEASE := $(word 1,$(OS_RELEASE)).$(word 2,$(OS_RELEASE))
@@ -78,8 +78,8 @@ Index: nss/nss/coreconf/arch.mk
  #
 Index: nss/nss/coreconf/Linux.mk
 ===================================================================
---- nss.orig/nss/coreconf/Linux.mk	2013-06-15 19:16:59.150845133 +0900
-+++ nss/nss/coreconf/Linux.mk	2013-06-15 19:17:34.501768732 +0900
+--- nss.orig/nss/coreconf/Linux.mk	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/coreconf/Linux.mk	2014-01-13 07:31:45.935967956 +0900
 @@ -93,7 +93,7 @@
  LIBC_TAG		= _glibc
  endif
@@ -134,8 +134,8 @@ Index: nss/nss/coreconf/Linux.mk
  ifdef MAPFILE
 Index: nss/nss/coreconf/config.mk
 ===================================================================
---- nss.orig/nss/coreconf/config.mk	2013-06-15 19:16:59.154845011 +0900
-+++ nss/nss/coreconf/config.mk	2013-06-15 19:17:34.501768732 +0900
+--- nss.orig/nss/coreconf/config.mk	2014-01-13 07:31:45.939967858 +0900
++++ nss/nss/coreconf/config.mk	2014-01-13 07:31:45.935967956 +0900
 @@ -31,7 +31,7 @@
  #######################################################################
  
