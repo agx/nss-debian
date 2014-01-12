@@ -26,6 +26,16 @@ else
 USE_64 :=
 endif
 
+# $(foreach foo,$(list),$(call cmd,some command $(foo))) expands to
+#    some command first-elem
+#    some command second-elem
+#    etc.
+# This avoid using a long one liner with semi colons.
+define cmd
+$(1)
+
+endef
+
 CFLAGS += -Wall -pipe
 
 DISTDIR := $(CURDIR)/dist
@@ -108,13 +118,13 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 			tstclnt \
 			vfychain \
 			vfyserv \
-	 	, $(DISTDIR)/bin/$(bin))
+		, $(DISTDIR)/bin/$(bin))
 	# these utilities are too generically-named, so we prefix them with nss- (see http://bugs.debian.org/701141)
 	$(foreach bin, \
 		addbuiltin \
 		dbtest \
 		pp \
-	 	, install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin) ; )
+		, $(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)))
 
 override_dh_strip:
 	dh_strip -a --dbg-package=libnss3-dbg
