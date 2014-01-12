@@ -81,8 +81,40 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 	install -m 755 -t debian/libnss3-dev/usr/bin debian/nss-config
 
 	install -m 755 -t debian/libnss3-tools/usr/bin \
-		$(foreach bin,certutil cmsutil crlutil modutil pk12util shlibsign signtool signver ssltap pwdecrypt, \
-		$(DISTDIR)/bin/$(bin))
+		$(foreach bin, \
+			certutil \
+			chktest \
+			cmsutil \
+			crlutil \
+			derdump \
+			httpserv \
+			modutil \
+			ocspclnt \
+			p7content \
+			p7env \
+			p7sign \
+			p7verify \
+			pk12util \
+			pk1sign \
+			pwdecrypt \
+			rsaperf \
+			selfserv \
+			shlibsign \
+			signtool \
+			signver \
+			ssltap \
+			strsclnt \
+			symkeyutil \
+			tstclnt \
+			vfychain \
+			vfyserv \
+	 	, $(DISTDIR)/bin/$(bin))
+	# these utilities are too generically-named, so we prefix them with nss- (see http://bugs.debian.org/701141)
+	$(foreach bin, \
+		addbuiltin \
+		dbtest \
+		pp \
+	 	, install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin) ; )
 
 override_dh_strip:
 	dh_strip -a --dbg-package=libnss3-dbg
