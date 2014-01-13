@@ -62,6 +62,7 @@ Package: libnss3-dev
 Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}, libnss3 (= ${binary:Version}), libnspr4-dev (>= 4.6.6-1)
+Multi-Arch: ${misc:Multi-Arch}
 Description: Development files for the Network Security Service libraries
  This is a set of libraries designed to support cross-platform development
  of security-enabled client and server applications. It can support SSLv2
