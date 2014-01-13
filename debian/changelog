@@ -1,3 +1,19 @@
+nss (2:3.15.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * Acknowledge NMU.
+  * debian/rules: Avoid long one-liner with semi-colons.
+  * debian/patches/*:  Refresh patches.
+  * debian/copyright: Update. Closes: #730428.
+  * debian/control, debian/libnss3-nssdb.*, debian/pkcs11.txt, debian/rules:
+    Add shared cert and key databases. Thanks Timo Aaltonen. Closes: #537866.
+  * debian/rules: Use DEB_HOST_ARCH instead of DEB_BUILD_ARCH.
+  * debian/control: Mark libnss3-dev as Multi-Arch: same. Thanks Shawn
+    Landden. Closes: #682925.
+  * debian/libnss3.symbols: Add NSS_3.15.4 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 13 Jan 2014 10:46:04 +0900
+
 nss (2:3.15.3.1-1.1) unstable; urgency=low
 
   * Non-Maintainer Upload
