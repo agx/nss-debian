@@ -128,6 +128,8 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 
 	# Create the empty certificate databases, with empty passphrase
 	echo "\n" > /tmp/password
+	install -m 755 -d debian/libnss3-nssdb/etc/pki
+	install -m 755 -d debian/libnss3-nssdb/var/lib/nssdb
 	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d debian/libnss3-nssdb/var/lib/nssdb \
 		-f /tmp/password
 	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d sql:debian/libnss3-nssdb/var/lib/nssdb \
