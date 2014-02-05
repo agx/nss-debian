@@ -133,8 +133,6 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		-f debian/tmp/password
 	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d sql:debian/libnss3-nssdb/var/lib/nssdb \
 		-f debian/tmp/password -@ debian/tmp/password
-	# Remove DBM certificate and key databases.
-	rm debian/libnss3-nssdb/var/lib/nssdb/cert8.db debian/libnss3-nssdb/var/lib/nssdb/key3.db
 	chmod 644 debian/libnss3-nssdb/var/lib/nssdb/*
 	install -m 644 -t debian/libnss3-nssdb/var/lib/nssdb debian/pkcs11.txt
 
