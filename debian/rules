@@ -127,12 +127,11 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		, $(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)))
 
 	# Create the empty certificate databases, with empty passphrase
-	mkdir -p debian/tmp
-	echo "\n" > debian/tmp/password
+	echo "\n" > /tmp/password
 	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d debian/libnss3-nssdb/var/lib/nssdb \
-		-f debian/tmp/password
+		-f /tmp/password
 	LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/certutil -N -d sql:debian/libnss3-nssdb/var/lib/nssdb \
-		-f debian/tmp/password
+		-f /tmp/password
 	chmod 644 debian/libnss3-nssdb/var/lib/nssdb/*
 	install -m 644 -t debian/libnss3-nssdb/var/lib/nssdb debian/pkcs11.txt
 
@@ -142,7 +141,7 @@ override_dh_strip:
 		LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss \
 		debian/libnss3-tools/usr/bin/shlibsign -v -i debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss/$(lib);)
 	# Check FIPS mode correctly works
-	mkdir -p debian/tmp
+	mkdir debian/tmp
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -create -dbdir debian/tmp < /dev/null
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -fips true -dbdir debian/tmp < /dev/null
 
