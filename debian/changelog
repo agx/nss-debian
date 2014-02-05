@@ -1,3 +1,12 @@
+nss (2:3.15.4-2) unstable; urgency=high
+
+  * Upstream release 3.15.4 fixed MFSA-2014-12, also known as CVE-2014-1490
+    and CVE-2014-1491. Bumping urgency as such.
+  * debian/control, debian/libnss3-nssdb.*, debian/pkcs11.txt, debian/rules:
+    Revert changes from 2:3.15.4-1. Reopens: #537866, Closes: #735329, #736061.
+
+ -- Mike Hommey <glandium@debian.org>  Wed, 05 Feb 2014 16:26:06 +0900
+
 nss (2:3.15.4-1) unstable; urgency=low
 
   * New upstream release.
