@@ -1,3 +1,10 @@
+nss (2:3.16.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/libnss3.symbols: Add NSS_3.16.2 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 13 Jul 2014 09:24:12 +0900
+
 nss (2:3.16.1-1) unstable; urgency=medium
 
   * New upstream release.
