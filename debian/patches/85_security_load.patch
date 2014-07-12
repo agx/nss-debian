@@ -5,9 +5,9 @@
 
 Index: nss/nss/cmd/shlibsign/shlibsign.c
 ===================================================================
---- nss.orig/nss/cmd/shlibsign/shlibsign.c	2013-08-05 14:40:31.041657554 +0900
-+++ nss/nss/cmd/shlibsign/shlibsign.c	2013-08-05 14:40:31.033657739 +0900
-@@ -851,6 +851,8 @@
+--- nss.orig/nss/cmd/shlibsign/shlibsign.c
++++ nss/nss/cmd/shlibsign/shlibsign.c
+@@ -851,6 +851,8 @@ int main(int argc, char **argv)
      libname = PR_GetLibraryName(NULL, "softokn3");
      assert(libname != NULL);
      lib = PR_LoadLibrary(libname);
@@ -18,9 +18,9 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
  
 Index: nss/nss/lib/pk11wrap/pk11load.c
 ===================================================================
---- nss.orig/nss/lib/pk11wrap/pk11load.c	2013-08-05 14:40:31.041657554 +0900
-+++ nss/nss/lib/pk11wrap/pk11load.c	2013-08-05 14:40:31.033657739 +0900
-@@ -406,6 +406,13 @@
+--- nss.orig/nss/lib/pk11wrap/pk11load.c
++++ nss/nss/lib/pk11wrap/pk11load.c
+@@ -429,6 +429,13 @@ secmod_LoadPKCS11Module(SECMODModule *mo
  	 * unload the library if anything goes wrong from here on out...
  	 */
  	library = PR_LoadLibrary(mod->dllName);
@@ -36,9 +36,9 @@ Index: nss/nss/lib/pk11wrap/pk11load.c
  	if (library == NULL) {
 Index: nss/nss/lib/util/secload.c
 ===================================================================
---- nss.orig/nss/lib/util/secload.c	2013-08-05 14:40:31.041657554 +0900
-+++ nss/nss/lib/util/secload.c	2013-08-05 14:40:31.033657739 +0900
-@@ -69,9 +69,14 @@
+--- nss.orig/nss/lib/util/secload.c
++++ nss/nss/lib/util/secload.c
+@@ -69,9 +69,14 @@ loader_LoadLibInReferenceDir(const char
  
      /* Remove the trailing filename from referencePath and add the new one */
      c = strrchr(referencePath, PR_GetDirectorySeparator());
@@ -54,7 +54,7 @@ Index: nss/nss/lib/util/secload.c
          if (fullName) {
              memcpy(fullName, referencePath, referencePathSize);
              strcpy(fullName + referencePathSize, name); 
-@@ -81,6 +86,12 @@
+@@ -81,6 +86,12 @@ loader_LoadLibInReferenceDir(const char
  #endif
              libSpec.type = PR_LibSpec_Pathname;
              libSpec.value.pathname = fullName;
@@ -67,7 +67,7 @@ Index: nss/nss/lib/util/secload.c
              dlh = PR_LoadLibraryWithFlags(libSpec, PR_LD_NOW | PR_LD_LOCAL
  #ifdef PR_LD_ALT_SEARCH_PATH
              /* allow library's dependencies to be found in the same directory
-@@ -88,6 +99,10 @@
+@@ -88,6 +99,10 @@ loader_LoadLibInReferenceDir(const char
                                            | PR_LD_ALT_SEARCH_PATH 
  #endif
                                            );

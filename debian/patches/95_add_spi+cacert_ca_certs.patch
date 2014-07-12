@@ -5,9 +5,9 @@
 
 Index: nss/nss/lib/ckfw/builtins/certdata.txt
 ===================================================================
---- nss.orig/nss/lib/ckfw/builtins/certdata.txt	2014-03-21 08:08:49.347023931 +0900
-+++ nss/nss/lib/ckfw/builtins/certdata.txt	2014-03-21 08:09:45.741600248 +0900
-@@ -29420,3 +29420,212 @@
+--- nss.orig/nss/lib/ckfw/builtins/certdata.txt
++++ nss/nss/lib/ckfw/builtins/certdata.txt
+@@ -29874,3 +29874,212 @@ CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NSS_T
  CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NSS_TRUSTED_DELEGATOR
  CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_TRUSTED_DELEGATOR
  CKA_TRUST_STEP_UP_APPROVED CK_BBOOL CK_FALSE
