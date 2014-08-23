@@ -1,5 +1,6 @@
 38_hurd.patch
 38_kbsd.patch
+38_ppc64le.patch
 80_security_tools.patch
 85_security_load.patch
 95_add_spi+cacert_ca_certs.patch
