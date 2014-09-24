@@ -1,3 +1,12 @@
+nss (2:3.17.1-1) unstable; urgency=high
+
+  * New upstream release.
+    - Fixes CVE-2014-1568.
+    - Add support for ppc64el, with a non-broken patch. Closes: #745757.
+  * debian/libnss3.symbols: Add NSSUTIL_3.17.1 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Wed, 24 Sep 2014 22:16:32 +0900
+
 nss (2:3.17-1) unstable; urgency=medium
 
   * New upstream release.
