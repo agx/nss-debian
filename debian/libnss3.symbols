@@ -68,6 +68,7 @@ libnssutil3.so libnss3 (>= 2:3.13.4-2~) | libnss3-1d #MINVER#
  *@NSSUTIL_3.13 3.13
  *@NSSUTIL_3.14 2:3.14 1
  *@NSSUTIL_3.15 2:3.15 1
+ *@NSSUTIL_3.17.1 2:3.17.1 1
 libsmime3.so libnss3 (>= 2:3.13.4-2~) | libnss3-1d #MINVER#
 |libnss3 #MINVER#
  *@NSS_3.10 3.12.0~1.9b1
