@@ -1,3 +1,10 @@
+nss (2:3.18-1) experimental; urgency=medium
+
+  * New upstream release. Closes: #782874.
+  * debian/libnss3.symbols: Add NSS_3.18 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 20 Apr 2015 08:50:46 +0900
+
 nss (2:3.17.4-1) experimental; urgency=medium
 
   * New upstream release.
