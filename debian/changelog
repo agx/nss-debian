@@ -1,3 +1,10 @@
+nss (2:3.19-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/libnss3.symbols: Add NSS_3.19 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Wed, 13 May 2015 10:47:10 +0900
+
 nss (2:3.18-1) experimental; urgency=medium
 
   * New upstream release. Closes: #782874.
