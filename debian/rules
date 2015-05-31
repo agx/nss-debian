@@ -68,6 +68,35 @@ COMMON_MAKE_FLAGS := \
 	OBJDIR_NAME=OBJS \
 	$(NULL)
 
+NSS_TOOLS := \
+	certutil \
+	chktest \
+	cmsutil \
+	crlutil \
+	derdump \
+	httpserv \
+	modutil \
+	ocspclnt \
+	p7content \
+	p7env \
+	p7sign \
+	p7verify \
+	pk12util \
+	pk1sign \
+	pwdecrypt \
+	rsaperf \
+	selfserv \
+	shlibsign \
+	signtool \
+	signver \
+	ssltap \
+	strsclnt \
+	symkeyutil \
+	tstclnt \
+	vfychain \
+	vfyserv \
+	$(NULL)
+
 override_dh_auto_build:
 	$(MAKE) -C nss/coreconf/nsinstall \
 		$(COMMON_MAKE_FLAGS) \
@@ -101,6 +130,8 @@ override_dh_auto_clean:
 
 	rm -rf $(DISTDIR) $(PREPROCESS_FILES:.in=)
 
+manpage = $(addsuffix .1,$(addprefix nss/doc/nroff/,$(1)))
+
 override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 	install -m 755 -d debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-dev/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig
 	install -m 644 -t debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH) \
@@ -121,41 +152,18 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 	install -m 644 -t debian/libnss3-dev/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig debian/nss.pc
 	install -m 755 -t debian/libnss3-dev/usr/bin debian/nss-config
 
-	install -m 755 -t debian/libnss3-tools/usr/bin \
-		$(foreach bin, \
-			certutil \
-			chktest \
-			cmsutil \
-			crlutil \
-			derdump \
-			httpserv \
-			modutil \
-			ocspclnt \
-			p7content \
-			p7env \
-			p7sign \
-			p7verify \
-			pk12util \
-			pk1sign \
-			pwdecrypt \
-			rsaperf \
-			selfserv \
-			shlibsign \
-			signtool \
-			signver \
-			ssltap \
-			strsclnt \
-			symkeyutil \
-			tstclnt \
-			vfychain \
-			vfyserv \
-		, $(DISTDIR)/bin/$(bin))
+	install -m 755 -t debian/libnss3-tools/usr/bin $(addprefix $(DISTDIR)/bin/,$(NSS_TOOLS))
+	install -m 755 -d $(DISTDIR)/man
+	install -m 644 -t $(DISTDIR)/man $(wildcard $(call manpage,$(NSS_TOOLS)))
+
 	# these utilities are too generically-named, so we prefix them with nss- (see http://bugs.debian.org/701141)
 	$(foreach bin, \
 		addbuiltin \
 		dbtest \
 		pp \
-		, $(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)))
+		, \
+		$(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)) \
+		$(if $(wildcard $(call manpage,$(bin))),$(call cmd,install -m 644 -T $(call manpage,$(bin)) $(DISTDIR)/man/nss-$(bin).1)))
 
 ifeq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 SHLIBSIGN = LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss \
