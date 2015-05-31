@@ -109,7 +109,7 @@ override_dh_auto_build:
 		$(COMMON_MAKE_FLAGS) \
 		MOZILLA_CLIENT=1 \
 		NSPR_INCLUDE_DIR=/usr/include/nspr \
-		NSPR_LIB_DIR=/usr/lib \
+		NSPR_LIB_DIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
 		BUILD_OPT=1 \
 		NS_USE_GCC=1 \
 		OPTIMIZER="$(CFLAGS) $(CPPFLAGS)" \
