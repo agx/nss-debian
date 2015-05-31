@@ -1,0 +1,540 @@
+Index: nss/nss/lib/ckfw/builtins/binst.c
+===================================================================
+--- nss.orig/nss/lib/ckfw/builtins/binst.c
++++ nss/nss/lib/ckfw/builtins/binst.c
+@@ -65,11 +65,6 @@ builtins_mdInstance_GetLibraryVersion
+   NSSCKFWInstance *fwInstance
+ )
+ {
+-  extern const char __nss_builtins_rcsid[];
+-  extern const char __nss_builtins_sccsid[];
+-  volatile char c; /* force a reference that won't get optimized away */
+-
+-  c = __nss_builtins_rcsid[0] + __nss_builtins_sccsid[0];
+   return nss_builtins_LibraryVersion;
+ }
+ 
+Index: nss/nss/lib/ckfw/builtins/ckbiver.c
+===================================================================
+--- nss.orig/nss/lib/ckfw/builtins/ckbiver.c
++++ /dev/null
+@@ -1,26 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "nssckbi.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_builtins_rcsid[] = "$Header: NSS Builtin Trusted Root CAs "
+-        NSS_BUILTINS_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_builtins_sccsid[] = "@(#)NSS Builtin Trusted Root CAs "
+-        NSS_BUILTINS_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/ckfw/builtins/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/ckfw/builtins/manifest.mn
++++ nss/nss/lib/ckfw/builtins/manifest.mn
+@@ -22,7 +22,6 @@ CSRCS =			\
+ 	bslot.c		\
+ 	btoken.c	\
+ 	certdata.c	\
+-	ckbiver.c	\
+ 	$(NULL)
+ 
+ REQUIRES = nspr
+Index: nss/nss/lib/ckfw/capi/ckcapiver.c
+===================================================================
+--- nss.orig/nss/lib/ckfw/capi/ckcapiver.c
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-/* Library identity and versioning */
+-
+-#include "nsscapi.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_ckcapi_rcsid[] = "$Header: NSS Access to Microsoft Certificate Store "
+-        NSS_CKCAPI_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_ckcapi_sccsid[] = "@(#)NSS Access to Microsoft Certificate Store "
+-        NSS_CKCAPI_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/ckfw/capi/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/ckfw/capi/manifest.mn
++++ nss/nss/lib/ckfw/capi/manifest.mn
+@@ -22,7 +22,6 @@ CSRCS =			\
+ 	csession.c	\
+ 	cslot.c		\
+ 	ctoken.c	\
+-	ckcapiver.c	\
+ 	staticobj.c	\
+ 	$(NULL)
+ 
+Index: nss/nss/lib/ckfw/nssmkey/ckmkver.c
+===================================================================
+--- nss.orig/nss/lib/ckfw/nssmkey/ckmkver.c
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-/* Library identity and versioning */
+-
+-#include "nssmkey.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_ckmk_rcsid[] = "$Header: NSS Access to the MAC OS X Key Ring "
+-        NSS_CKMK_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_ckmk_sccsid[] = "@(#)NSS Access to the MAC OS X Key Ring "
+-        NSS_CKMK_LIBRARY_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/ckfw/nssmkey/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/ckfw/nssmkey/manifest.mn
++++ nss/nss/lib/ckfw/nssmkey/manifest.mn
+@@ -22,7 +22,6 @@ CSRCS =			\
+ 	msession.c	\
+ 	mslot.c		\
+ 	mtoken.c	\
+-	ckmkver.c	\
+ 	staticobj.c	\
+ 	$(NULL)
+ 
+Index: nss/nss/lib/freebl/freeblver.c
+===================================================================
+--- nss.orig/nss/lib/freebl/freeblver.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "softkver.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_freebl_rcsid[] = "$Header: NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_freebl_sccsid[] = "@(#)NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/freebl/ldvector.c
+===================================================================
+--- nss.orig/nss/lib/freebl/ldvector.c
++++ nss/nss/lib/freebl/ldvector.c
+@@ -294,13 +294,6 @@ static const struct FREEBLVectorStr vect
+ const FREEBLVector *
+ FREEBL_GetVector(void)
+ {
+-    extern const char __nss_freebl_rcsid[];
+-    extern const char __nss_freebl_sccsid[];
+-
+-    /* force a reference that won't get optimized away */
+-    volatile char c;
+-
+-    c = __nss_freebl_rcsid[0] + __nss_freebl_sccsid[0];
+ #ifdef FREEBL_NO_DEPEND
+     FREEBL_InitStubs();
+ #endif
+Index: nss/nss/lib/freebl/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/freebl/manifest.mn
++++ nss/nss/lib/freebl/manifest.mn
+@@ -86,7 +86,6 @@ SHA_SRCS = sha_fast.c
+ MPCPU_SRCS = mpcpucache.c
+ 
+ CSRCS = \
+-	freeblver.c \
+ 	ldvector.c \
+ 	sysrand.c \
+ 	$(SHA_SRCS) \
+Index: nss/nss/lib/nss/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/nss/manifest.mn
++++ nss/nss/lib/nss/manifest.mn
+@@ -16,7 +16,6 @@ MODULE = nss
+ 
+ CSRCS = \
+ 	nssinit.c \
+-	nssver.c \
+ 	utilwrap.c \
+ 	$(NULL)
+ 
+Index: nss/nss/lib/nss/nssinit.c
+===================================================================
+--- nss.orig/nss/lib/nss/nssinit.c
++++ nss/nss/lib/nss/nssinit.c
+@@ -1230,9 +1230,6 @@ NSS_IsInitialized(void)
+ }
+ 	
+ 
+-extern const char __nss_base_rcsid[];
+-extern const char __nss_base_sccsid[];
+-
+ PRBool
+ NSS_VersionCheck(const char *importedVersion)
+ {
+@@ -1247,9 +1244,6 @@ NSS_VersionCheck(const char *importedVer
+      */
+     int vmajor = 0, vminor = 0, vpatch = 0, vbuild = 0;
+     const char *ptr = importedVersion;
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+-    c = __nss_base_rcsid[0] + __nss_base_sccsid[0]; 
+ 
+     while (isdigit(*ptr)) {
+         vmajor = 10 * vmajor + *ptr - '0';
+Index: nss/nss/lib/nss/nssver.c
+===================================================================
+--- nss.orig/nss/lib/nss/nssver.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "nss.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_base_rcsid[] = "$Header: NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_base_sccsid[] = "@(#)NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/smime/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/smime/manifest.mn
++++ nss/nss/lib/smime/manifest.mn
+@@ -41,7 +41,6 @@ CSRCS = \
+ 	cmsutil.c \
+ 	smimemessage.c \
+ 	smimeutil.c \
+-	smimever.c \
+ 	$(NULL)
+ 
+ LIBRARY_NAME = smime
+Index: nss/nss/lib/smime/smimeutil.c
+===================================================================
+--- nss.orig/nss/lib/smime/smimeutil.c
++++ nss/nss/lib/smime/smimeutil.c
+@@ -754,9 +754,6 @@ loser:
+     return cert;
+ }
+ 
+-extern const char __nss_smime_rcsid[];
+-extern const char __nss_smime_sccsid[];
+-
+ PRBool
+ NSSSMIME_VersionCheck(const char *importedVersion)
+ {
+@@ -769,10 +766,6 @@ NSSSMIME_VersionCheck(const char *import
+      * not compatible with future major, minor, or
+      * patch releases.
+      */
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+-    c = __nss_smime_rcsid[0] + __nss_smime_sccsid[0]; 
+-
+     return NSS_VersionCheck(importedVersion);
+ }
+ 
+Index: nss/nss/lib/smime/smimever.c
+===================================================================
+--- nss.orig/nss/lib/smime/smimever.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "nss.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_smime_rcsid[] = "$Header: NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_smime_sccsid[] = "@(#)NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/softoken/legacydb/lginit.c
+===================================================================
+--- nss.orig/nss/lib/softoken/legacydb/lginit.c
++++ nss/nss/lib/softoken/legacydb/lginit.c
+@@ -13,25 +13,6 @@
+ #include "prenv.h"
+ #include "softkver.h"
+ 
+-/* Library identity and versioning */
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_dbm_rcsid[] = "$Header: NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_dbm_sccsid[] = "@(#)NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+-
+ typedef struct LGPrivateStr {
+     NSSLOWCERTCertDBHandle *certDB;
+     NSSLOWKEYDBHandle *keyDB;
+@@ -593,9 +574,6 @@ legacy_Open(const char *configdir, const
+     CK_RV crv = CKR_OK;
+     SECStatus rv;
+     PRBool readOnly = (flags == SDB_RDONLY)? PR_TRUE: PR_FALSE;
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+-    c = __nss_dbm_rcsid[0] + __nss_dbm_sccsid[0];
+ 
+     rv = SECOID_Init();
+     if (SECSuccess != rv) {
+Index: nss/nss/lib/softoken/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/softoken/manifest.mn
++++ nss/nss/lib/softoken/manifest.mn
+@@ -48,7 +48,6 @@ CSRCS = \
+ 	sftkhmac.c  \
+ 	sftkpars.c  \
+ 	sftkpwd.c  \
+-	softkver.c  \
+ 	tlsprf.c   \
+ 	jpakesftk.c \
+ 	$(NULL)
+Index: nss/nss/lib/softoken/pkcs11.c
+===================================================================
+--- nss.orig/nss/lib/softoken/pkcs11.c
++++ nss/nss/lib/softoken/pkcs11.c
+@@ -3135,17 +3135,11 @@ CK_RV NSC_Finalize (CK_VOID_PTR pReserve
+     return crv;
+ }
+ 
+-extern const char __nss_softokn_rcsid[];
+-extern const char __nss_softokn_sccsid[];
+-
+ /* NSC_GetInfo returns general information about Cryptoki. */
+ CK_RV  NSC_GetInfo(CK_INFO_PTR pInfo)
+ {
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+     CHECK_FORK();
+     
+-    c = __nss_softokn_rcsid[0] + __nss_softokn_sccsid[0]; 
+     pInfo->cryptokiVersion.major = 2;
+     pInfo->cryptokiVersion.minor = 20;
+     PORT_Memcpy(pInfo->manufacturerID,manufacturerID,32);
+Index: nss/nss/lib/softoken/softkver.c
+===================================================================
+--- nss.orig/nss/lib/softoken/softkver.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "softkver.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_softokn_rcsid[] = "$Header: NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_softokn_sccsid[] = "@(#)NSS " SOFTOKEN_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/ssl/manifest.mn
+===================================================================
+--- nss.orig/nss/lib/ssl/manifest.mn
++++ nss/nss/lib/ssl/manifest.mn
+@@ -39,7 +39,6 @@ CSRCS = \
+ 	sslsnce.c \
+ 	sslsock.c \
+ 	ssltrace.c \
+-	sslver.c \
+ 	authcert.c \
+ 	cmpcert.c \
+ 	sslinfo.c \
+Index: nss/nss/lib/ssl/sslcon.c
+===================================================================
+--- nss.orig/nss/lib/ssl/sslcon.c
++++ nss/nss/lib/ssl/sslcon.c
+@@ -3669,8 +3669,6 @@ loser:
+ */
+ 
+ #include "nss.h"
+-extern const char __nss_ssl_rcsid[];
+-extern const char __nss_ssl_sccsid[];
+ 
+ PRBool
+ NSSSSL_VersionCheck(const char *importedVersion)
+@@ -3684,9 +3682,6 @@ NSSSSL_VersionCheck(const char *imported
+      * not compatible with future major, minor, or
+      * patch releases.
+      */
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+-    c = __nss_ssl_rcsid[0] + __nss_ssl_sccsid[0]; 
+     return NSS_VersionCheck(importedVersion);
+ }
+ 
+Index: nss/nss/lib/ssl/sslver.c
+===================================================================
+--- nss.orig/nss/lib/ssl/sslver.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* This Source Code Form is subject to the terms of the Mozilla Public
+- * License, v. 2.0. If a copy of the MPL was not distributed with this
+- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-
+-/* Library identity and versioning */
+-
+-#include "nss.h"
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_ssl_rcsid[] = "$Header: NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_ssl_sccsid[] = "@(#)NSS " NSS_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+Index: nss/nss/lib/util/secoid.c
+===================================================================
+--- nss.orig/nss/lib/util/secoid.c
++++ nss/nss/lib/util/secoid.c
+@@ -11,25 +11,6 @@
+ #include "nssrwlk.h"
+ #include "nssutil.h"
+ 
+-/* Library identity and versioning */
+-
+-#if defined(DEBUG)
+-#define _DEBUG_STRING " (debug)"
+-#else
+-#define _DEBUG_STRING ""
+-#endif
+-
+-/*
+- * Version information for the 'ident' and 'what commands
+- *
+- * NOTE: the first component of the concatenated rcsid string
+- * must not end in a '$' to prevent rcs keyword substitution.
+- */
+-const char __nss_util_rcsid[] = "$Header: NSS " NSSUTIL_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__ " $";
+-const char __nss_util_sccsid[] = "@(#)NSS " NSSUTIL_VERSION _DEBUG_STRING
+-        "  " __DATE__ " " __TIME__;
+-
+ /* MISSI Mosaic Object ID space */
+ /* USGov algorithm OID space: { 2 16 840 1 101 } */
+ #define USGOV                   0x60, 0x86, 0x48, 0x01, 0x65
+@@ -1919,9 +1900,6 @@ SECOID_Init(void)
+     const SECOidData *oid;
+     int i;
+     char * envVal;
+-    volatile char c; /* force a reference that won't get optimized away */
+-
+-    c = __nss_util_rcsid[0] + __nss_util_sccsid[0];
+ 
+     if (oidhash) {
+ 	return SECSuccess; /* already initialized */
