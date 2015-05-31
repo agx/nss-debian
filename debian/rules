@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
 include debian/make.mk
 
+$(call lazy,DEB_BUILD_ARCH,$$(shell dpkg-architecture -qDEB_BUILD_ARCH))
+$(call lazy,DEB_BUILD_GNU_TYPE,$$(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE))
+$(call lazy,DEB_HOST_ARCH,$$(shell dpkg-architecture -qDEB_HOST_ARCH))
+$(call lazy,DEB_HOST_GNU_TYPE,$$(shell dpkg-architecture -qDEB_HOST_GNU_TYPE))
 $(call lazy,DEB_HOST_MULTIARCH,$$(shell dpkg-architecture -qDEB_HOST_MULTIARCH))
 $(call lazy,CFLAGS,$$(shell dpkg-buildflags --get CFLAGS))
 $(call lazy,CPPFLAGS,$$(shell dpkg-buildflags --get CPPFLAGS))
@@ -26,6 +30,23 @@ else
 USE_64 :=
 endif
 
+TOOLCHAIN :=
+
+ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
+ifeq ($(origin CC),default)
+TOOLCHAIN += CC=$(DEB_HOST_GNU_TYPE)-gcc
+endif
+ifeq ($(origin CXX),default)
+TOOLCHAIN += CXX=$(DEB_HOST_GNU_TYPE)-g++
+endif
+ifeq ($(origin CCC),default)
+TOOLCHAIN += CCC=$(DEB_HOST_GNU_TYPE)-g++
+endif
+ifeq ($(origin RANLIB),default)
+TOOLCHAIN += RANLIB=$(DEB_HOST_GNU_TYPE)-ranlib
+endif
+endif
+
 # $(foreach foo,$(list),$(call cmd,some command $(foo))) expands to
 #    some command first-elem
 #    some command second-elem
@@ -40,15 +61,26 @@ CFLAGS += -Wall -pipe
 
 DISTDIR := $(CURDIR)/dist
 
+COMMON_MAKE_FLAGS := \
+	SOURCE_PREFIX=$(DISTDIR) \
+	SOURCE_MD_DIR=$(DISTDIR) \
+	DIST=$(DISTDIR) \
+	OBJDIR_NAME=OBJS \
+	$(NULL)
+
 override_dh_auto_build:
+	$(MAKE) -C nss/coreconf/nsinstall \
+		$(COMMON_MAKE_FLAGS) \
+		CC=$(DEB_BUILD_GNU_TYPE)-gcc \
+		ARCHFLAG= \
+		$(USE_64)
+
 	$(MAKE) -C nss \
 		all \
+		$(COMMON_MAKE_FLAGS) \
 		MOZILLA_CLIENT=1 \
 		NSPR_INCLUDE_DIR=/usr/include/nspr \
 		NSPR_LIB_DIR=/usr/lib \
-		SOURCE_PREFIX=$(DISTDIR) \
-		SOURCE_MD_DIR=$(DISTDIR) \
-		DIST=$(DISTDIR) \
 		BUILD_OPT=1 \
 		NS_USE_GCC=1 \
 		OPTIMIZER="$(CFLAGS) $(CPPFLAGS)" \
@@ -57,14 +89,13 @@ override_dh_auto_build:
 		NSS_USE_SYSTEM_SQLITE=1 \
 		NSS_ENABLE_ECC=1 \
 		CHECKLOC= \
+		$(TOOLCHAIN) \
 		$(USE_64)
 
 override_dh_auto_clean:
 	-$(MAKE) -C nss \
 		clobber \
-		SOURCE_PREFIX=$(DISTDIR) \
-		SOURCE_MD_DIR=$(DISTDIR) \
-		DIST=$(DISTDIR) \
+		$(COMMON_MAKE_FLAGS) \
 		BUILD_OPT=1 \
 		$(USE_64)
 
