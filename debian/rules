@@ -157,11 +157,14 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		pp \
 		, $(call cmd,install -m 755 -T $(DISTDIR)/bin/$(bin) debian/libnss3-tools/usr/bin/nss-$(bin)))
 
+SHLIBSIGN = LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss \
+	debian/libnss3-tools/usr/bin/shlibsign
+
 override_dh_strip:
 	dh_strip -a --dbg-package=libnss3-dbg
 	$(foreach lib,libsoftokn3.so libfreebl3.so libnssdbm3.so, \
-		LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss \
-		debian/libnss3-tools/usr/bin/shlibsign -v -i debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss/$(lib);)
+		$(call cmd,umask 022; $(SHLIBSIGN) -v -i debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss/$(lib)))
+
 	# Check FIPS mode correctly works
 	mkdir debian/tmp
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -create -dbdir debian/tmp < /dev/null
