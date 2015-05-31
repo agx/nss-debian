@@ -177,10 +177,12 @@ override_dh_strip:
 	$(foreach lib,libsoftokn3.so libfreebl3.so libnssdbm3.so, \
 		$(call cmd,umask 022; $(SHLIBSIGN) -v -i debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss/$(lib)))
 
+ifeq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 	# Check FIPS mode correctly works
 	mkdir debian/tmp
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -create -dbdir debian/tmp < /dev/null
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -fips true -dbdir debian/tmp < /dev/null
+endif
 
 override_dh_makeshlibs: /usr/share/debhelper/autoscripts/postinst-makeshlibs /usr/share/debhelper/autoscripts/postrm-makeshlibs
 	dh_makeshlibs -a -- -c4
