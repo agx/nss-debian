@@ -1,3 +1,42 @@
+nss (2:3.19.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/libnss3.symbols:
+    - Add NSS_3.19.1 symbol versions.
+    - Reorder and replace *@ with (symver).
+  * debian/rules:
+    - Pass multi-arch dir for NSPR_LIB_DIR. Closes: #722811.
+    - Set umask when calling shlibsign, and rearrange how it's being called.
+    - Build nsinstall separately and set things up for cross-compilations.
+    - Use native shlibsign when cross-compiling.
+    - Do not run FIPS check on cross-builds.
+  * debian/control: Build depend on native libnss3-tools for cross builds.
+    Closes: #682926.
+  * debian/libnss3-tools.manpages, debian/rules: Install the manpages that
+    are now provided upstream. Closes: #505382.
+  * debian/control: Update Vcs-* urls.
+  * debian/control: Bump Standards-Version to 3.9.6.0. No changes required.
+  * nss/lib/ckfw/builtins/binst.c, nss/lib/ckfw/builtins/ckbiver.c,
+    nss/lib/ckfw/builtins/manifest.mn, nss/lib/ckfw/capi/ckcapiver.c,
+    nss/lib/ckfw/capi/manifest.mn, nss/lib/ckfw/nssmkey/ckmkver.c,
+    nss/lib/ckfw/nssmkey/manifest.mn, nss/lib/freebl/freeblver.c,
+    nss/lib/freebl/ldvector.c, nss/lib/freebl/manifest.mn,
+    nss/lib/nss/manifest.mn, nss/lib/nss/nssinit.c, nss/lib/nss/nssver.c,
+    nss/lib/smime/manifest.mn, nss/lib/smime/smimeutil.c,
+    nss/lib/smime/smimever.c, nss/lib/softoken/legacydb/lginit.c,
+    nss/lib/softoken/manifest.mn, nss/lib/softoken/pkcs11.c,
+    nss/lib/softoken/softkver.c, nss/lib/ssl/manifest.mn,
+    nss/lib/ssl/sslcon.c, nss/lib/ssl/sslver.c, nss/lib/util/secoid.c: Remove
+    __DATE__ and __TIME__ references.
+  * nss/cmd/shlibsign/Makefile, nss/cmd/shlibsign/manifest.mn,
+    nss/cmd/shlibsign/shlibsign.c: Fix shlibsign to properly load the sotfoken
+    module.
+  * debian/rules: Remove debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss from
+    LD_LIBRARY_PATH when executing shlibsign, which can be done now with the
+    fix above.
+
+ -- Mike Hommey <glandium@debian.org>  Mon, 01 Jun 2015 09:47:58 +0900
+
 nss (2:3.19-1) unstable; urgency=medium
 
   * New upstream release.
