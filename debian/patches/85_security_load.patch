@@ -7,15 +7,45 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
 ===================================================================
 --- nss.orig/nss/cmd/shlibsign/shlibsign.c
 +++ nss/nss/cmd/shlibsign/shlibsign.c
-@@ -851,6 +851,8 @@ int main(int argc, char **argv)
-     libname = PR_GetLibraryName(NULL, "softokn3");
-     assert(libname != NULL);
-     lib = PR_LoadLibrary(libname);
-+    if (!lib)
-+        lib = PR_LoadLibrary("/usr/lib/nss/libsoftokn3.so");
-     assert(lib != NULL);
-     PR_FreeLibraryName(libname);
+@@ -49,6 +49,9 @@
+ /* freebl headers */
+ #include "shsign.h"
  
++/* nssutil headers */
++#include "secport.h"
++
+ #define NUM_ELEM(array) (sizeof(array)/sizeof(array[0]))
+ CK_BBOOL true = CK_TRUE;
+ CK_BBOOL false = CK_FALSE;
+@@ -687,7 +690,6 @@ int main(int argc, char **argv)
+ {
+     PLOptState *optstate;
+     char *program_name;
+-    char *libname = NULL;
+     PRLibrary *lib;
+     PRFileDesc *fd;
+     PRStatus rv = PR_SUCCESS;
+@@ -845,15 +847,14 @@ int main(int argc, char **argv)
+         return 1;
+     }
+ 
+-    /* Get the platform-dependent library name of the
++    /* Get the platform-dependent library of the
+      * NSS cryptographic module.
+      */
+-    libname = PR_GetLibraryName(NULL, "softokn3");
+-    assert(libname != NULL);
+-    lib = PR_LoadLibrary(libname);
++    lib = PORT_LoadLibraryFromOrigin(
++        SHLIB_PREFIX"nssutil"SHLIB_VERSION"."SHLIB_SUFFIX,
++        (PRFuncPtr) &PORT_LoadLibraryFromOrigin,
++        SHLIB_PREFIX"softokn"SOFTOKEN_SHLIB_VERSION"."SHLIB_SUFFIX);
+     assert(lib != NULL);
+-    PR_FreeLibraryName(libname);
+-
+ 
+     if (FIPSMODE) {
+         /* FIPSMODE == FC_GetFunctionList */
 Index: nss/nss/lib/pk11wrap/pk11load.c
 ===================================================================
 --- nss.orig/nss/lib/pk11wrap/pk11load.c
@@ -78,3 +108,42 @@ Index: nss/nss/lib/util/secload.c
              PORT_Free(fullName);
          }
      }
+Index: nss/nss/cmd/shlibsign/Makefile
+===================================================================
+--- nss.orig/nss/cmd/shlibsign/Makefile
++++ nss/nss/cmd/shlibsign/Makefile
+@@ -30,6 +30,7 @@ EXTRA_LIBS += \
+ 	$(NSPR_LIB_DIR)/$(NSPR31_LIB_PREFIX)plc4.$(LIB_SUFFIX) \
+ 	$(NSPR_LIB_DIR)/$(NSPR31_LIB_PREFIX)plds4.$(LIB_SUFFIX) \
+ 	$(NSPR_LIB_DIR)/$(NSPR31_LIB_PREFIX)nspr4.$(LIB_SUFFIX) \
++	$(NSSUTIL_LIB_DIR)/$(IMPORT_LIB_PREFIX)nssutil3$(IMPORT_LIB_SUFFIX) \
+ 	$(NULL)
+ 
+ else
+@@ -39,6 +40,8 @@ EXTRA_SHARED_LIBS += \
+ 	-lplc4 \
+ 	-lplds4 \
+ 	-lnspr4 \
++	-L$(NSSUTIL_LIB_DIR) \
++	-lnssutil3 \
+ 	$(NULL)
+ 
+ endif
+Index: nss/nss/cmd/shlibsign/manifest.mn
+===================================================================
+--- nss.orig/nss/cmd/shlibsign/manifest.mn
++++ nss/nss/cmd/shlibsign/manifest.mn
+@@ -8,7 +8,12 @@ CORE_DEPTH = ../..
+ # MODULE public and private header  directories are implicitly REQUIRED.
+ MODULE = nss
+ 
+-DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\"
++SOFTOKEN_LIBRARY_VERSION = 3
++
++DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\" \
++	-DSHLIB_VERSION=\"$(LIBRARY_VERSION)\" \
++	-DSOFTOKEN_SHLIB_VERSION=\"$(SOFTOKEN_LIBRARY_VERSION)\"
++
+ 
+ CSRCS = \
+ 	shlibsign.c \
