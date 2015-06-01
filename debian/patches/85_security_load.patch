@@ -25,7 +25,7 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
      PRLibrary *lib;
      PRFileDesc *fd;
      PRStatus rv = PR_SUCCESS;
-@@ -845,15 +847,14 @@ int main(int argc, char **argv)
+@@ -845,15 +847,17 @@ int main(int argc, char **argv)
          return 1;
      }
  
@@ -38,7 +38,10 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
 -    lib = PR_LoadLibrary(libname);
 +    lib = PORT_LoadLibraryFromOrigin(
 +        SHLIB_PREFIX"nssutil"SHLIB_VERSION"."SHLIB_SUFFIX,
-+        (PRFuncPtr) &PORT_LoadLibraryFromOrigin,
++        (PRFuncPtr) &PORT_Alloc, /* Use an arbitry unused function, as on some
++                                  * platforms, using PORT_LoadLibraryFromOrigin
++                                  * would only give a pointer in the PLT because
++                                  * of the function call. */
 +        SHLIB_PREFIX"softokn"SOFTOKEN_SHLIB_VERSION"."SHLIB_SUFFIX);
      assert(lib != NULL);
 -    PR_FreeLibraryName(libname);
