@@ -166,8 +166,7 @@ override_dh_auto_install: $(PREPROCESS_FILES:.in=)
 		$(if $(wildcard $(call manpage,$(bin))),$(call cmd,install -m 644 -T $(call manpage,$(bin)) $(DISTDIR)/man/nss-$(bin).1)))
 
 ifeq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
-SHLIBSIGN = LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss \
-	debian/libnss3-tools/usr/bin/shlibsign
+SHLIBSIGN = LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH) debian/libnss3-tools/usr/bin/shlibsign
 else
 SHLIBSIGN = shlibsign
 endif
