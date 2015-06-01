@@ -133,11 +133,12 @@ Index: nss/nss/cmd/shlibsign/manifest.mn
 ===================================================================
 --- nss.orig/nss/cmd/shlibsign/manifest.mn
 +++ nss/nss/cmd/shlibsign/manifest.mn
-@@ -8,7 +8,12 @@ CORE_DEPTH = ../..
+@@ -8,7 +8,13 @@ CORE_DEPTH = ../..
  # MODULE public and private header  directories are implicitly REQUIRED.
  MODULE = nss
  
 -DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\"
++LIBRARY_VERSION = 3
 +SOFTOKEN_LIBRARY_VERSION = 3
 +
 +DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\" \
