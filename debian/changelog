@@ -1,3 +1,11 @@
+nss (2:3.19.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/rules: Force set OS_TEST to DEB_HOST_GNU_CPU to avoid it defaulting
+    to `uname -m`. Thanks Helmut Grohne. Closes: #788452
+
+ -- Mike Hommey <glandium@debian.org>  Sun, 21 Jun 2015 06:30:13 +0900
+
 nss (2:3.19.1-2) unstable; urgency=medium
 
   * debian/control: Fix Vcs-Git url.
