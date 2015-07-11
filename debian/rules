@@ -25,12 +25,6 @@ debian/nss.pc: EXTRA_REPLACES := s/@VERSION@/$(UPSTREAM_VERSION)/
 debian/nss-config: EXTRA_REPLACES := s/@MOD_MAJOR_VERSION@/$(MOD_MAJOR_VERSION)/;s/@MOD_MINOR_VERSION@/$(MOD_MINOR_VERSION)/;s/@MOD_PATCH_VERSION@/$(MOD_PATCH_VERSION)/
 debian/libnss3.lintian-overrides: EXTRA_REPLACES := s,/@DEB_HOST_MULTIARCH_WC@,$(DEB_HOST_MULTIARCH:%=/*),g
 
-ifneq (,$(filter 64 alpha amd64 ia64 s390x,$(shell dpkg-architecture -qDEB_HOST_ARCH_BITS 2> /dev/null || dpkg-architecture -qDEB_HOST_ARCH)))
-USE_64 := USE_64=1
-else
-USE_64 :=
-endif
-
 TOOLCHAIN :=
 
 ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
@@ -68,6 +62,7 @@ COMMON_MAKE_FLAGS := \
 	SOURCE_MD_DIR=$(DISTDIR) \
 	DIST=$(DISTDIR) \
 	OBJDIR_NAME=OBJS \
+	$(and $(filter 64,$(shell dpkg-architecture -qDEB_HOST_ARCH_BITS)),USE_64=1) \
 	$(NULL)
 
 NSS_TOOLS := \
@@ -103,8 +98,7 @@ override_dh_auto_build:
 	$(MAKE) -C nss/coreconf/nsinstall \
 		$(COMMON_MAKE_FLAGS) \
 		CC=$(DEB_BUILD_GNU_TYPE)-gcc \
-		ARCHFLAG= \
-		$(USE_64)
+		ARCHFLAG=
 
 	$(MAKE) -C nss \
 		all \
@@ -120,15 +114,13 @@ override_dh_auto_build:
 		NSS_USE_SYSTEM_SQLITE=1 \
 		NSS_ENABLE_ECC=1 \
 		CHECKLOC= \
-		$(TOOLCHAIN) \
-		$(USE_64)
+		$(TOOLCHAIN)
 
 override_dh_auto_clean:
 	-$(MAKE) -C nss \
 		clobber \
 		$(COMMON_MAKE_FLAGS) \
-		BUILD_OPT=1 \
-		$(USE_64)
+		BUILD_OPT=1
 
 	rm -rf $(DISTDIR) $(PREPROCESS_FILES:.in=)
 
