@@ -1,3 +1,14 @@
+nss (2:3.20-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Removed patch for __DATE__ and __TIME__ references from 2:3.19.1-1 because
+    the parts that matter were applied upstream.
+  * debian/rules: Move USE_64 to common make flags, and always use
+    DEB_HOST_ARCH_BITS since it's even supported by dpkg in oldstable, now.
+  * debian/libnss3.symbols: Add NSS_3.20 symbol versions.
+
+ -- Mike Hommey <glandium@debian.org>  Sat, 22 Aug 2015 09:02:11 +0900
+
 nss (2:3.19.2-1) unstable; urgency=medium
 
   * New upstream release.
