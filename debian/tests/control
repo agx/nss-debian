@@ -1,0 +1,5 @@
+Tests: test-cert.sh test-fips.sh
+Depends: libnss3-tools
+
+Tests: test-link.make
+Depends: libnss3-dev, pkg-config, g++
