@@ -17,7 +17,7 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
  #define NUM_ELEM(array) (sizeof(array)/sizeof(array[0]))
  CK_BBOOL true = CK_TRUE;
  CK_BBOOL false = CK_FALSE;
-@@ -687,7 +690,6 @@ int main(int argc, char **argv)
+@@ -697,7 +700,6 @@ int main(int argc, char **argv)
  {
      PLOptState *optstate;
      char *program_name;
@@ -25,7 +25,7 @@ Index: nss/nss/cmd/shlibsign/shlibsign.c
      PRLibrary *lib;
      PRFileDesc *fd;
      PRStatus rv = PR_SUCCESS;
-@@ -845,15 +847,17 @@ int main(int argc, char **argv)
+@@ -855,15 +857,17 @@ int main(int argc, char **argv)
          return 1;
      }
  

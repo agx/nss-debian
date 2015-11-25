@@ -80,7 +80,7 @@ Index: nss/nss/coreconf/Linux.mk
 ===================================================================
 --- nss.orig/nss/coreconf/Linux.mk
 +++ nss/nss/coreconf/Linux.mk
-@@ -100,7 +100,7 @@ ifneq ($(OS_TARGET),Android)
+@@ -107,7 +107,7 @@ ifneq ($(OS_TARGET),Android)
  LIBC_TAG		= _glibc
  endif
  
@@ -89,12 +89,12 @@ Index: nss/nss/coreconf/Linux.mk
  	OS_REL_CFLAGS	+= -DLINUX2_0
  	MKSHLIB		= $(CC) -shared -Wl,-soname -Wl,$(@:$(OBJDIR)/%.so=%.so) $(RPATH)
  	ifdef MAPFILE
-@@ -130,14 +130,21 @@ ifeq ($(USE_PTHREADS),1)
+@@ -140,14 +140,21 @@ ifeq ($(USE_PTHREADS),1)
  OS_PTHREAD = -lpthread 
  endif
  
--OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -Wall -Werror-implicit-function-declaration -Wno-switch -pipe -ffunction-sections -fdata-sections -DLINUX -Dlinux -DHAVE_STRERROR
-+OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) -Wall -Werror-implicit-function-declaration -Wno-switch -pipe -ffunction-sections -fdata-sections -DHAVE_STRERROR
+-OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) $(WARNING_CFLAGS) -pipe -ffunction-sections -fdata-sections -DLINUX -Dlinux -DHAVE_STRERROR
++OS_CFLAGS		= $(DSO_CFLAGS) $(OS_REL_CFLAGS) $(ARCHFLAG) $(WARNING_CFLAGS) -pipe -ffunction-sections -fdata-sections -DHAVE_STRERROR
 +ifeq ($(KERNEL),linux)
 +OS_CFLAGS		+= -DLINUX -Dlinux
 +endif
@@ -113,7 +113,7 @@ Index: nss/nss/coreconf/Linux.mk
  
  DSO_CFLAGS		= -fPIC
  DSO_LDOPTS		= -shared $(ARCHFLAG) -Wl,--gc-sections
-@@ -154,7 +161,7 @@ ifdef _SBOX_DIR
+@@ -164,7 +171,7 @@ ifdef _SBOX_DIR
  LDFLAGS			+= -Wl,-rpath-link,/usr/lib:/lib
  endif
  
@@ -122,7 +122,7 @@ Index: nss/nss/coreconf/Linux.mk
  G++INCLUDES		= -I/usr/include/g++
  
  #
-@@ -189,7 +196,9 @@ RPATH = -Wl,-rpath,'$$ORIGIN:/opt/sun/pr
+@@ -199,7 +206,9 @@ RPATH = -Wl,-rpath,'$$ORIGIN:/opt/sun/pr
  endif
  endif
  
