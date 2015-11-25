@@ -71,7 +71,13 @@ Index: nss/nss/lib/util/secload.c
 ===================================================================
 --- nss.orig/nss/lib/util/secload.c
 +++ nss/nss/lib/util/secload.c
-@@ -69,9 +69,14 @@ loader_LoadLibInReferenceDir(const char
+@@ -64,14 +64,19 @@ loader_LoadLibInReferenceDir(const char
+ {
+     PRLibrary *dlh = NULL;
+     char *fullName = NULL;
+-    char* c;
++    const char* c;
+     PRLibSpec libSpec;
  
      /* Remove the trailing filename from referencePath and add the new one */
      c = strrchr(referencePath, PR_GetDirectorySeparator());
