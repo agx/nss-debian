@@ -1,3 +1,9 @@
+nss (2:3.21-1~bpo70+1) wheezy-backports; urgency=medium
+
+  * Rebuild for wheezy-backports.
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 06 Dec 2015 15:37:52 +0100
+
 nss (2:3.21-1) unstable; urgency=medium
 
   * New upstream release.
