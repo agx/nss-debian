@@ -186,6 +186,20 @@ override_dh_gencontrol:
 	dh_gencontrol -- -Vmisc:Multi-Arch=same
 endif
 
+override_dh_auto_test:
+	# Create .chk files for FIPS mode tests
+	$(foreach lib,libsoftokn3.so libfreebl3.so libnssdbm3.so, \
+	  $(call cmd,cd $(DISTDIR)/lib; LD_LIBRARY_PATH=$(DISTDIR)/lib $(DISTDIR)/bin/shlibsign -v -i $(lib)))
+	# Run tests
+	export DIST=$(CURDIR)         &&\
+	export OBJDIR=dist            &&\
+	export IP_ADDRESS=127.0.0.1   &&\
+	export USE_IP=TRUE            &&\
+	export NSS_CYCLES=standard    &&\
+	cd $(CURDIR)/nss/tests        && ./all.sh
+	# Cleanup
+	rm -f dist/lib/*.chk
+
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 
