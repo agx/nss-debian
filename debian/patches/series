@@ -2,3 +2,4 @@
 38_kbsd.patch
 80_security_tools.patch
 85_security_load.patch
+38_hppa.patch

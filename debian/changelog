@@ -1,3 +1,11 @@
+nss (2:3.21-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix FTBFS on x32. Closes: #699217
+  * Fix FTBFS on hppa. Closes: #808990
+
+ -- Adam Borowski <kilobyte@angband.pl>  Sun, 14 Feb 2016 14:46:40 +0100
+
 nss (2:3.21-1) unstable; urgency=medium
 
   * New upstream release.
