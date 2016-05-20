@@ -178,8 +178,10 @@ ifeq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 	LD_LIBRARY_PATH=debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH):debian/libnss3/usr/lib/$(DEB_HOST_MULTIARCH)/nss debian/libnss3-tools/usr/bin/modutil -fips true -dbdir debian/tmp < /dev/null
 endif
 
-override_dh_makeshlibs:
+override_dh_makeshlibs: /usr/share/debhelper/autoscripts/postinst-makeshlibs /usr/share/debhelper/autoscripts/postrm-makeshlibs
 	dh_makeshlibs -a -- -c4
+	cat /usr/share/debhelper/autoscripts/postinst-makeshlibs > debian/libnss3.postinst.debhelper
+	cat /usr/share/debhelper/autoscripts/postrm-makeshlibs > debian/libnss3.postrm.debhelper
 
 ifneq (,$(DEB_HOST_MULTIARCH))
 override_dh_gencontrol:
