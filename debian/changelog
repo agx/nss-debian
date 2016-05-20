@@ -1,8 +1,10 @@
-nss (2:3.21-1~bpo8+1) jessie-backports; urgency=medium
+nss (2:3.23-2~bpo8+1) jessie-backports; urgency=medium
 
-  * Rebuild for jessie-backports.
+  * Rebuild for jessie-backports
+  * Revert "Leave it to dh_makeshlibs to do the right thing wrt ldconfig"
+    so we can use Jessies debhelper
 
- -- Guido Günther <agx@sigxcpu.org>  Sun, 06 Dec 2015 15:21:19 +0100
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 20 May 2016 18:12:19 +0200
 
 nss (2:3.23-2) unstable; urgency=medium
 
